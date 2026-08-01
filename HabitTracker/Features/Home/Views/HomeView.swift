@@ -8,8 +8,51 @@
 import SwiftUI
 
 struct HomeView: View {
-    var body: some View {
-        Text("Home View")
-    }
-}
 
+    @StateObject
+    private var vm = HomeViewModel()
+
+    var body: some View {
+
+        AppScaffold {
+
+            GreetingHeader(
+                greeting: vm.greeting,
+                date: formattedDate,
+                onAdd: {
+
+                }
+            )
+
+            TodayProgressCard(
+                completed: vm.completedHabits,
+                total: vm.totalHabits
+            )
+
+            StatsGrid(
+                streak: vm.currentStreak,
+                completion: vm.completionRate
+            )
+
+            SectionHeader(title: "Today's Habits")
+
+            EmptyStateView(
+                image: "figure.walk",
+                title: "No Habits",
+                subtitle: "Tap + to create your first habit."
+            )
+
+        }
+
+    }
+
+    private var formattedDate: String {
+
+        Date.now.formatted(
+            date: .complete,
+            time: .omitted
+        )
+
+    }
+
+}

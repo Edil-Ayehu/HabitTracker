@@ -15,9 +15,19 @@ struct AppNavigationBar<Trailing: View>: View {
     @ViewBuilder
     var trailing: () -> Trailing
 
+    init(
+        title: String,
+        subtitle: String? = nil,
+        @ViewBuilder trailing: @escaping () -> Trailing = { EmptyView() }
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self.trailing = trailing
+    }
+
     var body: some View {
 
-        HStack {
+        HStack(alignment: .top) {
 
             VStack(alignment: .leading, spacing: 4) {
 
@@ -29,6 +39,7 @@ struct AppNavigationBar<Trailing: View>: View {
                         .font(AppFont.caption())
                         .foregroundStyle(AppColors.textSecondary)
                 }
+
             }
 
             Spacer()
