@@ -30,18 +30,6 @@ struct HomeView: View {
                     router.push(.createHabit)
                 }
             )
-//            .sheet(isPresented: $showCreateHabit) {
-//                CreateHabitView(
-//                    vm: DIContainer.shared.makeCreateHabitViewModel()
-//                )
-//            }
-//            .onChange(of: showCreateHabit) {
-//                oldValue, newValue in
-//                
-//                if oldValue == true && newValue == false {
-//                    vm.load()
-//                }
-//            }
             
             TodayProgressCard(
                 completed: vm.statistics.completedHabits,

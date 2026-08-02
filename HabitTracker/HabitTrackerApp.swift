@@ -16,9 +16,12 @@ struct HabitTrackerApp: App {
     init() {
         do {
            
-            container = try ModelContainer(for: Habit.self)
+            container = try ModelContainer(
+                for: Habit.self, HabitEntry.self
+            )
             
             DIContainer.shared.configure(container: container)
+            
         } catch {
             fatalError(error.localizedDescription)
         }
