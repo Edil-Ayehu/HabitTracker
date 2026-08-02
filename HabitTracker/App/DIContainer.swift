@@ -27,8 +27,12 @@ final class DIContainer {
         
         let repository = HabitRepositoryImpl(context: context)
         
+        let habitUseCase = HabitUseCaseImpl(
+            repository: repository
+        )
+        
         return HomeViewModel(
-            habitRepository: repository
+            habitUseCase: habitUseCase
         )
     }
 }

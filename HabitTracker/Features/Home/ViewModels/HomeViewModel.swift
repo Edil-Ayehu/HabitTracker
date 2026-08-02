@@ -9,6 +9,10 @@ import SwiftUI
 
 @MainActor
 final class HomeViewModel: ObservableObject {
+    
+    @Published var isLoading = false
+    
+    @Published var errorMessage: String?
 
     @Published var greeting = "Good Morning"
 
@@ -22,34 +26,53 @@ final class HomeViewModel: ObservableObject {
 
     @Published var completionRate = 82
     
-    private var habitRepository: HabitRepository
+    private var habitUseCase: HabitUseCase
     
-    init(habitRepository: HabitRepository) {
-        self.habitRepository = habitRepository
+    init(habitUseCase: HabitUseCase) {
+        self.habitUseCase = habitUseCase
     }
 
     func load() {
-
+        
+        isLoading = true
+        
+        defer {
+            isLoading = false
+        }
+        
+        do {
+            
+            habits = try habitUseCase.fetchHabits()
+        } catch {
+            
+            errorMessage = error.localizedDescription
+        }
     }
     
     func increment(_ habit: Habit) {
         
-        guard habit.progress < habit.goal else { return }
-        
-        habit.progress += 1
-        
-        habit.isCompleted = habit.progress == habit.goal
-        
-        try? habitRepository.update()
+        do {
+            
+            try habitUseCase.increment(habit)
+            
+        } catch {
+            
+            errorMessage = error.localizedDescription
+            
+        }
     }
     
     func complete(_ habit: Habit) {
         
-        habit.progress = habit.goal
-        
-        habit.isCompleted = true
-        
-        try? habitRepository.update()
+        do {
+            
+            try habitUseCase.complete(habit)
+            
+        } catch {
+            
+            errorMessage = error.localizedDescription
+            
+        }
     }
 
 }
