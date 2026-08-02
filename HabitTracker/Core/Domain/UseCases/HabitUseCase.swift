@@ -10,6 +10,8 @@ import Foundation
 protocol HabitUseCase {
 
     func fetchHabits() throws -> [Habit]
+    
+    func fetchStatistics() throws -> HabitStatistics
 
     func addHabit(_ habit: Habit) throws
 

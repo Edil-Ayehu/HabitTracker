@@ -19,6 +19,33 @@ final class HabitUseCaseImpl: HabitUseCase {
         try repository.fetchHabits()
     }
     
+    func fetchStatistics() throws -> HabitStatistics {
+        
+        let habits = try repository.fetchHabits()
+        
+        let totalHabits = habits.count
+        
+        let completedHabits = habits.filter(\.isCompleted).count
+        
+        let completionRate: Double
+        
+        if totalHabits == 0 {
+            completionRate = 0
+        } else {
+            completionRate = Double(completedHabits) / Double(totalHabits)
+        }
+        
+        // Temporary placeholder. Later this will be calculated from HabitEntry
+        let streak = 12
+        
+        return HabitStatistics(
+            totalHabits: totalHabits,
+            completedHabits: completedHabits,
+            completionRate: completionRate,
+            currentStreak: streak
+        )
+    }
+    
     func addHabit(_ habit: Habit) throws {
         try repository.save(habit)
     }

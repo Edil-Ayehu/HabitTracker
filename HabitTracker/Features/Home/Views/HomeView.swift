@@ -28,13 +28,13 @@ struct HomeView: View {
             )
             
             TodayProgressCard(
-                completed: vm.completedHabits,
-                total: vm.totalHabits
+                completed: vm.statistics.completedHabits,
+                total: vm.statistics.totalHabits
             )
             
             StatsGrid(
-                streak: vm.currentStreak,
-                completion: vm.completionRate
+                streak: vm.statistics.currentStreak,
+                completion: Int(vm.statistics.completionRate * 100)
             )
             
             SectionHeader(title: "Today's Habits")

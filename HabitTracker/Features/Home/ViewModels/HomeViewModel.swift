@@ -15,16 +15,21 @@ final class HomeViewModel: ObservableObject {
     @Published var errorMessage: String?
 
     @Published var greeting = "Good Morning"
-
-    @Published var completedHabits = 3
     
     @Published var habits: [Habit] = []
 
-    @Published var totalHabits = 7
-
-    @Published var currentStreak = 12
-
-    @Published var completionRate = 82
+    
+    @Published private(set) var statistics = HabitStatistics(
+        totalHabits: 0,
+        completedHabits: 0,
+        completionRate: 0,
+        currentStreak: 0
+    )
+    
+//    private(set) means:
+//
+//    the View can read it
+//    only the ViewModel can change it
     
     private var habitUseCase: HabitUseCase
     
@@ -43,9 +48,25 @@ final class HomeViewModel: ObservableObject {
         do {
             
             habits = try habitUseCase.fetchHabits()
+            
+            statistics = try habitUseCase.fetchStatistics()
+            
         } catch {
             
             errorMessage = error.localizedDescription
+        }
+    }
+    
+    private func reloadStatistics() {
+        
+        do {
+            
+            statistics = try habitUseCase.fetchStatistics()
+            
+        } catch {
+            
+            errorMessage = error.localizedDescription
+            
         }
     }
     
@@ -54,6 +75,9 @@ final class HomeViewModel: ObservableObject {
         do {
             
             try habitUseCase.increment(habit)
+            
+            reloadStatistics()
+            
             
         } catch {
             
@@ -67,6 +91,8 @@ final class HomeViewModel: ObservableObject {
         do {
             
             try habitUseCase.complete(habit)
+            
+            reloadStatistics()
             
         } catch {
             
