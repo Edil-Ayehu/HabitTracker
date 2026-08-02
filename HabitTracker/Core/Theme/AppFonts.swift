@@ -10,22 +10,22 @@ import SwiftUI
 enum AppFont {
 
     static func largeTitle() -> Font {
-        .system(size: 34, weight: .bold)
+        .custom("Outfit-Bold", size: 34)
     }
 
     static func title() -> Font {
-        .system(size: 24, weight: .bold)
+        .custom("Outfit-Bold", size: 24)
     }
 
     static func headline() -> Font {
-        .system(size: 18, weight: .semibold)
+        .custom("Outfit-SemiBold", size: 18)
     }
 
     static func body() -> Font {
-        .system(size: 16)
+        .custom("Outfit-Regular", size: 16)
     }
 
     static func caption() -> Font {
-        .system(size: 13)
+        .custom("Outfit-Regular", size: 13)
     }
 }
