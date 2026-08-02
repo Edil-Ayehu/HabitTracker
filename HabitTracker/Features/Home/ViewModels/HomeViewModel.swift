@@ -16,7 +16,7 @@ final class HomeViewModel: ObservableObject {
 
     @Published var greeting = "Good Morning"
     
-    @Published var habits: [Habit] = []
+    @Published var entries: [HabitEntry] = []
 
     
     @Published private(set) var statistics = HabitStatistics(
@@ -47,7 +47,7 @@ final class HomeViewModel: ObservableObject {
         
         do {
             
-            habits = try habitUseCase.fetchHabits()
+            entries = try habitUseCase.fetchTodayEntries()
             
             statistics = try habitUseCase.fetchStatistics()
             
@@ -70,11 +70,11 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func increment(_ habit: Habit) {
+    func increment(_ entry: HabitEntry) {
         
         do {
             
-            try habitUseCase.increment(habit)
+            try habitUseCase.increment(entry)
             
             reloadStatistics()
             
@@ -86,11 +86,11 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func complete(_ habit: Habit) {
+    func complete(_ entry: HabitEntry) {
         
         do {
             
-            try habitUseCase.complete(habit)
+            try habitUseCase.complete(entry)
             
             reloadStatistics()
             

@@ -9,7 +9,7 @@ import Foundation
 
 protocol HabitUseCase {
 
-    func fetchHabits() throws -> [Habit]
+    func fetchTodayEntries() throws -> [HabitEntry]
     
     func fetchStatistics() throws -> HabitStatistics
 
@@ -17,7 +17,7 @@ protocol HabitUseCase {
 
     func deleteHabit(_ habit: Habit) throws
 
-    func increment(_ habit: Habit) throws
+    func increment(_ entry: HabitEntry) throws
 
-    func complete(_ habit: Habit) throws
+    func complete(_ entry: HabitEntry) throws
 }

@@ -8,11 +8,24 @@
 import Foundation
 
 protocol HabitRepository {
+    // MARK: Habits
     func fetchHabits() throws -> [Habit]
     
-    func save(_ habit: Habit) throws
+    func saveHabit(_ habit: Habit) throws
     
-    func delete(_ habit: Habit) throws
+    func deleteHabit(_ habit: Habit) throws
+    
+    // MARK: Entries
+    
+    func fetchTodayEntries() throws -> [HabitEntry]
+    
+    func fetchEntries(for habit: Habit) throws -> [HabitEntry]
+    
+    func fetchTodayEntry(for habit: Habit) throws -> HabitEntry?
+    
+    func saveEntry(_ entry: HabitEntry) throws
+    
+    func deleteEntry(_ entry: HabitEntry) throws
     
     func update() throws
 }

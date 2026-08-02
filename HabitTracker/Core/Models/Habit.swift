@@ -22,11 +22,7 @@ final class Habit {
 
     var goal: Int
 
-    var progress: Int
-
     var frequency: HabitFrequency
-
-    var isCompleted: Bool
 
     var createdAt: Date
 
@@ -43,9 +39,7 @@ final class Habit {
         self.icon = icon.rawValue
         self.color = color.rawValue
         self.goal = goal
-        self.progress = 0
         self.frequency = frequency
-        self.isCompleted = false
         self.createdAt = .now
     }
 }
@@ -57,6 +51,6 @@ extension Habit {
     }
     
     var habitIcon: HabitIcon {
-        HabitIcon(rawValue: color) ?? .water
+        HabitIcon(rawValue: icon) ?? .water
     }
 }

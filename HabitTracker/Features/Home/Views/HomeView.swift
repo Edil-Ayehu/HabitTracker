@@ -39,7 +39,7 @@ struct HomeView: View {
             
             SectionHeader(title: "Today's Habits")
             
-            if vm.habits.isEmpty {
+            if vm.entries.isEmpty {
                 EmptyStateView(
                     image: "figure.walk",
                     title: "No Habits",
@@ -48,14 +48,14 @@ struct HomeView: View {
             } else {
                 LazyVStack(spacing: AppSpacing.md) {
                     
-                    ForEach(vm.habits) { habit in
+                    ForEach(vm.entries) { entry in
                         HabitRow(
-                            habit: habit,
+                            entry: entry,
                             onIncrement: {
-                                vm.increment(habit)
+                                vm.increment(entry)
                             },
                             onComplete: {
-                                vm.complete(habit)
+                                vm.complete(entry)
                             }
                         )
                     }
