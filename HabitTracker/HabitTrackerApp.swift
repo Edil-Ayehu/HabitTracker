@@ -6,12 +6,27 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct HabitTrackerApp: App {
+    
+    let container : ModelContainer
+    
+    init() {
+        do {
+           
+            container = try ModelContainer(for: Habit.self)
+            
+            DIContainer.shared.configure(container: container)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
     var body: some Scene {
         WindowGroup {
             RootView()
         }
+        .modelContainer(container)
     }
 }

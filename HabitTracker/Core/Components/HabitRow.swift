@@ -8,16 +8,12 @@
 import SwiftUI
 
 struct HabitRow: View {
-
-    let title: String
-
-    let icon: String
-
-    let current: Int
-
-    let goal: Int
-
-    let color: Color
+    
+    let habit: Habit
+    
+    let onIncrement: () -> Void
+    
+    let onComplete: () -> Void
 
     var body: some View {
 
@@ -25,17 +21,17 @@ struct HabitRow: View {
 
             HStack(spacing: AppSpacing.md) {
 
-                Image(systemName: icon)
+                Image(systemName: habit.icon)
                     .font(.title2)
-                    .foregroundStyle(color)
+                    .foregroundStyle(habit.habitColor.color)
                     .frame(width: 40)
 
                 VStack(alignment: .leading) {
 
-                    Text(title)
+                    Text(habit.title)
                         .font(AppFont.headline())
 
-                    Text("\(current)/\(goal)")
+                    Text("\(habit.progress)/\(habit.goal)")
                         .foregroundStyle(
                             AppColors.textSecondary
                         )
@@ -45,10 +41,22 @@ struct HabitRow: View {
                 Spacer()
 
                 HabitProgressRing(
-                    current: current,
-                    goal: goal
+                    current: habit.progress,
+                    goal: habit.goal
                 )
                 .frame(width: 60)
+                
+                AppIconButton(
+                    systemImage: "plus"
+                ) {
+                    onIncrement()
+                }
+                
+                AppIconButton(systemImage: "checkmark") {
+
+                    onComplete()
+
+                }
 
             }
 
