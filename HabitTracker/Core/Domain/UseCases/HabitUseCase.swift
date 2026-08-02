@@ -14,6 +14,8 @@ protocol HabitUseCase {
     func fetchStatistics() throws -> HabitStatistics
 
     func addHabit(_ habit: Habit) throws
+    
+    func fetchEntries(for habit: Habit) throws -> [HabitEntry]
 
     func deleteHabit(_ habit: Habit) throws
 

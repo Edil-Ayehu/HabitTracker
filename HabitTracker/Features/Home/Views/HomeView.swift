@@ -60,6 +60,9 @@ struct HomeView: View {
                             },
                             onComplete: {
                                 vm.complete(entry)
+                            },
+                            onTap: {
+                                router.push(.habitDetail(entry.habit))
                             }
                         )
                     }

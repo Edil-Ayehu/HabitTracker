@@ -15,6 +15,8 @@ struct HabitRow: View {
     let onIncrement: () -> Void
     
     let onComplete: () -> Void
+    
+    let onTap: () -> Void
 
     var body: some View {
 
@@ -61,6 +63,9 @@ struct HabitRow: View {
 
             }
 
+        }
+        .onTapGesture {
+            onTap()
         }
 
     }

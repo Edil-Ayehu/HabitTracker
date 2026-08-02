@@ -23,6 +23,8 @@ protocol HabitRepository {
     
     func fetchTodayEntry(for habit: Habit) throws -> HabitEntry?
     
+    func fetchAllEntries() throws -> [HabitEntry]
+    
     func saveEntry(_ entry: HabitEntry) throws
     
     func deleteEntry(_ entry: HabitEntry) throws

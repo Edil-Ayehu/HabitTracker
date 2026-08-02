@@ -63,7 +63,10 @@ final class HabitRepositoryImpl: HabitRepository {
                 $0.habitID == habitID
             },
             sortBy: [
-                SortDescriptor(\.date, order: .reverse)
+                SortDescriptor(
+                    \.date,
+                     order: .reverse
+                )
             ]
         )
         
@@ -84,6 +87,20 @@ final class HabitRepositoryImpl: HabitRepository {
         )
         
         return try context.fetch(descriptor).first
+    }
+    
+    func fetchAllEntries() throws -> [HabitEntry] {
+        
+        let descriptor = FetchDescriptor<HabitEntry>(
+            sortBy: [
+                SortDescriptor(
+                    \.date,
+                     order: .reverse
+                )
+            ]
+        )
+        
+        return try context.fetch(descriptor)
     }
     
     func saveEntry(_ entry: HabitEntry) throws {

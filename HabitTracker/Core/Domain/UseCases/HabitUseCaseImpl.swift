@@ -60,12 +60,16 @@ final class HabitUseCaseImpl: HabitUseCase {
             
         }
         
+        let allEntries = try repository.fetchAllEntries()
+        
+        let streak = calculateStreak(from: allEntries)
+        
         
         return HabitStatistics(
             totalHabits: totalHabits,
             completedHabits: completedHabits,
             completionRate: completionRate,
-            currentStreak: 0
+            currentStreak: streak
         )
     }
     
@@ -96,4 +100,68 @@ final class HabitUseCaseImpl: HabitUseCase {
 
         try repository.update()
     }
+    
+    
+    private func calculateStreak(
+        from entries: [HabitEntry]
+    ) -> Int {
+
+
+        let calendar = Calendar.current
+
+
+        let completedDates =
+            entries
+                .filter(\.completed)
+                .map {
+                    calendar.startOfDay(
+                        for: $0.date
+                    )
+                }
+
+
+
+        var streak = 0
+
+
+        var currentDate =
+            calendar.startOfDay(
+                for: Date()
+            )
+
+
+
+        while completedDates.contains(currentDate) {
+
+
+            streak += 1
+
+
+            guard let previousDay =
+                    calendar.date(
+                        byAdding: .day,
+                        value: -1,
+                        to: currentDate
+                    )
+            else {
+                break
+            }
+
+
+            currentDate = previousDay
+        }
+
+
+        return streak
+    }
+    
+    func fetchEntries(
+        for habit: Habit
+    ) throws -> [HabitEntry] {
+
+        try repository.fetchEntries(
+            for: habit
+        )
+    }
+    
 }
