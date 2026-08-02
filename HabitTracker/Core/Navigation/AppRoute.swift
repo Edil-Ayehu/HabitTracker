@@ -9,7 +9,7 @@ import SwiftUI
 
 enum AppRoute: Hashable {
     case home
-//    case createHabit
+    case createHabit
 //    case habitDetail(UUID)
     case statistics
     case settings

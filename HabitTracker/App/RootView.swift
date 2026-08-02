@@ -18,6 +18,11 @@ struct RootView: View {
                     case .home:
                         HomeView()
                         
+                    case .createHabit:
+                        CreateHabitView(
+                            vm: DIContainer.shared.makeCreateHabitViewModel()
+                        )
+                        
                     case .statistics:
                         StatisticsView()
                         

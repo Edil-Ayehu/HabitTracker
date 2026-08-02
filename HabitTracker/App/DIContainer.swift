@@ -35,4 +35,19 @@ final class DIContainer {
             habitUseCase: habitUseCase
         )
     }
+    
+    func makeCreateHabitViewModel() -> CreateHabitViewModel {
+        
+        let repository = HabitRepositoryImpl(
+            context: ModelContext(container)
+        )
+        
+        let useCase = HabitUseCaseImpl(
+            repository: repository
+        )
+        
+        return CreateHabitViewModel(
+            habitUseCase: useCase
+        )
+    }
 }

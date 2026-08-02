@@ -11,6 +11,10 @@ struct HomeView: View {
     
     @Environment(\.modelContext) private var modelContext
     
+    @State private var showCreateHabit = false
+    
+    @EnvironmentObject private var router: AppRouter
+    
     
     @StateObject
     private var vm = DIContainer.shared.makeHomeViewModel()
@@ -23,9 +27,21 @@ struct HomeView: View {
                 greeting: vm.greeting,
                 date: formattedDate,
                 onAdd: {
-                    
+                    router.push(.createHabit)
                 }
             )
+//            .sheet(isPresented: $showCreateHabit) {
+//                CreateHabitView(
+//                    vm: DIContainer.shared.makeCreateHabitViewModel()
+//                )
+//            }
+//            .onChange(of: showCreateHabit) {
+//                oldValue, newValue in
+//                
+//                if oldValue == true && newValue == false {
+//                    vm.load()
+//                }
+//            }
             
             TodayProgressCard(
                 completed: vm.statistics.completedHabits,
@@ -66,6 +82,9 @@ struct HomeView: View {
             
             
             
+        }
+        .onAppear {
+            vm.load()
         }
         
     }
