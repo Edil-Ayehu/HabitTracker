@@ -85,7 +85,7 @@ struct HabitCalendarView: View {
                 ForEach(weekDays, id: \.self) { day in
                     Text(day)
                         .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(AppColors.textSecondary)
                 }
             
                 ForEach(calendarDays.indices, id: \.self) { index in
@@ -110,7 +110,7 @@ struct HabitCalendarView: View {
             RoundedRectangle(
                 cornerRadius:20
             )
-            .fill(.white)
+            .fill(AppColors.card)
         )
     }
     
@@ -140,7 +140,7 @@ struct HabitCalendarView: View {
 
             Text("\(calendar.component(.day, from: date))")
                 .font(.caption2)
-                .foregroundStyle(.white)
+                .foregroundStyle(AppColors.textPrimary)
         }
         .frame(height: 34)
         
@@ -220,19 +220,19 @@ struct HabitCalendarView: View {
         switch progress {
 
         case 0:
-            return Color.gray.opacity(0.12)
+            return AppColors.calendarEmpty
 
         case 0..<0.25:
-            return Color.green.opacity(0.25)
+            return AppColors.calendarLow
 
         case 0.25..<0.5:
-            return Color.green.opacity(0.45)
+            return AppColors.calendarMedium
 
         case 0.5..<0.75:
-            return Color.green.opacity(0.7)
+            return AppColors.calendarHigh
 
         default:
-            return Color.green
+            return AppColors.calendarComplete
         }
     }
 }

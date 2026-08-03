@@ -122,7 +122,7 @@ struct ReminderSection: View {
                         "Remove Reminder",
                         systemImage:"trash"
                     )
-                    .foregroundStyle(.red)
+                    .foregroundStyle(AppColors.error)
                     
                 }
                 
@@ -134,7 +134,7 @@ struct ReminderSection: View {
             RoundedRectangle(
                 cornerRadius:20
             )
-            .fill(.white)
+            .fill(AppColors.card)
         )
         
     }

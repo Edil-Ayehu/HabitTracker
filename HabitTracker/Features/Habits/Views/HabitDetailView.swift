@@ -59,7 +59,7 @@ struct HabitDetailView: View {
                     }
                 } else {
                     Label("Completed Today", systemImage: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(AppColors.success)
                         .font(AppFont.headline())
                 }
                 
