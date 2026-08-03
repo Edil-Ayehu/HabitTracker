@@ -47,24 +47,6 @@ struct CreateHabitView: View {
                         
                         habitNameCard
                         
-                        
-                        typeCard
-                        
-                        
-                        if vm.draft.habitType == .measurable {
-                            
-                            goalCard
-                        }
-                        
-                        
-                        frequencyCard
-                        
-                        
-                        iconCard
-                        
-                        
-                        previewCard
-                        
                         VStack(alignment:.leading, spacing:12) {
 
 
@@ -89,6 +71,26 @@ struct CreateHabitView: View {
                             }
 
                         }
+                        
+                        
+                        typeCard
+                        
+                        
+                        if vm.draft.habitType == .measurable {
+                            
+                            goalCard
+                        }
+                        
+                        
+                        frequencyCard
+                        
+                        
+                        iconCard
+                        
+                        
+                        previewCard
+                        
+                        
                         
                         
                     }
@@ -459,20 +461,18 @@ private extension CreateHabitView {
 }
 
 extension View {
-    
+
     func cardStyle() -> some View {
-        
+
         self
             .padding()
             .background(
-                RoundedRectangle(
-                    cornerRadius:20
-                )
-                .fill(
-                    Color.white
-                )
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(AppColors.card)
             )
-        
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(AppColors.border, lineWidth: 1)
+            )
     }
-    
 }
