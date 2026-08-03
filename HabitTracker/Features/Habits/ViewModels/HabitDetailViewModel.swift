@@ -16,6 +16,15 @@ final class HabitDetailViewModel: ObservableObject {
     
     @Published var isLoading = false
     
+    @Published var errorMessage: String?
+    
+    @Published private(set) var statistics = HabitStatistics(
+        totalHabits: 0,
+        completedHabits: 0,
+        completionRate: 0,
+        currentStreak: 0
+    )
+    
     private let habitUseCase: HabitUseCase
     
     private let habit: Habit
@@ -40,6 +49,30 @@ final class HabitDetailViewModel: ObservableObject {
         }
     }
     
+    var isMeasurable: Bool {
+        habit.habitType == .measurable
+    }
+    
+    var isBinary: Bool {
+        habit.habitType == .binary
+    }
+    
+    var isCompletedToday: Bool {
+        todayEntry?.completed ?? false
+    }
+    
+    var canIncrement: Bool {
+        isMeasurable && progress < goal && !isCompletedToday
+    }
+    
+    var canDecrement: Bool {
+        isMeasurable && progress > 0
+    }
+    
+    var canComplete: Bool {
+        !isCompletedToday
+    }
+    
     var title: String {
         habit.title
     }
@@ -62,65 +95,72 @@ final class HabitDetailViewModel: ObservableObject {
     }
     
     var todayEntry: HabitEntry? {
-        entries.first
+
+        let today = Calendar.current.startOfDay(for: Date())
+
+        return entries.first {
+            Calendar.current.isDate($0.date, inSameDayAs: today)
+        }
     }
     
     var progress: Int {
         todayEntry?.progress ?? 0
     }
     
-//    private func calculateStreak(
-//        from entries: [HabitEntry]
-//    ) -> Int {
-//        
-//        
-//        let calendar = Calendar.current
-//        
-//        
-//        let completedDates =
-//        entries
-//            .filter(\.completed)
-//            .map {
-//                calendar.startOfDay(
-//                    for: $0.date
-//                )
-//            }
-//        
-//        
-//        
-//        var streak = 0
-//        
-//        
-//        var currentDate =
-//        calendar.startOfDay(
-//            for: Date()
-//        )
-//        
-//        
-//        
-//        while completedDates.contains(currentDate) {
-//            
-//            
-//            streak += 1
-//            
-//            
-//            guard let previousDay =
-//                    calendar.date(
-//                        byAdding: .day,
-//                        value: -1,
-//                        to: currentDate
-//                    )
-//            else {
-//                break
-//            }
-//            
-//            
-//            currentDate = previousDay
-//        }
-//        
-//        
-//        return streak
-//    }
+    
+    func increment() {
+        
+        guard let entry = todayEntry else { return }
+        
+        do {
+            
+            try habitUseCase.increment(entry)
+            
+            load()
+            
+            
+        } catch {
+            
+            errorMessage = error.localizedDescription
+            
+        }
+    }
+    
+    func decrement() {
+        
+        guard let entry = todayEntry else { return }
+        
+        do {
+            
+            try habitUseCase.decrement(entry)
+            
+            load()
+            
+            
+        } catch {
+            
+            errorMessage = error.localizedDescription
+            
+        }
+    }
+    
+    func complete() {
+        
+        guard let entry = todayEntry else { return }
+        
+        do {
+            
+            try habitUseCase.complete(entry)
+            
+            load()
+            
+        } catch {
+            
+            errorMessage = error.localizedDescription
+            
+        }
+    }
+    
     
     private func calculateStreak(from entries: [HabitEntry]) -> Int {
 

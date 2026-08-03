@@ -20,6 +20,8 @@ protocol HabitUseCase {
     func deleteHabit(_ habit: Habit) throws
 
     func increment(_ entry: HabitEntry) throws
+    
+    func decrement(_ entry: HabitEntry) throws
 
     func complete(_ entry: HabitEntry) throws
 }

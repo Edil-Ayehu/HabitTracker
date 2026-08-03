@@ -25,13 +25,14 @@ struct AppIconButton: View {
 
             Image(systemName: systemImage)
                 .font(.title3)
+                .foregroundStyle(foreground)
                 .frame(width: size, height: size)
+                .background(background)
+                .clipShape(Circle())
+                .contentShape(Circle())
 
         }
         .buttonStyle(.plain)
-        .foregroundStyle(foreground)
-        .background(background)
-        .clipShape(Circle())
         .shadow(
             color: AppShadow.card,
             radius: 4,

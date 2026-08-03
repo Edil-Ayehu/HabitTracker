@@ -106,6 +106,29 @@ final class HabitUseCaseImpl: HabitUseCase {
         
     }
     
+    func decrement(_ entry: HabitEntry) throws {
+
+        switch entry.habit.habitType {
+
+        case .binary:
+
+            entry.progress = 0
+            entry.completed = false
+
+        case .measurable:
+
+            guard entry.progress > 0 else { return }
+
+            entry.progress -= 1
+
+            let goal = entry.habit.goal ?? 1
+
+            entry.completed = entry.progress >= goal
+        }
+
+        try repository.update()
+    }
+    
     func complete(_ entry: HabitEntry) throws {
         
         switch entry.habit.habitType {
