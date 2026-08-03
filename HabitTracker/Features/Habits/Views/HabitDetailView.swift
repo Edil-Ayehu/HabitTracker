@@ -44,6 +44,10 @@ struct HabitDetailView: View {
                 value:
                     "\(vm.streak) days"
             )
+            
+            HabitCalendarView(
+                entries: vm.entries
+            )
 
 
 
