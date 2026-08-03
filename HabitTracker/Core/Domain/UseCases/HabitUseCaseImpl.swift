@@ -102,55 +102,51 @@ final class HabitUseCaseImpl: HabitUseCase {
     }
     
     
-    private func calculateStreak(
-        from entries: [HabitEntry]
-    ) -> Int {
-
+    private func calculateStreak(from entries: [HabitEntry]) -> Int {
 
         let calendar = Calendar.current
 
-
-        let completedDates =
+        let completedDates = Set(
             entries
                 .filter(\.completed)
                 .map {
-                    calendar.startOfDay(
-                        for: $0.date
-                    )
+                    calendar.startOfDay(for: $0.date)
                 }
-
-
+        )
 
         var streak = 0
 
+        let today = calendar.startOfDay(for: Date())
 
-        var currentDate =
-            calendar.startOfDay(
-                for: Date()
-            )
+        var currentDate = today
 
+        // If today's habit isn't completed, start counting from yesterday.
+        if !completedDates.contains(today) {
+            guard let yesterday = calendar.date(
+                byAdding: .day,
+                value: -1,
+                to: today
+            ) else {
+                return 0
+            }
 
+            currentDate = yesterday
+        }
 
         while completedDates.contains(currentDate) {
 
-
             streak += 1
 
-
-            guard let previousDay =
-                    calendar.date(
-                        byAdding: .day,
-                        value: -1,
-                        to: currentDate
-                    )
-            else {
+            guard let previousDay = calendar.date(
+                byAdding: .day,
+                value: -1,
+                to: currentDate
+            ) else {
                 break
             }
 
-
             currentDate = previousDay
         }
-
 
         return streak
     }
