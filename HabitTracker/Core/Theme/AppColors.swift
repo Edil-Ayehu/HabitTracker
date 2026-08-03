@@ -25,6 +25,9 @@ enum AppColors {
     
     static let border = Color("Border")
     
+    // Button colors
+    static let buttonBackground = Color("ButtonBackground")
+    
     // Calendar colors
     static let calendarEmpty = Color("CalendarEmpty")
     static let calendarLow = Color("CalendarLow")
