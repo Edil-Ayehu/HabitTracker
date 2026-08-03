@@ -41,7 +41,9 @@ final class CreateHabitViewModel: ObservableObject {
             title: draft.title,
             icon: draft.icon,
             color: draft.color,
-            goal: draft.goal,
+            goal: draft.habitType == HabitType.measurable ? draft.goal : nil,
+            unit: draft.habitType == HabitType.measurable ? draft.unit : nil,
+            habitType: draft.habitType,
             frequency: draft.frequency
         )
         

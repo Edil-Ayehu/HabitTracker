@@ -45,7 +45,12 @@ final class HabitDetailViewModel: ObservableObject {
     }
     
     var goal: Int {
-        habit.goal
+        switch habit.habitType {
+        case .binary:
+            return 1
+        case .measurable:
+            return habit.goal ?? 1
+        }
     }
         
     var icon: HabitIcon {

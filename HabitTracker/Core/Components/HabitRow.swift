@@ -34,25 +34,62 @@ struct HabitRow: View {
                     Text(entry.habit.title)
                         .font(AppFont.headline())
 
-                    Text("\(entry.progress)/\(entry.habit.goal)")
-                        .foregroundStyle(
-                            AppColors.textSecondary
+//                    Text("\(entry.progress)/\(entry.habit.goal)")
+//                        .foregroundStyle(
+//                            AppColors.textSecondary
+//                        )
+                    switch entry.habit.habitType {
+
+                    case .binary:
+
+                        Text(
+                            entry.completed
+                            ? "Completed"
+                            : "Not completed"
                         )
+
+                    case .measurable:
+
+                        Text(
+                            "\(entry.progress)/\(entry.habit.goal ?? 0)"
+                        )
+                    }
 
                 }
 
                 Spacer()
 
-                HabitProgressRing(
-                    current: entry.progress,
-                    goal: entry.habit.goal
-                )
-                .frame(width: 60)
+//                HabitProgressRing(
+//                    current: entry.progress,
+//                    goal: entry.habit.goal
+//                )
+//                .frame(width: 60)
                 
-                AppIconButton(
-                    systemImage: "plus"
-                ) {
-                    onIncrement()
+                if entry.habit.habitType == .binary {
+
+                    Image(
+                        systemName:
+                            entry.completed
+                            ? "checkmark.circle.fill"
+                            : "circle"
+                    )
+                    .font(.title2)
+                    .foregroundStyle(entry.habit.habitColor.color)
+
+                } else {
+
+                    HabitProgressRing(
+                        current: entry.progress,
+                        goal: entry.habit.goal ?? 1
+                    )
+                    .frame(width: 60)
+                }
+                
+                if entry.habit.habitType == .measurable {
+
+                    AppIconButton(systemImage: "plus") {
+                        onIncrement()
+                    }
                 }
                 
                 AppIconButton(systemImage: "checkmark") {

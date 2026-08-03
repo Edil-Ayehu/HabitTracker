@@ -19,8 +19,12 @@ final class Habit {
     var icon: String
 
     var color: String
+    
+    var habitType: HabitType
 
-    var goal: Int
+    var goal: Int?
+    
+    var unit: String?
 
     var frequency: HabitFrequency
 
@@ -30,7 +34,9 @@ final class Habit {
         title: String,
         icon: HabitIcon,
         color: HabitColor,
-        goal: Int,
+        goal: Int?,
+        unit: String?,
+        habitType: HabitType,
         frequency: HabitFrequency
     ) {
 
@@ -39,6 +45,8 @@ final class Habit {
         self.icon = icon.rawValue
         self.color = color.rawValue
         self.goal = goal
+        self.unit = unit
+        self.habitType = habitType
         self.frequency = frequency
         self.createdAt = .now
     }

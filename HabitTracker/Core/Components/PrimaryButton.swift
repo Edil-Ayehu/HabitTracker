@@ -13,6 +13,7 @@ struct PrimaryButton: View {
     var isLoading: Bool = false
     var isEnabled: Bool = true
     var width: CGFloat? = nil
+    var height: CGFloat = 56
     let action: () -> Void
 
     var body: some View {
@@ -35,7 +36,7 @@ struct PrimaryButton: View {
 
             }
             .frame(maxWidth: width ?? .infinity)
-            .frame(height: 52)
+            .frame(height: height)
         }
         .buttonStyle(.plain)
         .foregroundStyle(.white)
@@ -44,7 +45,7 @@ struct PrimaryButton: View {
             ? AppColors.primary
             : AppColors.border
         )
-        .clipShape(RoundedRectangle(cornerRadius: AppRadius.md))
+        .clipShape(RoundedRectangle(cornerRadius: AppRadius.lg))
         .disabled(!isEnabled || isLoading)
     }
 }

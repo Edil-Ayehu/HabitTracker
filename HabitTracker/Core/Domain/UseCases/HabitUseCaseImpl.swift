@@ -16,27 +16,27 @@ final class HabitUseCaseImpl: HabitUseCase {
     }
     
     func fetchTodayEntries() throws -> [HabitEntry] {
-
+        
         let habits = try repository.fetchHabits()
-
+        
         var entries: [HabitEntry] = []
-
+        
         for habit in habits {
-
+            
             if let existing = try repository.fetchTodayEntry(for: habit) {
-
+                
                 entries.append(existing)
-
+                
             } else {
-
+                
                 let newEntry = HabitEntry(habit: habit)
-
+                
                 try repository.saveEntry(newEntry)
-
+                
                 entries.append(newEntry)
             }
         }
-
+        
         return entries
     }
     
@@ -82,30 +82,53 @@ final class HabitUseCaseImpl: HabitUseCase {
     }
     
     func increment(_ entry: HabitEntry) throws {
-
-        guard entry.progress < entry.habit.goal else { return }
-
-        entry.progress += 1
-
-        entry.completed = entry.progress >= entry.habit.goal
-
+        
+        switch entry.habit.habitType {
+        case .binary:
+            entry.progress = 1
+            entry.completed = true
+            
+        case .measurable:
+            guard let goal = entry.habit.goal else {
+                return
+            }
+            
+            guard entry.progress < goal else {
+                return
+            }
+            
+            entry.progress += 1
+            
+            entry.completed = entry.progress >= goal
+        }
+        
         try repository.update()
+        
     }
     
     func complete(_ entry: HabitEntry) throws {
-
-        entry.progress = entry.habit.goal
-
-        entry.completed = true
-
+        
+        switch entry.habit.habitType {
+        case .binary:
+            entry.completed = true
+            
+        case .measurable:
+            guard let goal = entry.habit.goal else { return }
+            
+            entry.progress = goal
+            entry.completed = true
+        }
+        
+        
+        
         try repository.update()
     }
     
     
     private func calculateStreak(from entries: [HabitEntry]) -> Int {
-
+        
         let calendar = Calendar.current
-
+        
         let completedDates = Set(
             entries
                 .filter(\.completed)
@@ -113,13 +136,13 @@ final class HabitUseCaseImpl: HabitUseCase {
                     calendar.startOfDay(for: $0.date)
                 }
         )
-
+        
         var streak = 0
-
+        
         let today = calendar.startOfDay(for: Date())
-
+        
         var currentDate = today
-
+        
         // If today's habit isn't completed, start counting from yesterday.
         if !completedDates.contains(today) {
             guard let yesterday = calendar.date(
@@ -129,14 +152,14 @@ final class HabitUseCaseImpl: HabitUseCase {
             ) else {
                 return 0
             }
-
+            
             currentDate = yesterday
         }
-
+        
         while completedDates.contains(currentDate) {
-
+            
             streak += 1
-
+            
             guard let previousDay = calendar.date(
                 byAdding: .day,
                 value: -1,
@@ -144,17 +167,17 @@ final class HabitUseCaseImpl: HabitUseCase {
             ) else {
                 break
             }
-
+            
             currentDate = previousDay
         }
-
+        
         return streak
     }
     
     func fetchEntries(
         for habit: Habit
     ) throws -> [HabitEntry] {
-
+        
         try repository.fetchEntries(
             for: habit
         )

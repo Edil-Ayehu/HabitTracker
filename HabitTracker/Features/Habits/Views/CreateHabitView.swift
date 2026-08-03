@@ -41,19 +41,48 @@ struct CreateHabitView: View {
                     title: "Habit Name",
                     text: $vm.draft.title
                 )
-
-
+                
                 VStack(alignment: .leading) {
 
+                    Text("Habit Type")
 
-                    Text("Goal")
+                    Picker(
+                        "Type",
+                        selection: $vm.draft.habitType
+                    ) {
 
-                    Stepper(
-                        "\(vm.draft.goal)",
-                        value: $vm.draft.goal,
-                        in: 1...100
-                    )
+                        ForEach(HabitType.allCases) { type in
 
+                            Text(type.title)
+                                .tag(type)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+
+
+
+                if vm.draft.habitType == .measurable {
+
+                    VStack(alignment: .leading) {
+
+                        Text("Goal")
+                        
+                        Stepper(
+                            "\(vm.draft.goal ?? 1)",
+                            value: Binding(
+                                get: { vm.draft.goal ?? 1 },
+                                set: { vm.draft.goal = $0 }
+                            ),
+                            in: 1...100
+                        )
+
+//                        Stepper(
+//                            "\(vm.draft.goal)",
+//                            value: $vm.draft.goal,
+//                            in: 1...100
+//                        )
+                    }
                 }
 
 
