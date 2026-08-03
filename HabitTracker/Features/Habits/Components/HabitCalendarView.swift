@@ -19,34 +19,8 @@ struct HabitCalendarView: View {
         "Mon","Tue","Wed","Thu","Fri","Sat","Sun"
     ]
     
-    
-    private var monthDates: [Date] {
-        
-        let today = Date()
-        
-        guard let range = calendar.range(
-            of: .day,
-            in: .month,
-            for: today
-        ) else {
-            return []
-        }
-        
-        
-        return range.compactMap {
-            
-            calendar.date(
-                byAdding: .day,
-                value: $0 - 1,
-                to: calendar.date(
-                    from: calendar.dateComponents(
-                        [.year,.month],
-                        from: today
-                    )
-                )!
-            )
-        }
-    }
+    @State private var displayedMonth = Date()
+
     
     
     
@@ -56,16 +30,47 @@ struct HabitCalendarView: View {
             alignment:.leading,
             spacing:16
         ) {
+        
             
-            
-            Text(
-                Date.now.formatted(
-                    .dateTime.month(.wide).year()
+            HStack {
+
+                Button {
+
+                    displayedMonth = Calendar.current.date(
+                        byAdding: .month,
+                        value: -1,
+                        to: displayedMonth
+                    )!
+
+                } label: {
+
+                    Image(systemName: "chevron.left")
+                }
+
+                Spacer()
+
+                Text(
+                    displayedMonth.formatted(
+                        .dateTime.month(.wide).year()
+                    )
                 )
-            )
-            .font(
-                AppFont.headline()
-            )
+                .font(AppFont.headline())
+
+                Spacer()
+
+                Button {
+
+                    displayedMonth = Calendar.current.date(
+                        byAdding: .month,
+                        value: 1,
+                        to: displayedMonth
+                    )!
+
+                } label: {
+
+                    Image(systemName: "chevron.right")
+                }
+            }
             
             LazyVGrid(
                 columns:
@@ -98,6 +103,7 @@ struct HabitCalendarView: View {
             }
             
             
+            
         }
         .padding()
         .background(
@@ -127,32 +133,35 @@ struct HabitCalendarView: View {
             $0.completed
         }
         
+        ZStack {
+
+            RoundedRectangle(cornerRadius: 6)
+                .fill(color(for: date))
+
+            Text("\(calendar.component(.day, from: date))")
+                .font(.caption2)
+                .foregroundStyle(.white)
+        }
+        .frame(height: 34)
         
-        RoundedRectangle(
-            cornerRadius:5
-        )
-        .fill(
-            completed
-            ?
-            Color.green
-            :
-            Color.gray.opacity(0.15)
-        )
-        .frame(
-            height:28
-        )
+    
         
     }
     
     private var calendarDays: [Date?] {
 
-        let today = Date()
-
         guard
             let firstDay = calendar.date(
-                from: calendar.dateComponents([.year, .month], from: today)
+                from: calendar.dateComponents(
+                    [.year, .month],
+                    from: displayedMonth
+                )
             ),
-            let range = calendar.range(of: .day, in: .month, for: today)
+            let range = calendar.range(
+                of: .day,
+                in: .month,
+                for: displayedMonth
+            )
         else {
             return []
         }
@@ -182,5 +191,48 @@ struct HabitCalendarView: View {
         }
 
         return days
+    }
+    
+    private func color(for date: Date) -> Color {
+
+        guard let entry = entries.first(
+            where: {
+                calendar.isDate($0.date, inSameDayAs: date)
+            }
+        ) else {
+            return Color.gray.opacity(0.12)
+        }
+
+        let progress: Double
+
+        switch entry.habit.habitType {
+
+        case .binary:
+            progress = entry.completed ? 1 : 0
+
+        case .measurable:
+
+            let goal = Double(entry.habit.goal ?? 1)
+
+            progress = Double(entry.progress) / goal
+        }
+
+        switch progress {
+
+        case 0:
+            return Color.gray.opacity(0.12)
+
+        case 0..<0.25:
+            return Color.green.opacity(0.25)
+
+        case 0.25..<0.5:
+            return Color.green.opacity(0.45)
+
+        case 0.5..<0.75:
+            return Color.green.opacity(0.7)
+
+        default:
+            return Color.green
+        }
     }
 }
