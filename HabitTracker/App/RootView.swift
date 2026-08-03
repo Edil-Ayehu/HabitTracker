@@ -37,5 +37,9 @@ struct RootView: View {
                 }
         }
         .environmentObject(router)
+        .task {
+            await NotificationManager.shared.requestPermission()
+            
+        }
     }
 }

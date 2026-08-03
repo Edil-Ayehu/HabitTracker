@@ -44,13 +44,18 @@ final class CreateHabitViewModel: ObservableObject {
             goal: draft.habitType == HabitType.measurable ? draft.goal : nil,
             unit: draft.habitType == HabitType.measurable ? draft.unit : nil,
             habitType: draft.habitType,
-            frequency: draft.frequency
+            frequency: draft.frequency,
+            reminderEnabled: draft.reminderEnabled,
+            reminderHour: Calendar.current.component(.hour, from: draft.reminderTime),
+            reminderMinute: Calendar.current.component(.minute, from: draft.reminderTime)
         )
         
         do {
             
             try habitUseCase.addHabit(habit)
             
+            NotificationManager.shared.scheduleHabitReminder(habit: habit)
+                        
             return true
         } catch {
             
@@ -58,5 +63,25 @@ final class CreateHabitViewModel: ObservableObject {
             
             return false
         }
+    }
+    
+    var reminderDate: Date {
+
+        var components = DateComponents()
+
+        components.hour =
+        Calendar.current.component(.hour, from: draft.reminderTime)
+
+        components.minute =
+        Calendar.current.component(.minute, from: draft.reminderTime)
+
+
+        return Calendar.current.date(
+            from: components
+        ) ?? Date()
+    }
+    
+    func updateReminderDate(_ date: Date) {
+        draft.reminderTime = date
     }
 }

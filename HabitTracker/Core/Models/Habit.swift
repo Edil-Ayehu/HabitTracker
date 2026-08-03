@@ -29,6 +29,13 @@ final class Habit {
     var frequency: HabitFrequency
 
     var createdAt: Date
+    
+    // Reminder
+    var reminderEnabled: Bool
+    
+    var reminderHour: Int?
+    
+    var reminderMinute: Int?
 
     init(
         title: String,
@@ -37,7 +44,10 @@ final class Habit {
         goal: Int?,
         unit: String?,
         habitType: HabitType,
-        frequency: HabitFrequency
+        frequency: HabitFrequency,
+        reminderEnabled: Bool = false,
+        reminderHour: Int? = nil,
+        reminderMinute: Int? = nil
     ) {
 
         self.id = UUID()
@@ -49,6 +59,10 @@ final class Habit {
         self.habitType = habitType
         self.frequency = frequency
         self.createdAt = .now
+        
+        self.reminderEnabled = reminderEnabled
+        self.reminderHour = reminderHour
+        self.reminderMinute = reminderMinute
     }
 }
 

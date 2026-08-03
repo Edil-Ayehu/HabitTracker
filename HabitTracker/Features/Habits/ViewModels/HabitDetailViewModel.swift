@@ -37,6 +37,83 @@ final class HabitDetailViewModel: ObservableObject {
         self.habit = habit
     }
     
+    var reminderEnabled: Bool {
+        habit.reminderEnabled
+    }
+    
+    var reminderTime: Date {
+
+        var components = DateComponents()
+
+        components.hour =
+            habit.reminderHour ?? 9
+
+        components.minute =
+            habit.reminderMinute ?? 0
+
+
+        return Calendar.current.date(
+            from: components
+        ) ?? Date()
+    }
+    
+    func updateReminder(
+        enabled: Bool,
+        time: Date
+    ) {
+
+
+        let calendar = Calendar.current
+
+
+        habit.reminderEnabled = enabled
+
+
+        if enabled {
+
+            habit.reminderHour =
+            calendar.component(
+                .hour,
+                from: time
+            )
+
+
+            habit.reminderMinute =
+            calendar.component(
+                .minute,
+                from: time
+            )
+
+
+            NotificationManager.shared
+                .scheduleHabitReminder(
+                    habit: habit
+                )
+
+
+        } else {
+
+
+            NotificationManager.shared
+                .removeReminder(
+                    habit: habit
+                )
+        }
+
+
+        do {
+
+            load()
+
+        } catch {
+
+            errorMessage =
+            error.localizedDescription
+        }
+
+    }
+    
+    
     func load() {
         
         do {

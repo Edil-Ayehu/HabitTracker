@@ -18,6 +18,7 @@ struct CreateHabitView: View {
     private var vm: CreateHabitViewModel
     
     
+    
     init(vm: CreateHabitViewModel) {
         _vm = StateObject(
             wrappedValue: vm
@@ -63,6 +64,31 @@ struct CreateHabitView: View {
                         
                         
                         previewCard
+                        
+                        VStack(alignment:.leading, spacing:12) {
+
+
+                            Toggle(
+                                "Reminder",
+                                isOn: $vm.draft.reminderEnabled
+                            )
+
+
+                            if vm.draft.reminderEnabled {
+
+
+                                DatePicker(
+                                    "Reminder Time",
+                                    selection: Binding(
+                                        get: { vm.reminderDate },
+                                        set: { vm.updateReminderDate($0)}
+                                    ),
+                                    displayedComponents:.hourAndMinute
+                                )
+
+                            }
+
+                        }
                         
                         
                     }
@@ -446,10 +472,6 @@ extension View {
                     Color.white
                 )
             )
-//            .shadow(
-//                radius:2,
-//                y:2
-//            )
         
     }
     

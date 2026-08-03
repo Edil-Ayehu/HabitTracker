@@ -22,5 +22,9 @@ struct HabitDraft {
     var unit = ""
 
     var frequency: HabitFrequency = .daily
+    
+    var reminderEnabled = false
+    
+    var reminderTime = Date()
 
 }

@@ -78,6 +78,18 @@ struct HabitDetailView: View {
                     "\(vm.streak) days"
             )
             
+            ReminderSection(
+                enabled: vm.reminderEnabled,
+                time: vm.reminderTime
+            ) { enabled, time in
+
+                vm.updateReminder(
+                    enabled: enabled,
+                    time: time
+                )
+
+            }
+            
             HabitCalendarView(
                 entries: vm.entries
             )
