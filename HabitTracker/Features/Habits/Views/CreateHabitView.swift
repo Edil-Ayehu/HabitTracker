@@ -112,7 +112,7 @@ private extension CreateHabitView {
         VStack(alignment:.leading, spacing:8) {
             
             Text("Create a habit")
-                .font(AppFont.largeTitle())
+                .font(AppFont.title())
             
             
             Text(
@@ -446,10 +446,10 @@ extension View {
                     Color.white
                 )
             )
-            .shadow(
-                radius:8,
-                y:4
-            )
+//            .shadow(
+//                radius:2,
+//                y:2
+//            )
         
     }
     
