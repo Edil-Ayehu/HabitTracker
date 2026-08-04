@@ -206,4 +206,17 @@ final class HabitUseCaseImpl: HabitUseCase {
         )
     }
     
+    func rescheduleReminders() throws {
+
+        let habits = try repository.fetchHabits()
+
+        let entries = try repository.fetchTodayEntries()
+
+        NotificationManager.shared
+            .rescheduleAllReminders(
+                habits: habits,
+                entries: entries
+            )
+    }
+    
 }

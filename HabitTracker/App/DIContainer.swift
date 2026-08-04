@@ -21,49 +21,60 @@ final class DIContainer {
         self.container = container
     }
     
-    func makeHomeViewModel() -> HomeViewModel {
+    func makeHabitUseCase() -> HabitUseCase {
         
-        let context = ModelContext(container)
-        
-        let repository = HabitRepositoryImpl(context: context)
-        
-        let habitUseCase = HabitUseCaseImpl(
-            repository: repository
+        let repository = HabitRepositoryImpl(
+            context: ModelContext(container)
         )
         
+        return HabitUseCaseImpl(
+            repository: repository
+        )
+    }
+    
+    func makeHomeViewModel() -> HomeViewModel {
+        
+//        let context = ModelContext(container)
+//        
+//        let repository = HabitRepositoryImpl(context: context)
+//        
+//        let habitUseCase = HabitUseCaseImpl(
+//            repository: repository
+//        )
+        
         return HomeViewModel(
-            habitUseCase: habitUseCase
+            habitUseCase: makeHabitUseCase()
         )
     }
     
     func makeCreateHabitViewModel() -> CreateHabitViewModel {
         
-        let repository = HabitRepositoryImpl(
-            context: ModelContext(container)
-        )
-        
-        let useCase = HabitUseCaseImpl(
-            repository: repository
-        )
+//        let repository = HabitRepositoryImpl(
+//            context: ModelContext(container)
+//        )
+//        
+//        let useCase = HabitUseCaseImpl(
+//            repository: repository
+//        )
         
         return CreateHabitViewModel(
-            habitUseCase: useCase
+            habitUseCase: makeHabitUseCase()
         )
     }
     
     func makeHabitDetailViewModel(habit: Habit) -> HabitDetailViewModel {
-
-        let repository = HabitRepositoryImpl(
-            context: ModelContext(container)
-        )
-
-        let useCase = HabitUseCaseImpl(
-            repository: repository
-        )
-
+        
+//        let repository = HabitRepositoryImpl(
+//            context: ModelContext(container)
+//        )
+//        
+//        let useCase = HabitUseCaseImpl(
+//            repository: repository
+//        )
+        
         return HabitDetailViewModel(
             habit: habit,
-            useCase: useCase
+            useCase: makeHabitUseCase()
         )
     }
 }

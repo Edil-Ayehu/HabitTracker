@@ -115,5 +115,35 @@ final class NotificationManager {
             )
 
     }
+    
+    func rescheduleAllReminders(
+        habits: [Habit],
+        entries: [HabitEntry]
+    ) {
+
+        UNUserNotificationCenter.current()
+            .removeAllPendingNotificationRequests()
+
+        let calendar = Calendar.current
+
+        let today = calendar.startOfDay(for: Date())
+
+        for habit in habits {
+
+            guard habit.reminderEnabled else {
+                continue
+            }
+
+            let completedToday = entries.contains {
+                $0.habit.id == habit.id &&
+                calendar.isDate($0.date, inSameDayAs: today) &&
+                $0.completed
+            }
+
+            if !completedToday {
+                scheduleHabitReminder(habit: habit)
+            }
+        }
+    }
 
 }

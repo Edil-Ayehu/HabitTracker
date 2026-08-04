@@ -24,4 +24,6 @@ protocol HabitUseCase {
     func decrement(_ entry: HabitEntry) throws
 
     func complete(_ entry: HabitEntry) throws
+    
+    func rescheduleReminders() throws
 }

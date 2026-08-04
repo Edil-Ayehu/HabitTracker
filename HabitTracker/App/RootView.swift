@@ -10,6 +10,8 @@ import SwiftUI
 struct RootView: View {
     @StateObject private var router = AppRouter()
     
+    @StateObject private var vm = AppViewModel(habitUseCase: DIContainer.shared.makeHabitUseCase())
+    
     var body: some View {
         NavigationStack(path: $router.path) {
             HomeView()
@@ -39,6 +41,9 @@ struct RootView: View {
         .environmentObject(router)
         .task {
             await NotificationManager.shared.requestPermission()
+            
+            
+            await vm.start()
             
         }
     }
