@@ -13,6 +13,8 @@ struct HabitTrackerApp: App {
     
     let container : ModelContainer
     
+    @StateObject private var themeManager = ThemeManager()
+    
     init() {
         do {
            
@@ -30,6 +32,8 @@ struct HabitTrackerApp: App {
         
         WindowGroup {
             RootView()
+                .preferredColorScheme(themeManager.colorScheme)
+                .environmentObject(themeManager)
         }
         .modelContainer(container)
     }

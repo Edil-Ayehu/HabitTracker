@@ -28,6 +28,9 @@ struct HomeView: View {
                 date: formattedDate,
                 onAdd: {
                     router.push(.createHabit)
+                },
+                navigateToSetting: {
+                    router.push(.settings)
                 }
             )
             

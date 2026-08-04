@@ -14,6 +14,8 @@ struct GreetingHeader: View {
     let date: String
 
     let onAdd: () -> Void
+    
+    let navigateToSetting: () -> Void
 
     var body: some View {
 
@@ -32,6 +34,11 @@ struct GreetingHeader: View {
 
             Spacer()
 
+            AppIconButton(
+                systemImage: "gearshape",
+                action: navigateToSetting
+            )
+            
             AppIconButton(
                 systemImage: "plus",
                 action: onAdd
