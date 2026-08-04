@@ -15,6 +15,8 @@ struct HabitDetailView: View {
     
     @EnvironmentObject private var router: AppRouter
     
+    @State private var showDeleteDialog: Bool = false
+    
     
     
     var body: some View {
@@ -152,9 +154,27 @@ struct HabitDetailView: View {
         
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Edit") {
-                    router.push(.editHabit(vm.habit))
+                Menu {
+                    Button("Edit") {
+                        router.push(.editHabit(vm.habit))
+                    }
+                    
+                    Button("Delete", role: .destructive) {
+                        showDeleteDialog = true
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
                 }
+            }
+        }
+        
+        .confirmationDialog("Delete habit?", isPresented: $showDeleteDialog) {
+            Button("Delete", role: .destructive) {
+                
+            }
+            
+            Button("Cancel", role: .cancel) {
+                
             }
         }
         
