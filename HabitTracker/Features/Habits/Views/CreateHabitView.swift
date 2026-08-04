@@ -14,6 +14,7 @@ struct CreateHabitView: View {
     
     @EnvironmentObject private var router: AppRouter
     
+    
     @StateObject
     private var vm: CreateHabitViewModel
     
@@ -104,7 +105,7 @@ struct CreateHabitView: View {
             }
             
         }
-        .navigationTitle("Create Habit")
+        .navigationTitle(vm.isEditing ? "Edit Habit" : "Create Habit")
         .navigationBarTitleDisplayMode(.inline)
         
         
@@ -139,12 +140,12 @@ private extension CreateHabitView {
         
         VStack(alignment:.leading, spacing:8) {
             
-            Text("Create a habit")
+            Text(vm.isEditing ? "Edit your habit" : "Create a habit")
                 .font(AppFont.title())
             
             
             Text(
-                "Small actions create big changes."
+                vm.isEditing ? "Update your habit details" : "Small actions create big changes."
             )
             .foregroundStyle(
                 AppColors.textSecondary
@@ -444,11 +445,11 @@ private extension CreateHabitView {
         
         
         PrimaryButton(
-            title:"Create Habit",
+            title: vm.isEditing ? "Save Changes" : "Create Habit",
             isLoading:vm.isLoading
         ){
             
-            if vm.createHabit(){
+            if vm.saveHabit(){
                 
                 router.pop()
             }

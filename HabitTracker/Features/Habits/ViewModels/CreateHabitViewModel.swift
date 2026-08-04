@@ -16,13 +16,48 @@ final class CreateHabitViewModel: ObservableObject {
     
     @Published var errorMessage: String?
     
+    private let editingHabit: Habit?
+    
     private let habitUseCase: HabitUseCase
     
-    init(habitUseCase: HabitUseCase) {
-        self.habitUseCase = habitUseCase
+    var isEditing: Bool {
+        editingHabit != nil
     }
     
-    func createHabit() -> Bool {
+    init(
+        habitUseCase: HabitUseCase,
+        habit: Habit? = nil
+    ) {
+        self.habitUseCase = habitUseCase
+        self.editingHabit = habit
+        
+        if let habit {
+            
+            draft.title = habit.title
+            draft.goal = habit.goal ?? 1
+            draft.icon = habit.habitIcon
+            draft.color = habit.habitColor
+            draft.unit = habit.unit ?? ""
+            draft.frequency = habit.frequency
+            draft.habitType = habit.habitType
+            
+            draft.reminderEnabled = habit.reminderEnabled
+            
+            if let hour = habit.reminderHour,
+               let minute = habit.reminderMinute {
+                
+                var comp = DateComponents()
+                
+                comp.hour = hour
+                comp.minute = minute
+                
+                draft.reminderTime =
+                Calendar.current.date(from: comp) ?? Date()
+            }
+        }
+    }
+    
+    func saveHabit() -> Bool {
         
         guard !draft.title.isEmpty else {
             
@@ -31,31 +66,57 @@ final class CreateHabitViewModel: ObservableObject {
             return false
         }
         
-        isLoading = true
-        
-        defer {
-            isLoading = false
-        }
-        
-        let habit = Habit(
-            title: draft.title,
-            icon: draft.icon,
-            color: draft.color,
-            goal: draft.habitType == HabitType.measurable ? draft.goal : nil,
-            unit: draft.habitType == HabitType.measurable ? draft.unit : nil,
-            habitType: draft.habitType,
-            frequency: draft.frequency,
-            reminderEnabled: draft.reminderEnabled,
-            reminderHour: Calendar.current.component(.hour, from: draft.reminderTime),
-            reminderMinute: Calendar.current.component(.minute, from: draft.reminderTime)
-        )
         
         do {
             
-            try habitUseCase.addHabit(habit)
+            if let habit = editingHabit {
+                habit.title = draft.title
+                habit.icon = draft.icon.rawValue
+                habit.color = draft.color.rawValue
+                habit.goal = draft.habitType == .measurable ? draft.goal : nil
+                habit.unit = draft.unit
+                habit.habitType = draft.habitType
+                habit.frequency = draft.frequency
+                
+                habit.reminderEnabled = draft.reminderEnabled
+                
+                habit.reminderHour =
+                Calendar.current.component(
+                    .hour,
+                    from: draft.reminderTime
+                )
+                
+                habit.reminderMinute =
+                Calendar.current.component(
+                    .minute,
+                    from: draft.reminderTime
+                )
+                
+                try habitUseCase.updateHabit(habit)
+                
+                NotificationManager.shared.scheduleHabitReminder(habit: habit)
+                
+            } else {
+                let habit = Habit(
+                    title: draft.title,
+                    icon: draft.icon,
+                    color: draft.color,
+                    goal: draft.habitType == .measurable ? draft.goal : nil,
+                    unit: draft.unit,
+                    habitType: draft.habitType,
+                    frequency: draft.frequency,
+                    reminderEnabled: draft.reminderEnabled,
+                    reminderHour: Calendar.current.component(.hour, from: draft.reminderTime),
+                    reminderMinute: Calendar.current.component(.minute, from: draft.reminderTime)
+                )
+                
+                try habitUseCase.addHabit(habit)
+                
+                NotificationManager.shared.scheduleHabitReminder(habit: habit)
+            }
             
-            NotificationManager.shared.scheduleHabitReminder(habit: habit)
-                        
+
+            
             return true
         } catch {
             
@@ -66,16 +127,16 @@ final class CreateHabitViewModel: ObservableObject {
     }
     
     var reminderDate: Date {
-
+        
         var components = DateComponents()
-
+        
         components.hour =
         Calendar.current.component(.hour, from: draft.reminderTime)
-
+        
         components.minute =
         Calendar.current.component(.minute, from: draft.reminderTime)
-
-
+        
+        
         return Calendar.current.date(
             from: components
         ) ?? Date()

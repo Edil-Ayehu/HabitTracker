@@ -10,6 +10,7 @@ import SwiftUI
 enum AppRoute: Hashable {
     case home
     case createHabit
+    case editHabit(Habit)
     case habitDetail(Habit)
     case statistics
     case settings

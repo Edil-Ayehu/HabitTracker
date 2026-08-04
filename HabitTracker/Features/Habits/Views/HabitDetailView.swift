@@ -13,6 +13,8 @@ struct HabitDetailView: View {
     @StateObject
     var vm: HabitDetailViewModel
     
+    @EnvironmentObject private var router: AppRouter
+    
     
     
     var body: some View {
@@ -146,6 +148,14 @@ struct HabitDetailView: View {
             
             vm.load()
             
+        }
+        
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Edit") {
+                    router.push(.editHabit(vm.habit))
+                }
+            }
         }
         
     }

@@ -27,7 +27,7 @@ final class HabitDetailViewModel: ObservableObject {
     
     private let habitUseCase: HabitUseCase
     
-    private let habit: Habit
+    let habit: Habit
     
     init(
         habit: Habit,

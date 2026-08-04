@@ -25,6 +25,11 @@ struct RootView: View {
                             vm: DIContainer.shared.makeCreateHabitViewModel()
                         )
                         
+                    case .editHabit(let habit):
+                        CreateHabitView(
+                            vm: DIContainer.shared.makeEditHabitViewModel(habit: habit)
+                        )
+                        
                     case .habitDetail(let habit):
                         HabitDetailView(
                             vm: DIContainer.shared.makeHabitDetailViewModel(habit: habit)

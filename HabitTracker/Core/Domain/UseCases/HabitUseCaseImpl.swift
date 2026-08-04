@@ -219,4 +219,8 @@ final class HabitUseCaseImpl: HabitUseCase {
             )
     }
     
+    func updateHabit(_ habit: Habit) throws {
+        try repository.update()
+    }
+    
 }

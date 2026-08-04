@@ -76,5 +76,16 @@ final class DIContainer {
             habit: habit,
             useCase: makeHabitUseCase()
         )
+        
+    }
+    
+    func makeEditHabitViewModel(
+        habit: Habit
+    ) -> CreateHabitViewModel {
+
+        return CreateHabitViewModel(
+            habitUseCase: makeHabitUseCase(),
+            habit: habit
+        )
     }
 }

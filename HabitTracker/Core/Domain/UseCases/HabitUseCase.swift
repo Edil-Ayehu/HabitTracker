@@ -26,4 +26,6 @@ protocol HabitUseCase {
     func complete(_ entry: HabitEntry) throws
     
     func rescheduleReminders() throws
+    
+    func updateHabit(_ habit: Habit) throws
 }
