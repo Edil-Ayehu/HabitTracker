@@ -13,8 +13,6 @@ final class HomeViewModel: ObservableObject {
     @Published var isLoading = false
     
     @Published var errorMessage: String?
-
-    @Published var greeting = "Good Morning"
     
     @Published var entries: [HabitEntry] = []
 
@@ -98,6 +96,26 @@ final class HomeViewModel: ObservableObject {
             
             errorMessage = error.localizedDescription
             
+        }
+    }
+    
+    var greeting: String {
+
+        let hour = Calendar.current.component(.hour, from: Date())
+
+        switch hour {
+
+        case 5..<12:
+            return "Good Morning"
+
+        case 12..<17:
+            return "Good Afternoon"
+
+        case 17..<21:
+            return "Good Evening"
+
+        default:
+            return "Good Night"
         }
     }
 
