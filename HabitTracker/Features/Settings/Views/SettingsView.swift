@@ -11,6 +11,8 @@ struct SettingsView: View {
 
     @EnvironmentObject
     private var themeManager: ThemeManager
+    
+    @EnvironmentObject private var router: AppRouter
 
     var body: some View {
 
@@ -48,22 +50,30 @@ struct SettingsView: View {
                     settingsRow(
                         title: "Notifications",
                         icon: "bell.fill"
-                    )
+                    ) {
+                        
+                    }
 
                     settingsRow(
                         title: "Week Starts On",
                         icon: "calendar"
-                    )
+                    ) {
+                        
+                    }
 
                     settingsRow(
                         title: "Statistics",
                         icon: "chart.bar.fill"
-                    )
+                    ) {
+                        router.push(.statistics)
+                    }
 
                     settingsRow(
                         title: "About",
                         icon: "info.circle"
-                    )
+                    ) {
+                        
+                    }
                 }
             }
 
@@ -74,7 +84,8 @@ struct SettingsView: View {
     @ViewBuilder
     private func settingsRow(
         title: String,
-        icon: String
+        icon: String,
+        action: @escaping () -> Void
     ) -> some View {
 
         HStack {
@@ -87,5 +98,9 @@ struct SettingsView: View {
                 .foregroundStyle(.secondary)
         }
         .padding(.vertical, 6)
+        .contentShape(Rectangle())   // Makes the whole row tappable
+        .onTapGesture {
+            action()
+        }
     }
 }

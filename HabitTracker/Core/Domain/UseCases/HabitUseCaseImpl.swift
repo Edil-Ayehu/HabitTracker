@@ -223,4 +223,62 @@ final class HabitUseCaseImpl: HabitUseCase {
         try repository.update()
     }
     
+    func weeklyCompletion() throws -> [DailyCompletion] {
+
+        let calendar = Calendar.current
+
+        let entries = try repository.fetchAllEntries()
+
+        var result: [DailyCompletion] = []
+
+        for offset in (0..<7).reversed() {
+
+            let day = calendar.date(
+                byAdding: .day,
+                value: -offset,
+                to: Date()
+            )!
+
+            let start = calendar.startOfDay(for: day)
+
+            let todaysEntries = entries.filter {
+                calendar.isDate($0.date, inSameDayAs: start)
+            }
+
+            result.append(
+                DailyCompletion(
+                    date: start,
+                    completed: todaysEntries.filter(\.completed).count,
+                    total: todaysEntries.count
+                )
+            )
+        }
+
+        return result
+    }
+    
+    func habitProgress() throws -> [HabitProgress] {
+
+        let habits = try repository.fetchHabits()
+
+        var progress: [HabitProgress] = []
+
+        for habit in habits {
+
+            let entries = try repository.fetchEntries(for: habit)
+
+            progress.append(
+
+                HabitProgress(
+
+                    title: habit.title,
+
+                    completed: entries.filter(\.completed).count
+                )
+            )
+        }
+
+        return progress
+    }
+    
 }

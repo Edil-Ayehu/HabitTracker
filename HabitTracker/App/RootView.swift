@@ -36,7 +36,9 @@ struct RootView: View {
                         )
                         
                     case .statistics:
-                        StatisticsView()
+                        StatisticsView(
+                            vm: DIContainer.shared.makeStatisticsViewModel()
+                        )
                         
                     case .settings:
                         SettingsView()

@@ -28,4 +28,8 @@ protocol HabitUseCase {
     func rescheduleReminders() throws
     
     func updateHabit(_ habit: Habit) throws
+    
+    func weeklyCompletion() throws -> [DailyCompletion]
+    
+    func habitProgress() throws -> [HabitProgress]
 }
