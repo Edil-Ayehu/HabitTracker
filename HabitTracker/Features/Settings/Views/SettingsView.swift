@@ -51,7 +51,7 @@ struct SettingsView: View {
                         title: "Notifications",
                         icon: "bell.fill"
                     ) {
-                        
+                        router.push(.notification)
                     }
 
                     settingsRow(

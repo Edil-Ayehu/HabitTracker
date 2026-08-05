@@ -42,6 +42,9 @@ struct RootView: View {
                         
                     case .settings:
                         SettingsView()
+                        
+                    case .notification:
+                        NotificationSettingsView()
                     }
                 }
         }

@@ -14,4 +14,5 @@ enum AppRoute: Hashable {
     case habitDetail(Habit)
     case statistics
     case settings
+    case notification
 }
