@@ -170,16 +170,7 @@ struct HabitDetailView: View {
         
         .confirmationDialog("Delete habit?", isPresented: $showDeleteDialog) {
             Button("Delete", role: .destructive) {
-//                do {
-//                    try vm.deleteHabit()
-//                    
-//                    router.pop()
-//                    
-//                } catch {
-//                    
-//                    print(error)
-//                    
-//                }
+
             }
             
             Button("Cancel", role: .cancel) {

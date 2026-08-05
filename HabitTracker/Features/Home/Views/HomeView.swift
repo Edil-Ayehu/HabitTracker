@@ -81,6 +81,17 @@ struct HomeView: View {
             vm.load()
         }
         
+        .alert(
+            "🎉 Daily Goal Complete!",
+            isPresented: $vm.showQuote
+        ) {
+            Button("Keep Going") {}
+        } message: {
+            if let quote = vm.quote {
+                Text("\"\(quote.text)\"\n\n— \(quote.author)")
+            }
+        }
+        
     }
     
     private var formattedDate: String {

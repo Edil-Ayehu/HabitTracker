@@ -15,6 +15,12 @@ final class HomeViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     @Published var entries: [HabitEntry] = []
+    
+    @Published var showQuote: Bool = false
+    @Published var quote: Quote?
+    
+    private let quoteDateKey = "quote.date"
+    private let quoteCompletedKey = "quote.completed"
 
     
     @Published private(set) var statistics = HabitStatistics(
@@ -31,8 +37,14 @@ final class HomeViewModel: ObservableObject {
     
     private var habitUseCase: HabitUseCase
     
-    init(habitUseCase: HabitUseCase) {
+    private var quoteUseCase: QuoteUseCase
+    
+    init(
+        habitUseCase: HabitUseCase,
+        quoteUseCase: QuoteUseCase,
+    ) {
         self.habitUseCase = habitUseCase
+        self.quoteUseCase = quoteUseCase
     }
 
     func load() {
@@ -49,6 +61,8 @@ final class HomeViewModel: ObservableObject {
             
             statistics = try habitUseCase.fetchStatistics()
             
+            checkDailyCompletion()
+            
         } catch {
             
             errorMessage = error.localizedDescription
@@ -60,6 +74,8 @@ final class HomeViewModel: ObservableObject {
         do {
             
             statistics = try habitUseCase.fetchStatistics()
+            
+            checkDailyCompletion()
             
         } catch {
             
@@ -73,6 +89,8 @@ final class HomeViewModel: ObservableObject {
         do {
             
             try habitUseCase.increment(entry)
+            
+            entries = try habitUseCase.fetchTodayEntries()
             
             reloadStatistics()
             
@@ -90,6 +108,8 @@ final class HomeViewModel: ObservableObject {
             
             try habitUseCase.complete(entry)
             
+            entries = try habitUseCase.fetchTodayEntries()
+            
             reloadStatistics()
             
         } catch {
@@ -98,6 +118,55 @@ final class HomeViewModel: ObservableObject {
             
         }
     }
+    
+    private func checkDailyCompletion() {
+
+        guard statistics.totalHabits > 0 else { return }
+
+        guard statistics.completedHabits == statistics.totalHabits else {
+            return
+        }
+
+        if alreadyShownForCurrentCompletion() {
+            return
+        }
+
+        quote = quoteUseCase.randomQuote()
+
+        markQuoteShown()
+
+        showQuote = true
+    }
+    
+    private func alreadyShownForCurrentCompletion() -> Bool {
+
+        guard
+            let date = UserDefaults.standard.object(forKey: quoteDateKey) as? Date,
+            Calendar.current.isDateInToday(date)
+        else {
+            return false
+        }
+
+        let lastCompleted = UserDefaults.standard.integer(
+            forKey: quoteCompletedKey
+        )
+
+        return lastCompleted >= statistics.completedHabits
+    }
+    
+    private func markQuoteShown() {
+
+        UserDefaults.standard.set(
+            Date(),
+            forKey: quoteDateKey
+        )
+
+        UserDefaults.standard.set(
+            statistics.completedHabits,
+            forKey: quoteCompletedKey
+        )
+    }
+    
     
     var greeting: String {
 

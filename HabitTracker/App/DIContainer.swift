@@ -32,6 +32,15 @@ final class DIContainer {
         )
     }
     
+    func makeQuoteUseCase() -> QuoteUseCase {
+
+        let repository = QuoteRepositoryImpl()
+
+        return QuoteUseCaseImpl(
+            quoteRepository: repository
+        )
+    }
+    
     func makeHomeViewModel() -> HomeViewModel {
         
 //        let context = ModelContext(container)
@@ -43,7 +52,8 @@ final class DIContainer {
 //        )
         
         return HomeViewModel(
-            habitUseCase: makeHabitUseCase()
+            habitUseCase: makeHabitUseCase(),
+            quoteUseCase: makeQuoteUseCase()
         )
     }
     
