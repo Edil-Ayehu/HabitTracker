@@ -12,6 +12,9 @@ struct NotificationSettingsView: View {
     @AppStorage("notificationsEnabled")
     private var notificationsEnabled = true
     
+    @Environment(\.scenePhase)
+    private var scenePhase
+    
     @State private var authorizationStatus: UNAuthorizationStatus = .notDetermined
     
     var body: some View {
@@ -64,8 +67,19 @@ struct NotificationSettingsView: View {
         }
         .task {
             
-            authorizationStatus =
-            await NotificationManager.shared.authorizationStatus()
+            await refreshAuthorizationStatus()
+            
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            guard newPhase == .active else {
+                return
+            }
+            
+            Task {
+                
+                await refreshAuthorizationStatus()
+            }
+            
         }
     }
     
@@ -118,6 +132,12 @@ struct NotificationSettingsView: View {
         @unknown default:
             return "Unknown"
         }
+    }
+    
+    private func refreshAuthorizationStatus() async {
+
+        authorizationStatus =
+            await NotificationManager.shared.authorizationStatus()
     }
 }
 
