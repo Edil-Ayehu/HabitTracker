@@ -122,37 +122,36 @@ After completing a habit users can:
 
 ## Home
 
-<img src="Screenshots/home.png" width="300">
-
+<img src="https://github.com/user-attachments/assets/e6dab593-408a-435e-a8ff-52035fcea0c1" width="300">
 ---
 
 ## Create Habit
 
-<img src="Screenshots/create_habit.png" width="300">
+<img src="https://github.com/user-attachments/assets/346d997a-9d2e-434d-be1f-dfcf53d36b53" width="300">
 
 ---
 
 ## Habit Details
 
-<img src="Screenshots/detail.png" width="300">
+<img src="https://github.com/user-attachments/assets/9517b51f-4b3f-4e51-9ea9-f3d393f2eaf6" width="300">
 
 ---
 
 ## Statistics
 
-<img src="Screenshots/statistics.png" width="300">
+ <img src="https://github.com/user-attachments/assets/83bed7d9-2711-48da-b212-6f8e1e17dba2" width="300">
 
 ---
 
 ## Notification Settings
 
-<img src="Screenshots/notifications.png" width="300">
+<img src="https://github.com/user-attachments/assets/34aa7d9a-9831-438d-9291-eb97588d7431" width="300">
 
 ---
 
 ## Settings
 
-<img src="Screenshots/settings.png" width="300">
+<img src="https://github.com/user-attachments/assets/492db84b-afa7-4cca-900e-2c4f73db385c" width="300">
 
 ---
 
@@ -271,19 +270,17 @@ HabitTracker.xcworkspace
 
 # 📸 Screenshots
 
-| Home | Habit Detail |
-|------|--------------|
-| ![](Screenshots/home.png) | ![](Screenshots/detail.png) |
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e6dab593-408a-435e-a8ff-52035fcea0c1" width="230">
+  <img src="https://github.com/user-attachments/assets/9517b51f-4b3f-4e51-9ea9-f3d393f2eaf6" width="230">
+  <img src="https://github.com/user-attachments/assets/83bed7d9-2711-48da-b212-6f8e1e17dba2" width="230">
+</p>
 
-| Statistics | Notifications |
-|------------|---------------|
-| ![](Screenshots/statistics.png) | ![](Screenshots/notifications.png) |
-
-| Create Habit | Settings |
-|--------------|----------|
-| ![](Screenshots/create_habit.png) | ![](Screenshots/settings.png) |
-
----
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/34aa7d9a-9831-438d-9291-eb97588d7431" width="230">
+  <img src="https://github.com/user-attachments/assets/346d997a-9d2e-434d-be1f-dfcf53d36b53" width="230">
+  <img src="https://github.com/user-attachments/assets/492db84b-afa7-4cca-900e-2c4f73db385c" width="230">
+</p>
 
 # 🌟 Future Improvements
 
@@ -316,9 +313,9 @@ Mobile Engineer specializing in:
 - Mobile UI/UX
 - Backend Development
 
-GitHub: https://github.com/yourusername
+GitHub: https://github.com/Edil-Ayehu
 
-LinkedIn: https://linkedin.com/in/yourprofile
+LinkedIn: www.linkedin.com/in/edilayehu-tadesse-mobile-dev-expert
 
 ---
 
