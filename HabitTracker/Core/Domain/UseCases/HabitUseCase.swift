@@ -32,4 +32,6 @@ protocol HabitUseCase {
     func weeklyCompletion() throws -> [DailyCompletion]
     
     func habitProgress() throws -> [HabitProgress]
+    
+    func saveNote(_ note: String, for entry: HabitEntry) throws
 }

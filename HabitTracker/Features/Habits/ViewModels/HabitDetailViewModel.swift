@@ -18,6 +18,10 @@ final class HabitDetailViewModel: ObservableObject {
     
     @Published var errorMessage: String?
     
+    @Published var note = ""
+    
+    @Published var isEditingNote = false
+    
     @Published private(set) var statistics = HabitStatistics(
         totalHabits: 0,
         completedHabits: 0,
@@ -119,6 +123,10 @@ final class HabitDetailViewModel: ObservableObject {
         do {
             
             entries = try habitUseCase.fetchEntries(for: habit)
+
+            note = todayEntry?.note ?? ""
+
+            isEditingNote = note.isEmpty
             
             streak = calculateStreak(from: entries)
         } catch {
@@ -286,5 +294,27 @@ final class HabitDetailViewModel: ObservableObject {
         }
 
         return streak
+    }
+    
+    
+    func saveNote() {
+
+        guard let entry = todayEntry else {
+            return
+        }
+
+        do {
+
+            try habitUseCase.saveNote(
+                note,
+                for: entry
+            )
+
+            isEditingNote = false
+
+        } catch {
+
+            errorMessage = error.localizedDescription
+        }
     }
 }

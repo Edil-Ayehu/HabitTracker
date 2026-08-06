@@ -281,4 +281,11 @@ final class HabitUseCaseImpl: HabitUseCase {
         return progress
     }
     
+    func saveNote(_ note: String, for entry: HabitEntry) throws {
+        
+        entry.note = note
+        
+        try repository.update()
+    }
+    
 }

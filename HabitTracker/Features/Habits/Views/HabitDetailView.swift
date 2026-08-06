@@ -67,6 +67,40 @@ struct HabitDetailView: View {
                         .font(AppFont.headline())
                 }
                 
+                if !vm.canComplete {
+
+                    CardView {
+
+                        VStack(alignment: .leading, spacing: 16) {
+
+                            Text("Today's Reflection")
+                                .font(AppFont.headline())
+
+                            if vm.isEditingNote {
+
+                                TextEditor(text: $vm.note)
+                                    .frame(height: 120)
+
+                                PrimaryButton(title: "Save Note") {
+                                    vm.saveNote()
+                                }
+
+                            } else {
+
+                                Text(vm.note)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding()
+                                    .background(.gray.opacity(0.1))
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                                Button("Edit Note") {
+                                    vm.isEditingNote = true
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 
             }
             
@@ -109,37 +143,35 @@ struct HabitDetailView: View {
             LazyVStack {
                 
                 
-                ForEach(
-                    vm.entries
-                ) { entry in
-                    
-                    
-                    HStack {
-                        
-                        
-                        Text(
-                            entry.date.formatted(
-                                date:.abbreviated,
-                                time:.omitted
+                ForEach(vm.entries) { entry in
+
+                    VStack(alignment: .leading, spacing: 6) {
+
+                        HStack {
+
+                            Text(
+                                entry.date.formatted(
+                                    date: .abbreviated,
+                                    time: .omitted
+                                )
                             )
-                        )
-                        
-                        
-                        Spacer()
-                        
-                        
-                        
-                        Image(
-                            systemName:
-                                entry.completed
-                            ?
-                            "checkmark.circle.fill"
-                            :
-                                "circle"
-                        )
-                        
+
+                            Spacer()
+
+                            Image(
+                                systemName: entry.completed
+                                ? "checkmark.circle.fill"
+                                : "circle"
+                            )
+                        }
+
+                        if !entry.note.isEmpty {
+
+                            Text(entry.note)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
                     }
-                    
                 }
                 
             }

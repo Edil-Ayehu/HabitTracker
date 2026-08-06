@@ -22,6 +22,8 @@ final class HabitEntry {
     
     var completed: Bool
     
+    var note: String
+    
     @Relationship(deleteRule: .cascade)
     var habit: Habit
     
@@ -40,5 +42,7 @@ final class HabitEntry {
         progress = 0
         
         completed = false
+        
+        note = ""
     }
 }
