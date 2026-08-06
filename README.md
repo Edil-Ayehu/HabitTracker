@@ -8,6 +8,13 @@ A modern **Habit Tracker** built with **SwiftUI** and **SwiftData**, designed to
   <img src="Screenshots/statistics.png" width="250">
 </p>
 
+<p align="center">
+  <img src="<img width="1320" height="2868" alt="image" src="https://github.com/user-attachments/assets/e6dab593-408a-435e-a8ff-52035fcea0c1" />" width="250">
+  <img src="<img width="1320" height="2868" alt="image" src="https://github.com/user-attachments/assets/9517b51f-4b3f-4e51-9ea9-f3d393f2eaf6" />">
+  <img src="<img width="1320" height="2868" alt="image" src="https://github.com/user-attachments/assets/83bed7d9-2711-48da-b212-6f8e1e17dba2" />" width="250">
+</p>
+
+
 ---
 
 # ✨ Features
