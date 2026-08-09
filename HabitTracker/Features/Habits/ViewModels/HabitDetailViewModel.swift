@@ -61,60 +61,115 @@ final class HabitDetailViewModel: ObservableObject {
         ) ?? Date()
     }
     
+//    func updateReminder(
+//        enabled: Bool,
+//        time: Date
+//    ) {
+//
+//
+//        let calendar = Calendar.current
+//
+//
+//        habit.reminderEnabled = enabled
+//
+//
+//        if enabled {
+//
+//            habit.reminderHour =
+//            calendar.component(
+//                .hour,
+//                from: time
+//            )
+//
+//
+//            habit.reminderMinute =
+//            calendar.component(
+//                .minute,
+//                from: time
+//            )
+//
+//
+//            NotificationManager.shared
+//                .scheduleHabitReminder(
+//                    habit: habit
+//                )
+//
+//
+//        } else {
+//
+//
+//            NotificationManager.shared
+//                .removeReminder(
+//                    habit: habit
+//                )
+//        }
+//
+//
+//        do {
+//
+//            load()
+//
+//        } catch {
+//
+//            errorMessage =
+//            error.localizedDescription
+//        }
+//
+//    }
+    
     func updateReminder(
         enabled: Bool,
         time: Date
     ) {
-
-
+        
         let calendar = Calendar.current
-
-
+        
         habit.reminderEnabled = enabled
-
-
+        
         if enabled {
-
+            
             habit.reminderHour =
-            calendar.component(
-                .hour,
-                from: time
-            )
-
-
-            habit.reminderMinute =
-            calendar.component(
-                .minute,
-                from: time
-            )
-
-
-            NotificationManager.shared
-                .scheduleHabitReminder(
-                    habit: habit
+                calendar.component(
+                    .hour,
+                    from: time
                 )
-
-
+            
+            habit.reminderMinute =
+                calendar.component(
+                    .minute,
+                    from: time
+                )
+            
         } else {
-
-
+            
             NotificationManager.shared
                 .removeReminder(
                     habit: habit
                 )
         }
-
-
+        
         do {
-
+            
+            try habitUseCase.updateHabit(habit)
+            
+            if enabled {
+                
+                let entry = todayEntry
+                
+                NotificationManager.shared
+                    .refreshHabitReminder(
+                        habit: habit,
+                        entry: entry
+                    )
+            }
+            
             load()
-
+            
         } catch {
-
+            
             errorMessage =
-            error.localizedDescription
+                error.localizedDescription
         }
-
     }
     
     

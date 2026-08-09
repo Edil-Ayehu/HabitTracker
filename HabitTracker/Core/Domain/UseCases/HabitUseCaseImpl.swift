@@ -81,14 +81,18 @@ final class HabitUseCaseImpl: HabitUseCase {
         try repository.deleteHabit(habit)
     }
     
+    
     func increment(_ entry: HabitEntry) throws {
         
         switch entry.habit.habitType {
+            
         case .binary:
+            
             entry.progress = 1
             entry.completed = true
             
         case .measurable:
+            
             guard let goal = entry.habit.goal else {
                 return
             }
@@ -99,52 +103,81 @@ final class HabitUseCaseImpl: HabitUseCase {
             
             entry.progress += 1
             
-            entry.completed = entry.progress >= goal
+            entry.completed =
+                entry.progress >= goal
         }
         
         try repository.update()
         
+        NotificationManager.shared
+            .refreshHabitReminder(
+                habit: entry.habit,
+                entry: entry
+            )
     }
     
+    
     func decrement(_ entry: HabitEntry) throws {
-
+        
         switch entry.habit.habitType {
-
+            
         case .binary:
-
+            
             entry.progress = 0
             entry.completed = false
-
+            
         case .measurable:
-
-            guard entry.progress > 0 else { return }
-
+            
+            guard entry.progress > 0 else {
+                return
+            }
+            
             entry.progress -= 1
-
+            
             let goal = entry.habit.goal ?? 1
-
-            entry.completed = entry.progress >= goal
+            
+            entry.completed =
+                entry.progress >= goal
         }
-
+        
         try repository.update()
+        
+        NotificationManager.shared
+            .refreshHabitReminder(
+                habit: entry.habit,
+                entry: entry
+            )
     }
+    
     
     func complete(_ entry: HabitEntry) throws {
         
         switch entry.habit.habitType {
+            
         case .binary:
+            
+            entry.progress = 1
             entry.completed = true
             
         case .measurable:
-            guard let goal = entry.habit.goal else { return }
+            
+            guard let goal = entry.habit.goal else {
+                return
+            }
             
             entry.progress = goal
             entry.completed = true
         }
         
-        
-        
         try repository.update()
+        
+        // Habit is completed.
+        // Remove its pending reminder.
+        NotificationManager.shared
+            .refreshHabitReminder(
+                habit: entry.habit,
+                entry: entry
+            )
     }
     
     

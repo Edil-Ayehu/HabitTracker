@@ -2,24 +2,21 @@
 //  NotificationManager.swift
 //  HabitTracker
 //
-//  Created by Edil on 03/08/2026.
-//
 
 import UserNotifications
 import UIKit
 
-
 final class NotificationManager {
-    
     
     static let shared = NotificationManager()
     
+    private init() {}
     
-    private init(){}
+    private let notificationsEnabledKey = "notificationsEnabled"
     
+    // MARK: - Permission
     
     func requestPermission() async {
-        
         
         do {
             
@@ -35,19 +32,30 @@ final class NotificationManager {
             
         } catch {
             
-            print(error)
+            print("Notification permission error:", error)
         }
-        
     }
     
+    func authorizationStatus() async -> UNAuthorizationStatus {
+        
+        let settings =
+            await UNUserNotificationCenter.current()
+            .notificationSettings()
+        
+        return settings.authorizationStatus
+    }
     
+    // MARK: - Schedule
     
     func scheduleHabitReminder(
-        habit: Habit
+        habit: Habit,
+        entry: HabitEntry? = nil
     ) {
-        let enabled = UserDefaults.standard.object(
-            forKey: "notificationsEnabled"
-        ) as? Bool ?? true
+        
+        let enabled =
+            UserDefaults.standard.object(
+                forKey: notificationsEnabledKey
+            ) as? Bool ?? true
         
         guard enabled else {
             return
@@ -61,78 +69,118 @@ final class NotificationManager {
             return
         }
         
-        
+        // If today's habit is already completed,
+        // don't schedule a reminder.
+        if let entry, entry.completed {
+            removeReminder(habit: habit)
+            return
+        }
         
         let content = UNMutableNotificationContent()
         
+        content.title = notificationTitle(for: habit)
         
-        content.title = "Habit Reminder"
-        
-        content.body =
-        "Time to complete \(habit.title)"
+        content.body = notificationBody(
+            for: habit,
+            entry: entry
+        )
         
         content.sound = .default
         
-        
-        
         var components = DateComponents()
-        
         components.hour = hour
-        
         components.minute = minute
         
-        
-        
-        let trigger =
-        UNCalendarNotificationTrigger(
+        let trigger = UNCalendarNotificationTrigger(
             dateMatching: components,
             repeats: true
         )
         
-        
-        
-        let request =
-        UNNotificationRequest(
+        let request = UNNotificationRequest(
             identifier: habit.id.uuidString,
             content: content,
             trigger: trigger
         )
         
-        
-        
+        // Same identifier means an existing request
+        // for this habit is replaced.
         UNUserNotificationCenter
             .current()
-            .add(request)
-        
+            .add(request) { error in
+                
+                if let error {
+                    print(
+                        "Failed to schedule notification:",
+                        error
+                    )
+                }
+            }
     }
     
+    // MARK: - Smart Message
     
+    private func notificationTitle(
+        for habit: Habit
+    ) -> String {
+        
+        if habit.habitType == .measurable {
+            return "Keep Going 💪"
+        }
+        
+        return "Habit Reminder 🔔"
+    }
+    
+    private func notificationBody(
+        for habit: Habit,
+        entry: HabitEntry?
+    ) -> String {
+        
+        switch habit.habitType {
+            
+        case .binary:
+            
+            return """
+            You haven't completed \(habit.title) yet.
+            Take a moment to finish it today.
+            """
+            
+        case .measurable:
+            
+            let progress = entry?.progress ?? 0
+            let goal = habit.goal ?? 1
+            
+            return """
+            \(habit.title): \(progress) / \(goal).
+            Keep going until you reach your goal.
+            """
+        }
+    }
+    
+    // MARK: - Remove
     
     func removeReminder(
         habit: Habit
     ) {
         
-        
         UNUserNotificationCenter
             .current()
             .removePendingNotificationRequests(
-                withIdentifiers:[
+                withIdentifiers: [
                     habit.id.uuidString
                 ]
             )
-        
     }
+    
+    // MARK: - Refresh
     
     func rescheduleAllReminders(
         habits: [Habit],
         entries: [HabitEntry]
     ) {
         
-        UNUserNotificationCenter.current()
-            .removeAllPendingNotificationRequests()
+        removeAllReminders()
         
         let calendar = Calendar.current
-        
         let today = calendar.startOfDay(for: Date())
         
         for habit in habits {
@@ -141,32 +189,64 @@ final class NotificationManager {
                 continue
             }
             
-            let completedToday = entries.contains {
+            let todayEntry = entries.first {
                 $0.habit.id == habit.id &&
-                calendar.isDate($0.date, inSameDayAs: today) &&
-                $0.completed
+                calendar.isDate(
+                    $0.date,
+                    inSameDayAs: today
+                )
             }
             
-            if !completedToday {
-                scheduleHabitReminder(habit: habit)
+            // Completed → no notification
+            if todayEntry?.completed == true {
+                continue
             }
+            
+            scheduleHabitReminder(
+                habit: habit,
+                entry: todayEntry
+            )
         }
     }
     
-    func authorizationStatus() async -> UNAuthorizationStatus {
+    func refreshHabitReminder(
+        habit: Habit,
+        entry: HabitEntry?
+    ) {
         
-        let settings =
-        await UNUserNotificationCenter.current()
-            .notificationSettings()
+        let enabled =
+            UserDefaults.standard.object(
+                forKey: notificationsEnabledKey
+            ) as? Bool ?? true
         
-        return settings.authorizationStatus
+        guard enabled else {
+            removeReminder(habit: habit)
+            return
+        }
+        
+        if entry?.completed == true {
+            
+            removeReminder(habit: habit)
+            
+        } else {
+            
+            scheduleHabitReminder(
+                habit: habit,
+                entry: entry
+            )
+        }
     }
+    
+    // MARK: - Remove All
     
     func removeAllReminders() {
         
-        UNUserNotificationCenter.current()
+        UNUserNotificationCenter
+            .current()
             .removeAllPendingNotificationRequests()
     }
+    
+    // MARK: - Refresh All
     
     func refreshAllReminders() async {
         
@@ -178,14 +258,20 @@ final class NotificationManager {
             
         } catch {
             
-            print(error)
+            print(
+                "Failed to refresh reminders:",
+                error
+            )
         }
     }
     
+    // MARK: - System Settings
+    
     func openSystemSettings() {
         
-        guard let url = URL(string: UIApplication.openSettingsURLString)
-        else {
+        guard let url = URL(
+            string: UIApplication.openSettingsURLString
+        ) else {
             return
         }
         
