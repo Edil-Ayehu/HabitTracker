@@ -138,7 +138,7 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
           "title": "Habit Title",
           "icon": "drop.fill" | "book.fill" | "figure.walk" | "figure.strengthtraining.traditional" | "moon.fill" | "pills.fill",
           "color": "blue" | "green" | "orange" | "purple" | "red",
-          "category": "health" | "fitness" | "mindfulness" | "productivity" | "lifestyle" | "other",
+          "category": "health" | "fitness" | "mindfulness" | "spiritual" | "productivity" | "lifestyle" | "other",
           "habitType": "binary" | "measurable",
           "goal": Int (default 1),
           "unit": "pages" | "mins" | "glasses" | "hours" | "liters" | "servings" | "",
@@ -276,7 +276,9 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
     
     private func inferCategory(title: String, icon: HabitIcon) -> HabitCategory {
         let t = title.lowercased()
-        if t.contains("run") || t.contains("cardio") || t.contains("workout") || t.contains("stretch") || t.contains("gym") || t.contains("walk") || icon == .walk || icon == .workout {
+        if t.contains("pray") || t.contains("worship") || t.contains("spiritual") || t.contains("faith") || t.contains("bible") || t.contains("quran") {
+            return .spiritual
+        } else if t.contains("run") || t.contains("cardio") || t.contains("workout") || t.contains("stretch") || t.contains("gym") || t.contains("walk") || icon == .walk || icon == .workout {
             return .fitness
         } else if t.contains("read") || t.contains("meditat") || t.contains("gratitude") || t.contains("journal") || t.contains("mind") || t.contains("breath") {
             return .mindfulness
