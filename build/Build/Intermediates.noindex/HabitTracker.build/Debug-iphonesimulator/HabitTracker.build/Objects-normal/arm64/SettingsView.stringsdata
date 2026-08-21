@@ -17,6 +17,38 @@
           "startingColumn": 25,
           "startingLine": 32
         }
+      },
+      {
+        "comment": "",
+        "key": "Enter your Google Gemini API Key to enable real-time AI routine generation.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI API Key (e.g. AIzaSy...)",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 70
+        }
+      },
+      {
+        "comment": "",
+        "key": "Active",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "Gemini AI Engine",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 50
+        }
       }
     ]
   },

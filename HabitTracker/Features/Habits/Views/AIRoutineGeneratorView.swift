@@ -9,6 +9,7 @@ struct AIRoutineGeneratorView: View {
     
     @EnvironmentObject private var router: AppRouter
     @StateObject var vm: AIRoutineGeneratorViewModel
+    @AppStorage("geminiApiKey") private var geminiApiKey: String = ""
     
     var body: some View {
         AppScaffold(title: "AI Routine Builder") {
@@ -72,8 +73,23 @@ private extension AIRoutineGeneratorView {
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("AI Habit Architect")
-                        .font(AppFont.headline())
+                    HStack {
+                        Text("AI Habit Architect")
+                            .font(AppFont.headline())
+                        
+                        Spacer()
+                        
+                        let hasSecretsKey = !Secrets.geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                        let hasSettingsKey = !geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                        let isActive = hasSecretsKey || hasSettingsKey
+                        Text(isActive ? "Gemini 3.6 ✨" : "Smart Engine")
+                            .font(.system(size: 10, weight: .bold))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(isActive ? AppColors.primary.opacity(0.15) : Color.gray.opacity(0.15))
+                            .foregroundStyle(isActive ? AppColors.primary : AppColors.textSecondary)
+                            .clipShape(Capsule())
+                    }
                     
                     Text("Describe your goal in plain text or pick a template to auto-generate customized habits.")
                         .font(AppFont.caption())

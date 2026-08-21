@@ -7,7 +7,7 @@
         "key": "Error",
         "location": {
           "startingColumn": 13,
-          "startingLine": 31
+          "startingLine": 32
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "🎉 Habits Added!",
         "location": {
           "startingColumn": 13,
-          "startingLine": 42
+          "startingLine": 43
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "OK",
         "location": {
           "startingColumn": 20,
-          "startingLine": 37
+          "startingLine": 38
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "View My Habits",
         "location": {
           "startingColumn": 20,
-          "startingLine": 48
+          "startingLine": 49
         }
       },
       {
@@ -39,15 +39,7 @@
         "key": "Successfully added %lld AI-crafted habit%@ to your routine!",
         "location": {
           "startingColumn": 22,
-          "startingLine": 53
-        }
-      },
-      {
-        "comment": "",
-        "key": "AI Habit Architect",
-        "location": {
-          "startingColumn": 26,
-          "startingLine": 75
+          "startingLine": 54
         }
       },
       {
@@ -55,7 +47,31 @@
         "key": "Describe your goal in plain text or pick a template to auto-generate customized habits.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 78
+          "startingLine": 94
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI Habit Architect",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 77
+        }
+      },
+      {
+        "comment": "",
+        "key": "Gemini 1.5 ✨",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 85
+        }
+      },
+      {
+        "comment": "",
+        "key": "Smart Engine",
+        "location": {
+          "startingColumn": 60,
+          "startingLine": 85
         }
       },
       {
@@ -63,7 +79,7 @@
         "key": "What is your goal?",
         "location": {
           "startingColumn": 23,
-          "startingLine": 89
+          "startingLine": 105
         }
       },
       {
@@ -71,7 +87,7 @@
         "key": "e.g. Prepare for 10k, Improve Sleep...",
         "location": {
           "startingColumn": 31,
-          "startingLine": 93
+          "startingLine": 109
         }
       },
       {
@@ -79,7 +95,7 @@
         "key": "Build",
         "location": {
           "startingColumn": 34,
-          "startingLine": 104
+          "startingLine": 120
         }
       },
       {
@@ -87,7 +103,7 @@
         "key": "AI is crafting your routine...",
         "location": {
           "startingColumn": 22,
-          "startingLine": 165
+          "startingLine": 181
         }
       },
       {
@@ -95,7 +111,7 @@
         "key": "%lld %@ / day",
         "location": {
           "startingColumn": 46,
-          "startingLine": 204
+          "startingLine": 220
         }
       },
       {
@@ -103,7 +119,7 @@
         "key": "Daily Completion",
         "location": {
           "startingColumn": 46,
-          "startingLine": 208
+          "startingLine": 224
         }
       },
       {
@@ -111,7 +127,7 @@
         "key": "•",
         "location": {
           "startingColumn": 42,
-          "startingLine": 213
+          "startingLine": 229
         }
       }
     ]

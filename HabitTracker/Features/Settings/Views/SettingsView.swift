@@ -9,10 +9,10 @@ import SwiftUI
 
 struct SettingsView: View {
 
-    @EnvironmentObject
-    private var themeManager: ThemeManager
-    
+    @EnvironmentObject private var themeManager: ThemeManager
     @EnvironmentObject private var router: AppRouter
+    
+    @AppStorage("geminiApiKey") private var geminiApiKey: String = ""
 
     var body: some View {
 
@@ -42,6 +42,38 @@ struct SettingsView: View {
                     .pickerStyle(.segmented)
                 }
             }
+            
+            // Gemini AI Configuration Card
+            CardView {
+                VStack(alignment: .leading, spacing: 14) {
+                    HStack {
+                        Label("Gemini AI Engine", systemImage: "sparkles")
+                            .font(AppFont.headline())
+                        
+                        Spacer()
+                        
+                        if !geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            Text("Active")
+                                .font(.system(size: 10, weight: .bold))
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(AppColors.success.opacity(0.15))
+                                .foregroundStyle(AppColors.success)
+                                .clipShape(Capsule())
+                        }
+                    }
+                    
+                    Text("Enter your Google Gemini API Key to enable real-time AI routine generation.")
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColors.textSecondary)
+                    
+                    SecureField("AI API Key (e.g. AIzaSy...)", text: $geminiApiKey)
+                        .textFieldStyle(.plain)
+                        .padding(12)
+                        .background(Color.gray.opacity(0.08))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+            }
 
             CardView {
 
@@ -55,10 +87,10 @@ struct SettingsView: View {
                     }
 
                     settingsRow(
-                        title: "Week Starts On",
-                        icon: "calendar"
+                        title: "AI Routine Builder",
+                        icon: "sparkles"
                     ) {
-                        
+                        router.push(.aiRoutineGenerator)
                     }
 
                     settingsRow(
@@ -66,13 +98,6 @@ struct SettingsView: View {
                         icon: "chart.bar.fill"
                     ) {
                         router.push(.statistics)
-                    }
-
-                    settingsRow(
-                        title: "About",
-                        icon: "info.circle"
-                    ) {
-                        
                     }
                 }
             }
@@ -98,10 +123,9 @@ struct SettingsView: View {
                 .foregroundStyle(.secondary)
         }
         .padding(.vertical, 6)
-        .contentShape(Rectangle())   // Makes the whole row tappable
+        .contentShape(Rectangle())
         .onTapGesture {
             action()
         }
     }
 }
-

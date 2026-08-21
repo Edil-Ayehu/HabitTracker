@@ -63,7 +63,9 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
     }
     
     func generateRoutine(for prompt: String) async -> [HabitDraft] {
-        let apiKey = UserDefaults.standard.string(forKey: apiKeyKey)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let secretsKey = Secrets.geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        let settingsKey = UserDefaults.standard.string(forKey: apiKeyKey)?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let apiKey = !secretsKey.isEmpty ? secretsKey : settingsKey
         
         if !apiKey.isEmpty {
             do {
@@ -98,7 +100,33 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
     // MARK: - Gemini API Call
     
     private func fetchGeminiRoutine(prompt: String, apiKey: String) async throws -> [HabitDraft] {
-        guard let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\(apiKey)") else {
+        let models = ["gemini-3.6-flash", "gemini-1.5-flash-latest", "gemini-2.5-flash", "gemini-flash", "gemini-pro"]
+        var lastError: Error?
+        
+        for model in models {
+            do {
+                let result = try await fetchGeminiRoutineWithModel(prompt: prompt, apiKey: apiKey, modelName: model)
+                if !result.isEmpty {
+                    return result
+                }
+            } catch {
+                lastError = error
+            }
+        }
+        
+        if let lastError {
+            throw lastError
+        }
+        return []
+    }
+    
+    private func fetchGeminiRoutineWithModel(prompt: String, apiKey: String, modelName: String) async throws -> [HabitDraft] {
+        let cleanKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        var components = URLComponents(string: "https://generativelanguage.googleapis.com/v1beta/models/\(modelName):generateContent")
+        components?.queryItems = [URLQueryItem(name: "key", value: cleanKey)]
+        
+        guard let url = components?.url else {
             throw URLError(.badURL)
         }
         
@@ -139,7 +167,23 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         
-        guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw URLError(.badServerResponse)
+        }
+        
+        if !(200...299).contains(httpResponse.statusCode) {
+            let errorText = String(data: data, encoding: .utf8) ?? ""
+            if let errorJson = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let errorObj = errorJson["error"] as? [String: Any],
+               let message = errorObj["message"] as? String {
+                print("Gemini API Error (\(httpResponse.statusCode)): \(message)")
+                throw NSError(
+                    domain: "GeminiAPI",
+                    code: httpResponse.statusCode,
+                    userInfo: [NSLocalizedDescriptionKey: "Gemini API Error (\(httpResponse.statusCode)): \(message)"]
+                )
+            }
+            print("Gemini HTTP Error (\(httpResponse.statusCode)): \(errorText)")
             throw URLError(.badServerResponse)
         }
         
