@@ -120,12 +120,17 @@ private extension AIRoutineGeneratorView {
                             Text("Build")
                         }
                         .font(AppFont.headline())
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color.white)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
-                        .background(AppColors.primary)
+                        .background(
+                            vm.prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                            ? AppColors.border
+                            : AppColors.primary
+                        )
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
+                    .buttonStyle(.plain)
                     .disabled(vm.prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
             }

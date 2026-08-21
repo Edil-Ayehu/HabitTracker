@@ -62,12 +62,13 @@ struct CelebrationBanner: View {
             } label: {
                 Text("Keep it up! 🙌")
                     .font(AppFont.headline())
-                    .foregroundStyle(.white)
+                    .foregroundStyle(Color.white)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
                     .background(AppColors.primary)
                     .clipShape(RoundedRectangle(cornerRadius: 14))
             }
+            .buttonStyle(.plain)
         }
         .padding(24)
         .background(
