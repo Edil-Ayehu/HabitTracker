@@ -138,6 +138,7 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
           "title": "Habit Title",
           "icon": "drop.fill" | "book.fill" | "figure.walk" | "figure.strengthtraining.traditional" | "moon.fill" | "pills.fill",
           "color": "blue" | "green" | "orange" | "purple" | "red",
+          "category": "health" | "fitness" | "mindfulness" | "productivity" | "lifestyle" | "other",
           "habitType": "binary" | "measurable",
           "goal": Int (default 1),
           "unit": "pages" | "mins" | "glasses" | "hours" | "liters" | "servings" | "",
@@ -215,6 +216,7 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
             let title: String
             let icon: String?
             let color: String?
+            let category: String?
             let habitType: String?
             let goal: Int?
             let unit: String?
@@ -244,6 +246,12 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
                 draft.color = .blue
             }
             
+            if let catStr = item.category?.lowercased(), let catEnum = HabitCategory(rawValue: catStr) {
+                draft.category = catEnum
+            } else {
+                draft.category = self.inferCategory(title: item.title, icon: draft.icon)
+            }
+            
             if item.habitType == "measurable" {
                 draft.habitType = .measurable
                 draft.goal = item.goal ?? 1
@@ -264,6 +272,22 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
             
             return draft
         }
+    }
+    
+    private func inferCategory(title: String, icon: HabitIcon) -> HabitCategory {
+        let t = title.lowercased()
+        if t.contains("run") || t.contains("cardio") || t.contains("workout") || t.contains("stretch") || t.contains("gym") || t.contains("walk") || icon == .walk || icon == .workout {
+            return .fitness
+        } else if t.contains("read") || t.contains("meditat") || t.contains("gratitude") || t.contains("journal") || t.contains("mind") || t.contains("breath") {
+            return .mindfulness
+        } else if t.contains("code") || t.contains("study") || t.contains("work") || t.contains("inbox") || t.contains("learn") || t.contains("book") {
+            return .productivity
+        } else if t.contains("sleep") || t.contains("screen") || t.contains("routine") || t.contains("bed") {
+            return .lifestyle
+        } else if t.contains("water") || t.contains("drink") || t.contains("tea") || t.contains("eat") || t.contains("vitamin") || t.contains("pill") || icon == .water || icon == .pills {
+            return .health
+        }
+        return .health
     }
     
     // MARK: - Preset Routines (Local Fallback)
