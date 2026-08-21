@@ -67,7 +67,7 @@ final class HabitUseCaseImpl: HabitUseCase {
         let achievementsList = calculateAchievements(
             allEntries: allEntries,
             todayEntries: entries,
-            bestStreak: best
+            currentStreak: streak
         )
         
         return HabitStatistics(
@@ -271,16 +271,16 @@ final class HabitUseCaseImpl: HabitUseCase {
     private func calculateAchievements(
         allEntries: [HabitEntry],
         todayEntries: [HabitEntry],
-        bestStreak: Int
+        currentStreak: Int
     ) -> [Achievement] {
         let totalCompletedCount = allEntries.filter(\.completed).count
         
         let firstStepUnlocked = totalCompletedCount >= 1
-        let onFireUnlocked = bestStreak >= 3
-        let weekWarriorUnlocked = bestStreak >= 7
-        let consistencyKingUnlocked = bestStreak >= 14
-        let monthlyMasterUnlocked = bestStreak >= 30
-        let unstoppableUnlocked = bestStreak >= 100
+        let onFireUnlocked = currentStreak >= 3
+        let weekWarriorUnlocked = currentStreak >= 7
+        let consistencyKingUnlocked = currentStreak >= 14
+        let monthlyMasterUnlocked = currentStreak >= 30
+        let unstoppableUnlocked = currentStreak >= 100
         
         let perfectDayUnlocked = !todayEntries.isEmpty && todayEntries.allSatisfy(\.completed)
         let perfectDayProgress: Double = {
@@ -306,7 +306,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 icon: "flame.fill",
                 requiredCount: 3,
                 isUnlocked: onFireUnlocked,
-                progress: min(1.0, Double(bestStreak) / 3.0)
+                progress: min(1.0, Double(currentStreak) / 3.0)
             ),
             Achievement(
                 id: "week_warrior",
@@ -315,7 +315,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 icon: "bolt.fill",
                 requiredCount: 7,
                 isUnlocked: weekWarriorUnlocked,
-                progress: min(1.0, Double(bestStreak) / 7.0)
+                progress: min(1.0, Double(currentStreak) / 7.0)
             ),
             Achievement(
                 id: "consistency_king",
@@ -324,7 +324,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 icon: "trophy.fill",
                 requiredCount: 14,
                 isUnlocked: consistencyKingUnlocked,
-                progress: min(1.0, Double(bestStreak) / 14.0)
+                progress: min(1.0, Double(currentStreak) / 14.0)
             ),
             Achievement(
                 id: "monthly_master",
@@ -333,7 +333,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 icon: "diamond.fill",
                 requiredCount: 30,
                 isUnlocked: monthlyMasterUnlocked,
-                progress: min(1.0, Double(bestStreak) / 30.0)
+                progress: min(1.0, Double(currentStreak) / 30.0)
             ),
             Achievement(
                 id: "unstoppable",
@@ -342,7 +342,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 icon: "crown.fill",
                 requiredCount: 100,
                 isUnlocked: unstoppableUnlocked,
-                progress: min(1.0, Double(bestStreak) / 100.0)
+                progress: min(1.0, Double(currentStreak) / 100.0)
             ),
             Achievement(
                 id: "perfect_day",
