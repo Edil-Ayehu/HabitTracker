@@ -44,6 +44,7 @@ struct HomeView: View {
             
             StatsGrid(
                 streak: vm.statistics.currentStreak,
+                bestStreak: vm.statistics.bestStreak,
                 completion: Int(vm.statistics.completionRate * 100)
             )
             

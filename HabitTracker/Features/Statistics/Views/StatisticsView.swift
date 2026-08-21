@@ -38,9 +38,9 @@ struct StatisticsView: View {
                     )
 
                     StatCard(
-                        icon: "checkmark.circle.fill",
-                        title: "Completed",
-                        value: "\(statistics.completedHabits)"
+                        icon: "trophy.fill",
+                        title: "Best Streak",
+                        value: "\(statistics.bestStreak)"
                     )
 
                     StatCard(
@@ -54,6 +54,18 @@ struct StatisticsView: View {
                         title: "Today's Habits",
                         value: "\(statistics.totalHabits)"
                     )
+                }
+
+                // MARK: Achievements & Milestones
+
+                if !statistics.achievements.isEmpty {
+                    SectionHeader(title: "Milestones & Badges")
+
+                    LazyVStack(spacing: AppSpacing.sm) {
+                        ForEach(statistics.achievements) { achievement in
+                            AchievementCard(achievement: achievement)
+                        }
+                    }
                 }
 
                 // MARK: Weekly Trend

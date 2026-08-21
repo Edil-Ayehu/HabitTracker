@@ -7,7 +7,7 @@
         "key": "Delete habit?",
         "location": {
           "startingColumn": 29,
-          "startingLine": 203
+          "startingLine": 207
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Error",
         "location": {
           "startingColumn": 13,
-          "startingLine": 217
+          "startingLine": 221
         }
       },
       {
@@ -55,14 +55,6 @@
         "key": "Edit",
         "location": {
           "startingColumn": 28,
-          "startingLine": 190
-        }
-      },
-      {
-        "comment": "",
-        "key": "Delete",
-        "location": {
-          "startingColumn": 28,
           "startingLine": 194
         }
       },
@@ -70,8 +62,16 @@
         "comment": "",
         "key": "Delete",
         "location": {
+          "startingColumn": 28,
+          "startingLine": 198
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
           "startingColumn": 20,
-          "startingLine": 204
+          "startingLine": 208
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 210
+          "startingLine": 214
         }
       },
       {
@@ -87,7 +87,7 @@
         "key": "Are you sure you want to delete '%@'? This will remove all tracked progress for this habit.",
         "location": {
           "startingColumn": 18,
-          "startingLine": 214
+          "startingLine": 218
         }
       },
       {
@@ -95,7 +95,7 @@
         "key": "OK",
         "location": {
           "startingColumn": 20,
-          "startingLine": 223
+          "startingLine": 227
         }
       }
     ]

@@ -63,13 +63,20 @@ final class HabitUseCaseImpl: HabitUseCase {
         let allEntries = try repository.fetchAllEntries()
         
         let streak = calculateStreak(from: allEntries)
-        
+        let best = calculateBestStreak(from: allEntries)
+        let achievementsList = calculateAchievements(
+            allEntries: allEntries,
+            todayEntries: entries,
+            bestStreak: best
+        )
         
         return HabitStatistics(
             totalHabits: totalHabits,
             completedHabits: completedHabits,
             completionRate: completionRate,
-            currentStreak: streak
+            currentStreak: streak,
+            bestStreak: best,
+            achievements: achievementsList
         )
     }
     
@@ -229,6 +236,124 @@ final class HabitUseCaseImpl: HabitUseCase {
         }
         
         return streak
+    }
+    
+    private func calculateBestStreak(from entries: [HabitEntry]) -> Int {
+        let calendar = Calendar.current
+        let completedDates = Array(Set(
+            entries
+                .filter(\.completed)
+                .map { calendar.startOfDay(for: $0.date) }
+        )).sorted()
+        
+        guard !completedDates.isEmpty else { return 0 }
+        
+        var maxStreak = 1
+        var currentContiguous = 1
+        
+        for i in 0..<(completedDates.count - 1) {
+            let day1 = completedDates[i]
+            let day2 = completedDates[i + 1]
+            let diff = calendar.dateComponents([.day], from: day1, to: day2).day ?? 0
+            
+            if diff == 1 {
+                currentContiguous += 1
+                maxStreak = max(maxStreak, currentContiguous)
+            } else if diff > 1 {
+                currentContiguous = 1
+            }
+        }
+        
+        let activeStreak = calculateStreak(from: entries)
+        return max(maxStreak, activeStreak)
+    }
+    
+    private func calculateAchievements(
+        allEntries: [HabitEntry],
+        todayEntries: [HabitEntry],
+        bestStreak: Int
+    ) -> [Achievement] {
+        let totalCompletedCount = allEntries.filter(\.completed).count
+        
+        let firstStepUnlocked = totalCompletedCount >= 1
+        let onFireUnlocked = bestStreak >= 3
+        let weekWarriorUnlocked = bestStreak >= 7
+        let consistencyKingUnlocked = bestStreak >= 14
+        let monthlyMasterUnlocked = bestStreak >= 30
+        let unstoppableUnlocked = bestStreak >= 100
+        
+        let perfectDayUnlocked = !todayEntries.isEmpty && todayEntries.allSatisfy(\.completed)
+        let perfectDayProgress: Double = {
+            guard !todayEntries.isEmpty else { return 0.0 }
+            let completedCount = todayEntries.filter(\.completed).count
+            return Double(completedCount) / Double(todayEntries.count)
+        }()
+        
+        return [
+            Achievement(
+                id: "first_step",
+                title: "First Step",
+                description: "Completed your first habit entry",
+                icon: "star.fill",
+                requiredCount: 1,
+                isUnlocked: firstStepUnlocked,
+                progress: min(1.0, Double(totalCompletedCount) / 1.0)
+            ),
+            Achievement(
+                id: "on_fire",
+                title: "On Fire",
+                description: "Achieved a 3-day streak",
+                icon: "flame.fill",
+                requiredCount: 3,
+                isUnlocked: onFireUnlocked,
+                progress: min(1.0, Double(bestStreak) / 3.0)
+            ),
+            Achievement(
+                id: "week_warrior",
+                title: "Week Warrior",
+                description: "Maintained a 7-day streak",
+                icon: "bolt.fill",
+                requiredCount: 7,
+                isUnlocked: weekWarriorUnlocked,
+                progress: min(1.0, Double(bestStreak) / 7.0)
+            ),
+            Achievement(
+                id: "consistency_king",
+                title: "Consistency King",
+                description: "Kept a 14-day streak alive",
+                icon: "trophy.fill",
+                requiredCount: 14,
+                isUnlocked: consistencyKingUnlocked,
+                progress: min(1.0, Double(bestStreak) / 14.0)
+            ),
+            Achievement(
+                id: "monthly_master",
+                title: "Monthly Master",
+                description: "Reached a 30-day streak",
+                icon: "diamond.fill",
+                requiredCount: 30,
+                isUnlocked: monthlyMasterUnlocked,
+                progress: min(1.0, Double(bestStreak) / 30.0)
+            ),
+            Achievement(
+                id: "unstoppable",
+                title: "Unstoppable",
+                description: "Achieved 100 days of consistency",
+                icon: "crown.fill",
+                requiredCount: 100,
+                isUnlocked: unstoppableUnlocked,
+                progress: min(1.0, Double(bestStreak) / 100.0)
+            ),
+            Achievement(
+                id: "perfect_day",
+                title: "Perfect Day",
+                description: "Completed 100% of today's habits",
+                icon: "checkmark.seal.fill",
+                requiredCount: 1,
+                isUnlocked: perfectDayUnlocked,
+                progress: perfectDayProgress
+            )
+        ]
     }
     
     func fetchEntries(

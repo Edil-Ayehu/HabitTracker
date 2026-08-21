@@ -13,6 +13,7 @@ final class HabitDetailViewModel: ObservableObject {
     @Published var entries: [HabitEntry] = []
     
     @Published var streak = 0
+    @Published var bestStreak = 0
     
     @Published var isLoading = false
     
@@ -138,6 +139,7 @@ final class HabitDetailViewModel: ObservableObject {
             isEditingNote = note.isEmpty
             
             streak = calculateStreak(from: entries)
+            bestStreak = calculateBestStreak(from: entries)
         } catch {
             
         }
@@ -274,6 +276,36 @@ final class HabitDetailViewModel: ObservableObject {
         }
 
         return streak
+    }
+    
+    private func calculateBestStreak(from entries: [HabitEntry]) -> Int {
+        let calendar = Calendar.current
+        let completedDates = Array(Set(
+            entries
+                .filter(\.completed)
+                .map { calendar.startOfDay(for: $0.date) }
+        )).sorted()
+        
+        guard !completedDates.isEmpty else { return 0 }
+        
+        var maxStreak = 1
+        var currentContiguous = 1
+        
+        for i in 0..<(completedDates.count - 1) {
+            let day1 = completedDates[i]
+            let day2 = completedDates[i + 1]
+            let diff = calendar.dateComponents([.day], from: day1, to: day2).day ?? 0
+            
+            if diff == 1 {
+                currentContiguous += 1
+                maxStreak = max(maxStreak, currentContiguous)
+            } else if diff > 1 {
+                currentContiguous = 1
+            }
+        }
+        
+        let activeStreak = calculateStreak(from: entries)
+        return max(maxStreak, activeStreak)
     }
     
     

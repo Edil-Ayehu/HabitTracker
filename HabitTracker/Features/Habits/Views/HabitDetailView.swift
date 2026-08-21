@@ -106,15 +106,19 @@ struct HabitDetailView: View {
             
             
             
-            StatCard(
-                icon: vm.icon.rawValue,
+            HStack(spacing: AppSpacing.md) {
+                StatCard(
+                    icon: "flame.fill",
+                    title: "Current Streak",
+                    value: vm.streak == 1 ? "1 day" : "\(vm.streak) days"
+                )
                 
-                title:"Current Streak",
-                
-                
-                value: vm.streak == 1 ? "1 day" :
-                    "\(vm.streak) days"
-            )
+                StatCard(
+                    icon: "trophy.fill",
+                    title: "Best Streak",
+                    value: vm.bestStreak == 1 ? "1 day" : "\(vm.bestStreak) days"
+                )
+            }
             
             ReminderSection(
                 enabled: vm.reminderEnabled,

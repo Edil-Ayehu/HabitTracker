@@ -10,13 +10,24 @@ import SwiftUI
 struct StatsGrid: View {
 
     let streak: Int
-
+    let bestStreak: Int
     let completion: Int
+
+    init(
+        streak: Int,
+        bestStreak: Int = 0,
+        completion: Int
+    ) {
+        self.streak = streak
+        self.bestStreak = bestStreak
+        self.completion = completion
+    }
 
     var body: some View {
 
         LazyVGrid(
             columns: [
+                GridItem(.flexible()),
                 GridItem(.flexible()),
                 GridItem(.flexible())
             ],
@@ -25,13 +36,19 @@ struct StatsGrid: View {
 
             StatCard(
                 icon: "flame.fill",
-                title: "Current Streak",
-                value: "\(streak)"
+                title: "Streak",
+                value: "\(streak)d"
+            )
+
+            StatCard(
+                icon: "trophy.fill",
+                title: "Best",
+                value: "\(bestStreak)d"
             )
 
             StatCard(
                 icon: "chart.bar.fill",
-                title: "Completion",
+                title: "Rate",
                 value: "\(completion)%"
             )
 
