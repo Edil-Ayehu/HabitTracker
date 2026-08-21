@@ -24,6 +24,9 @@ final class HabitEntry {
     
     var note: String
     
+    @Attribute(.externalStorage)
+    var imageData: Data?
+    
     var habit: Habit
     
     init(
@@ -43,5 +46,6 @@ final class HabitEntry {
         completed = false
         
         note = ""
+        imageData = nil
     }
 }

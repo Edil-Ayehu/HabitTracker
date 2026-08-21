@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>HabitTracker needs camera access so you can take photos to attach to your habit progress notes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>HabitTracker needs access to your photo library to attach photos to your habit check-ins.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Outfit-Black.ttf</string>

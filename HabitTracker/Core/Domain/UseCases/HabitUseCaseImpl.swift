@@ -447,4 +447,9 @@ final class HabitUseCaseImpl: HabitUseCase {
         try repository.update()
     }
     
+    func updateCheckIn(note: String, imageData: Data?, for entry: HabitEntry) throws {
+        entry.note = note
+        entry.imageData = imageData
+        try repository.update()
+    }
 }

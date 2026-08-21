@@ -34,4 +34,6 @@ protocol HabitUseCase {
     func habitProgress() throws -> [HabitProgress]
     
     func saveNote(_ note: String, for entry: HabitEntry) throws
+    
+    func updateCheckIn(note: String, imageData: Data?, for entry: HabitEntry) throws
 }

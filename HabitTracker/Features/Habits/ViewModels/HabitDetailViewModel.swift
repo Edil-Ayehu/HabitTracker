@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 @MainActor
 final class HabitDetailViewModel: ObservableObject {
@@ -20,6 +21,7 @@ final class HabitDetailViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     @Published var note = ""
+    @Published var selectedImage: UIImage? = nil
     
     @Published var isEditingNote = false
     
@@ -136,7 +138,13 @@ final class HabitDetailViewModel: ObservableObject {
 
             note = todayEntry?.note ?? ""
 
-            isEditingNote = note.isEmpty
+            if let data = todayEntry?.imageData, let img = UIImage(data: data) {
+                selectedImage = img
+            } else {
+                selectedImage = nil
+            }
+
+            isEditingNote = note.isEmpty && selectedImage == nil
             
             streak = calculateStreak(from: entries)
             bestStreak = calculateBestStreak(from: entries)
@@ -316,9 +324,11 @@ final class HabitDetailViewModel: ObservableObject {
         }
 
         do {
+            let data = selectedImage?.jpegData(compressionQuality: 0.8)
 
-            try habitUseCase.saveNote(
-                note,
+            try habitUseCase.updateCheckIn(
+                note: note,
+                imageData: data,
                 for: entry
             )
 
@@ -328,6 +338,11 @@ final class HabitDetailViewModel: ObservableObject {
 
             errorMessage = error.localizedDescription
         }
+    }
+    
+    func removeImage() {
+        selectedImage = nil
+        saveNote()
     }
 
     func deleteHabit() -> Bool {

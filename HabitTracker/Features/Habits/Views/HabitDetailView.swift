@@ -9,25 +9,16 @@ import SwiftUI
 
 struct HabitDetailView: View {
     
-    
-    @StateObject
-    var vm: HabitDetailViewModel
-    
+    @StateObject var vm: HabitDetailViewModel
     @EnvironmentObject private var router: AppRouter
     
     @State private var showDeleteDialog: Bool = false
-    
-    
-    
+    @State private var showImagePickerOptions: Bool = false
+    @State private var showImagePicker: Bool = false
+    @State private var pickerSourceType: UIImagePickerController.SourceType = .photoLibrary
+
     var body: some View {
-        
-        
-        AppScaffold(
-            title: vm.title
-        ) {
-            
-            
-            
+        AppScaffold(title: vm.title) {
             VStack(spacing: 20) {
                 
                 HabitProgressRing(
@@ -38,7 +29,6 @@ struct HabitDetailView: View {
                 
                 if vm.isMeasurable {
                     HStack(spacing: 20) {
-                        
                         AppIconButton(systemImage: "minus") {
                             vm.decrement()
                         }
@@ -51,7 +41,6 @@ struct HabitDetailView: View {
                             vm.increment()
                         }
                         .disabled(!vm.canIncrement)
-                        
                     }
                 }
                 
@@ -68,126 +57,155 @@ struct HabitDetailView: View {
                 }
                 
                 if !vm.canComplete {
-
                     CardView {
-
-                        VStack(alignment: .leading, spacing: 16) {
-
-                            Text("Today's Reflection")
+                        VStack(alignment: .leading, spacing: 14) {
+                            Text("Today's Reflection & Photo")
                                 .font(AppFont.headline())
-
+                            
                             if vm.isEditingNote {
-
                                 TextEditor(text: $vm.note)
-                                    .frame(height: 120)
-
-                                PrimaryButton(title: "Save Note") {
-                                    vm.saveNote()
-                                }
-
-                            } else {
-
-                                Text(vm.note)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding()
-                                    .background(.gray.opacity(0.1))
+                                    .frame(height: 80)
+                                    .padding(8)
+                                    .background(Color.gray.opacity(0.08))
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
-
-                                Button("Edit Note") {
+                                
+                                if let image = vm.selectedImage {
+                                    ZStack(alignment: .topTrailing) {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(height: 160)
+                                            .frame(maxWidth: .infinity)
+                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                        
+                                        Button {
+                                            vm.selectedImage = nil
+                                        } label: {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .font(.title2)
+                                                .foregroundStyle(.white)
+                                                .padding(8)
+                                                .background(Circle().fill(Color.black.opacity(0.5)))
+                                        }
+                                        .padding(6)
+                                    }
+                                }
+                                
+                                HStack(spacing: 12) {
+                                    Button {
+                                        showImagePickerOptions = true
+                                    } label: {
+                                        Label(
+                                            vm.selectedImage == nil ? "Add Photo" : "Change Photo",
+                                            systemImage: "camera.fill"
+                                        )
+                                        .font(AppFont.headline())
+                                        .foregroundStyle(AppColors.primary)
+                                        .padding(.vertical, 10)
+                                        .padding(.horizontal, 14)
+                                        .background(AppColors.primary.opacity(0.12))
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    PrimaryButton(title: "Save Reflection") {
+                                        vm.saveNote()
+                                    }
+                                }
+                            } else {
+                                if !vm.note.isEmpty {
+                                    Text(vm.note)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding()
+                                        .background(Color.gray.opacity(0.08))
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                }
+                                
+                                if let image = vm.selectedImage {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(height: 180)
+                                        .frame(maxWidth: .infinity)
+                                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                                }
+                                
+                                Button {
                                     vm.isEditingNote = true
+                                } label: {
+                                    Label("Edit Reflection", systemImage: "pencil")
+                                        .font(AppFont.caption())
+                                        .foregroundStyle(AppColors.primary)
                                 }
                             }
                         }
                     }
                 }
                 
+                HStack(spacing: AppSpacing.md) {
+                    StatCard(
+                        icon: "flame.fill",
+                        title: "Current Streak",
+                        value: vm.streak == 1 ? "1 day" : "\(vm.streak) days"
+                    )
+                    
+                    StatCard(
+                        icon: "trophy.fill",
+                        title: "Best Streak",
+                        value: vm.bestStreak == 1 ? "1 day" : "\(vm.bestStreak) days"
+                    )
+                }
                 
-            }
-            
-            
-            
-            HStack(spacing: AppSpacing.md) {
-                StatCard(
-                    icon: "flame.fill",
-                    title: "Current Streak",
-                    value: vm.streak == 1 ? "1 day" : "\(vm.streak) days"
-                )
+                ReminderSection(
+                    enabled: vm.reminderEnabled,
+                    time: vm.reminderTime
+                ) { enabled, time in
+                    vm.updateReminder(enabled: enabled, time: time)
+                }
                 
-                StatCard(
-                    icon: "trophy.fill",
-                    title: "Best Streak",
-                    value: vm.bestStreak == 1 ? "1 day" : "\(vm.bestStreak) days"
-                )
-            }
-            
-            ReminderSection(
-                enabled: vm.reminderEnabled,
-                time: vm.reminderTime
-            ) { enabled, time in
-
-                vm.updateReminder(
-                    enabled: enabled,
-                    time: time
-                )
-
-            }
-            
-            HabitCalendarView(
-                entries: vm.entries
-            )
-            
-            
-            
-            SectionHeader(
-                title:"History"
-            )
-            
-            
-            
-            LazyVStack {
+                HabitCalendarView(entries: vm.entries)
                 
+                SectionHeader(title: "History")
                 
-                ForEach(vm.entries) { entry in
-
-                    VStack(alignment: .leading, spacing: 6) {
-
-                        HStack {
-
-                            Text(
-                                entry.date.formatted(
-                                    date: .abbreviated,
-                                    time: .omitted
-                                )
-                            )
-
-                            Spacer()
-
-                            Image(
-                                systemName: entry.completed
-                                ? "checkmark.circle.fill"
-                                : "circle"
-                            )
-                        }
-
-                        if !entry.note.isEmpty {
-
-                            Text(entry.note)
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                LazyVStack(spacing: AppSpacing.sm) {
+                    ForEach(vm.entries) { entry in
+                        CardView {
+                            VStack(alignment: .leading, spacing: 8) {
+                                HStack {
+                                    Text(entry.date.formatted(date: .abbreviated, time: .omitted))
+                                        .font(AppFont.headline())
+                                    
+                                    Spacer()
+                                    
+                                    Image(systemName: entry.completed ? "checkmark.circle.fill" : "circle")
+                                        .font(.title3)
+                                        .foregroundStyle(entry.completed ? AppColors.success : Color.gray.opacity(0.4))
+                                }
+                                
+                                if !entry.note.isEmpty {
+                                    Text(entry.note)
+                                        .font(AppFont.body())
+                                        .foregroundStyle(AppColors.textSecondary)
+                                }
+                                
+                                if let data = entry.imageData, let img = UIImage(data: data) {
+                                    Image(uiImage: img)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(height: 140)
+                                        .frame(maxWidth: .infinity)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                }
+                            }
                         }
                     }
                 }
-                
             }
-            
-            
         }
         .onAppear {
-            
             vm.load()
-            
         }
-        
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
@@ -203,30 +221,39 @@ struct HabitDetailView: View {
                 }
             }
         }
-        
         .confirmationDialog("Delete habit?", isPresented: $showDeleteDialog) {
             Button("Delete", role: .destructive) {
                 if vm.deleteHabit() {
                     router.pop()
                 }
             }
-            
-            Button("Cancel", role: .cancel) {
-                
-            }
+            Button("Cancel", role: .cancel) {}
         } message: {
             Text("Are you sure you want to delete '\(vm.title)'? This will remove all tracked progress for this habit.")
         }
-        .alert(
-            "Error",
-            isPresented: Binding(
-                get: { vm.errorMessage != nil },
-                set: { if !$0 { vm.errorMessage = nil } }
-            )
-        ) {
-            Button("OK") {}
-        } message: {
-            Text(vm.errorMessage ?? "")
+        .confirmationDialog("Attach Photo", isPresented: $showImagePickerOptions) {
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                Button("📷 Take Photo") {
+                    pickerSourceType = .camera
+                    showImagePicker = true
+                }
+            }
+            
+            Button("🖼️ Choose from Photo Library") {
+                pickerSourceType = .photoLibrary
+                showImagePicker = true
+            }
+            
+            if vm.selectedImage != nil {
+                Button("Remove Photo", role: .destructive) {
+                    vm.removeImage()
+                }
+            }
+            
+            Button("Cancel", role: .cancel) {}
+        }
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(sourceType: pickerSourceType, selectedImage: $vm.selectedImage)
         }
     }
 }
