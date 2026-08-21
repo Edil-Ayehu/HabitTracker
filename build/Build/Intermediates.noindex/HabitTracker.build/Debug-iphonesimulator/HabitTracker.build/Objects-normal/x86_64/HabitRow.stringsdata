@@ -4,26 +4,26 @@
     "Localizable": [
       {
         "comment": "",
-        "key": "%lld/%lld",
+        "key": "%lld/%lld %@",
         "location": {
-          "startingColumn": 29,
-          "startingLine": 64
-        }
-      },
-      {
-        "comment": "",
-        "key": "Completed",
-        "location": {
-          "startingColumn": 31,
+          "startingColumn": 34,
           "startingLine": 57
         }
       },
       {
         "comment": "",
-        "key": "Not completed",
+        "key": "Done Today",
         "location": {
-          "startingColumn": 31,
-          "startingLine": 58
+          "startingColumn": 52,
+          "startingLine": 61
+        }
+      },
+      {
+        "comment": "",
+        "key": "Daily Goal",
+        "location": {
+          "startingColumn": 67,
+          "startingLine": 61
         }
       }
     ]

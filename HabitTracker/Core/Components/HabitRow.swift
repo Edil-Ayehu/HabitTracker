@@ -9,112 +9,101 @@ import SwiftUI
 
 struct HabitRow: View {
     
-//    let habit: Habit
     let entry: HabitEntry
-    
     let onIncrement: () -> Void
-    
     let onComplete: () -> Void
-    
     let onTap: () -> Void
 
     var body: some View {
-
         CardView {
-
             HStack(spacing: AppSpacing.md) {
-
-                Image(systemName: entry.habit.icon)
-                    .font(.title2)
-                    .foregroundStyle(entry.habit.habitColor.color)
-                    .frame(width: 40)
-
-                VStack(alignment: .leading, spacing: 4) {
-
-                    HStack(spacing: 6) {
-                        Text(entry.habit.title)
-                            .font(AppFont.headline())
+                
+                // MARK: - Left Icon Container
+                ZStack {
+                    Circle()
+                        .fill(entry.habit.habitColor.color.opacity(entry.completed ? 0.2 : 0.12))
+                        .frame(width: 44, height: 44)
+                    
+                    Image(systemName: entry.habit.icon)
+                        .font(.title3)
+                        .foregroundStyle(entry.habit.habitColor.color)
+                }
+                
+                // MARK: - Middle Title & Metadata
+                VStack(alignment: .leading, spacing: 5) {
+                    
+                    Text(entry.habit.title)
+                        .font(AppFont.headline())
+                        .foregroundStyle(entry.completed ? AppColors.textSecondary : AppColors.textPrimary)
+                        .strikethrough(entry.completed, color: AppColors.textSecondary)
+                        .lineLimit(1)
+                    
+                    HStack(spacing: 8) {
+                        // Category Capsule Badge
+                        HStack(spacing: 4) {
+                            Image(systemName: entry.habit.habitCategory.icon)
+                                .font(.system(size: 9))
+                            Text(entry.habit.habitCategory.title)
+                                .font(.system(size: 10, weight: .semibold))
+                        }
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(entry.habit.habitCategory.color.opacity(0.12))
+                        .foregroundStyle(entry.habit.habitCategory.color)
+                        .clipShape(Capsule())
                         
-                        Label(entry.habit.habitCategory.title, systemImage: entry.habit.habitCategory.icon)
-                            .font(.system(size: 9, weight: .bold))
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(entry.habit.habitCategory.color.opacity(0.12))
-                            .foregroundStyle(entry.habit.habitCategory.color)
-                            .clipShape(Capsule())
+                        // Status / Progress Subtitle
+                        if entry.habit.habitType == .measurable {
+                            Text("\(entry.progress)/\(entry.habit.goal ?? 1) \(entry.habit.unit ?? "")")
+                                .font(AppFont.caption())
+                                .foregroundStyle(AppColors.textSecondary)
+                        } else {
+                            Text(entry.completed ? "Done Today" : "Daily Goal")
+                                .font(AppFont.caption())
+                                .foregroundStyle(entry.completed ? AppColors.success : AppColors.textSecondary)
+                        }
                     }
-
-//                    Text("\(entry.progress)/\(entry.habit.goal)")
-//                        .foregroundStyle(
-//                            AppColors.textSecondary
-//                        )
-                    switch entry.habit.habitType {
-
-                    case .binary:
-
-                        Text(
-                            entry.completed
-                            ? "Completed"
-                            : "Not completed"
-                        )
-
-                    case .measurable:
-
-                        Text(
-                            "\(entry.progress)/\(entry.habit.goal ?? 0)"
-                        )
-                    }
-
                 }
-
+                
                 Spacer()
-
-//                HabitProgressRing(
-//                    current: entry.progress,
-//                    goal: entry.habit.goal
-//                )
-//                .frame(width: 60)
                 
+                // MARK: - Right Action Controls
                 if entry.habit.habitType == .binary {
-
-                    Image(
-                        systemName:
-                            entry.completed
-                            ? "checkmark.circle.fill"
-                            : "circle"
-                    )
-                    .font(.title2)
-                    .foregroundStyle(entry.habit.habitColor.color)
-
+                    Button {
+                        onComplete()
+                    } label: {
+                        Image(systemName: entry.completed ? "checkmark.circle.fill" : "circle")
+                            .font(.system(size: 28))
+                            .foregroundStyle(entry.completed ? AppColors.success : Color.gray.opacity(0.35))
+                    }
+                    .buttonStyle(.plain)
+                    
                 } else {
-
-                    HabitProgressRing(
-                        current: entry.progress,
-                        goal: entry.habit.goal ?? 1
-                    )
-                    .frame(width: 60)
-                }
-                
-                if entry.habit.habitType == .measurable {
-
-                    AppIconButton(systemImage: "plus") {
-                        onIncrement()
+                    HStack(spacing: 8) {
+                        Button {
+                            onIncrement()
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.system(size: 26))
+                                .foregroundStyle(entry.completed ? AppColors.success : entry.habit.habitColor.color)
+                        }
+                        .buttonStyle(.plain)
+                        
+                        Button {
+                            onComplete()
+                        } label: {
+                            Image(systemName: entry.completed ? "checkmark.circle.fill" : "checkmark.circle")
+                                .font(.system(size: 26))
+                                .foregroundStyle(entry.completed ? AppColors.success : Color.gray.opacity(0.4))
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
-                
-                AppIconButton(systemImage: "checkmark") {
-
-                    onComplete()
-
-                }
-
             }
-
         }
+        .contentShape(Rectangle())
         .onTapGesture {
             onTap()
         }
-
     }
-
 }
