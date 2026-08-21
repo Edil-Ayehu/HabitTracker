@@ -48,6 +48,13 @@ struct HomeView: View {
                 completion: Int(vm.statistics.completionRate * 100)
             )
             
+            HomeBadgesSection(
+                achievements: vm.statistics.achievements,
+                onSeeAll: {
+                    router.push(.statistics)
+                }
+            )
+            
             SectionHeader(title: "Today's Habits")
             
             if vm.entries.isEmpty {
