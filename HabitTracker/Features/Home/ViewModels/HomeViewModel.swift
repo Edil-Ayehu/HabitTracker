@@ -16,6 +16,13 @@ final class HomeViewModel: ObservableObject {
     
     @Published var entries: [HabitEntry] = []
     
+    @Published var selectedCategoryFilter: HabitCategory? = nil
+    
+    var filteredEntries: [HabitEntry] {
+        guard let filter = selectedCategoryFilter else { return entries }
+        return entries.filter { $0.habit.habitCategory == filter }
+    }
+    
     @Published var showQuote: Bool = false
     @Published var quote: Quote?
     

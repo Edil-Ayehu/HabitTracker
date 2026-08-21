@@ -270,54 +270,54 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
     
     private func sleepRoutine() -> [HabitDraft] {
         return [
-            makeDraft(title: "No Screens 30m Before Bed", icon: .moon, color: .purple, habitType: .binary, reminderHour: 22, reminderMinute: 0),
-            makeDraft(title: "Read 15 Pages in Bed", icon: .book, color: .blue, habitType: .measurable, goal: 15, unit: "pages", reminderHour: 22, reminderMinute: 30),
-            makeDraft(title: "Evening Chamomile Tea", icon: .water, color: .orange, habitType: .binary, reminderHour: 21, reminderMinute: 30),
-            makeDraft(title: "8 Hours Sleep Target", icon: .moon, color: .purple, habitType: .binary, reminderHour: 23, reminderMinute: 0)
+            makeDraft(title: "No Screens 30m Before Bed", icon: .moon, color: .purple, category: .lifestyle, habitType: .binary, reminderHour: 22, reminderMinute: 0),
+            makeDraft(title: "Read 15 Pages in Bed", icon: .book, color: .blue, category: .mindfulness, habitType: .measurable, goal: 15, unit: "pages", reminderHour: 22, reminderMinute: 30),
+            makeDraft(title: "Evening Chamomile Tea", icon: .water, color: .orange, category: .health, habitType: .binary, reminderHour: 21, reminderMinute: 30),
+            makeDraft(title: "8 Hours Sleep Target", icon: .moon, color: .purple, category: .lifestyle, habitType: .binary, reminderHour: 23, reminderMinute: 0)
         ]
     }
     
     private func fitnessRoutine() -> [HabitDraft] {
         return [
-            makeDraft(title: "Morning 20m Cardio / Run", icon: .walk, color: .orange, habitType: .measurable, goal: 20, unit: "mins", reminderHour: 7, reminderMinute: 0),
-            makeDraft(title: "Drink 8 Glasses of Water", icon: .water, color: .blue, habitType: .measurable, goal: 8, unit: "glasses", reminderHour: 9, reminderMinute: 0),
-            makeDraft(title: "Post-Workout Stretching", icon: .workout, color: .green, habitType: .binary, reminderHour: 8, reminderMinute: 0),
-            makeDraft(title: "Core Stability Session", icon: .workout, color: .red, habitType: .binary, reminderHour: 18, reminderMinute: 0)
+            makeDraft(title: "Morning 20m Cardio / Run", icon: .walk, color: .orange, category: .fitness, habitType: .measurable, goal: 20, unit: "mins", reminderHour: 7, reminderMinute: 0),
+            makeDraft(title: "Drink 8 Glasses of Water", icon: .water, color: .blue, category: .health, habitType: .measurable, goal: 8, unit: "glasses", reminderHour: 9, reminderMinute: 0),
+            makeDraft(title: "Post-Workout Stretching", icon: .workout, color: .green, category: .fitness, habitType: .binary, reminderHour: 8, reminderMinute: 0),
+            makeDraft(title: "Core Stability Session", icon: .workout, color: .red, category: .fitness, habitType: .binary, reminderHour: 18, reminderMinute: 0)
         ]
     }
     
     private func mindfulnessRoutine() -> [HabitDraft] {
         return [
-            makeDraft(title: "10m Morning Meditation", icon: .moon, color: .purple, habitType: .measurable, goal: 10, unit: "mins", reminderHour: 7, reminderMinute: 30),
-            makeDraft(title: "Write 3 Gratitude Notes", icon: .book, color: .green, habitType: .measurable, goal: 3, unit: "items", reminderHour: 21, reminderMinute: 0),
-            makeDraft(title: "20m Walk in Nature", icon: .walk, color: .blue, habitType: .binary, reminderHour: 17, reminderMinute: 30)
+            makeDraft(title: "10m Morning Meditation", icon: .moon, color: .purple, category: .mindfulness, habitType: .measurable, goal: 10, unit: "mins", reminderHour: 7, reminderMinute: 30),
+            makeDraft(title: "Write 3 Gratitude Notes", icon: .book, color: .green, category: .mindfulness, habitType: .measurable, goal: 3, unit: "items", reminderHour: 21, reminderMinute: 0),
+            makeDraft(title: "20m Walk in Nature", icon: .walk, color: .blue, category: .lifestyle, habitType: .binary, reminderHour: 17, reminderMinute: 30)
         ]
     }
     
     private func productivityRoutine() -> [HabitDraft] {
         return [
-            makeDraft(title: "2 Hours Deep Work Sprint", icon: .workout, color: .purple, habitType: .measurable, goal: 2, unit: "hours", reminderHour: 9, reminderMinute: 0),
-            makeDraft(title: "Read 20 Pages Tech / Skill Book", icon: .book, color: .blue, habitType: .measurable, goal: 20, unit: "pages", reminderHour: 20, reminderMinute: 0),
-            makeDraft(title: "No Social Media Before Noon", icon: .moon, color: .red, habitType: .binary, reminderHour: 8, reminderMinute: 0),
-            makeDraft(title: "Clear Inbox & Plan Next Day", icon: .pills, color: .orange, habitType: .binary, reminderHour: 17, reminderMinute: 0)
+            makeDraft(title: "2 Hours Deep Work Sprint", icon: .workout, color: .purple, category: .productivity, habitType: .measurable, goal: 2, unit: "hours", reminderHour: 9, reminderMinute: 0),
+            makeDraft(title: "Read 20 Pages Tech / Skill Book", icon: .book, color: .blue, category: .productivity, habitType: .measurable, goal: 20, unit: "pages", reminderHour: 20, reminderMinute: 0),
+            makeDraft(title: "No Social Media Before Noon", icon: .moon, color: .red, category: .productivity, habitType: .binary, reminderHour: 8, reminderMinute: 0),
+            makeDraft(title: "Clear Inbox & Plan Next Day", icon: .pills, color: .orange, category: .productivity, habitType: .binary, reminderHour: 17, reminderMinute: 0)
         ]
     }
     
     private func healthRoutine() -> [HabitDraft] {
         return [
-            makeDraft(title: "Drink 2L Fresh Water Daily", icon: .water, color: .blue, habitType: .measurable, goal: 2, unit: "liters", reminderHour: 8, reminderMinute: 30),
-            makeDraft(title: "Eat 3 Servings Veggies & Fruit", icon: .pills, color: .green, habitType: .measurable, goal: 3, unit: "servings", reminderHour: 12, reminderMinute: 0),
-            makeDraft(title: "Take Daily Vitamins & Minerals", icon: .pills, color: .purple, habitType: .binary, reminderHour: 8, reminderMinute: 0),
-            makeDraft(title: "30m Active Walk / Exercise", icon: .walk, color: .orange, habitType: .measurable, goal: 30, unit: "mins", reminderHour: 18, reminderMinute: 30)
+            makeDraft(title: "Drink 2L Fresh Water Daily", icon: .water, color: .blue, category: .health, habitType: .measurable, goal: 2, unit: "liters", reminderHour: 8, reminderMinute: 30),
+            makeDraft(title: "Eat 3 Servings Veggies & Fruit", icon: .pills, color: .green, category: .health, habitType: .measurable, goal: 3, unit: "servings", reminderHour: 12, reminderMinute: 0),
+            makeDraft(title: "Take Daily Vitamins & Minerals", icon: .pills, color: .purple, category: .health, habitType: .binary, reminderHour: 8, reminderMinute: 0),
+            makeDraft(title: "30m Active Walk / Exercise", icon: .walk, color: .orange, category: .fitness, habitType: .measurable, goal: 30, unit: "mins", reminderHour: 18, reminderMinute: 30)
         ]
     }
     
     private func customRoutine(for prompt: String) -> [HabitDraft] {
         let cleanedPrompt = prompt.capitalized
         return [
-            makeDraft(title: "Daily Practice: \(cleanedPrompt)", icon: .book, color: .purple, habitType: .measurable, goal: 30, unit: "mins", reminderHour: 9, reminderMinute: 0),
-            makeDraft(title: "Track Progress & Reflection", icon: .book, color: .blue, habitType: .binary, reminderHour: 21, reminderMinute: 0),
-            makeDraft(title: "Stay Hydrated & Energized", icon: .water, color: .green, habitType: .measurable, goal: 8, unit: "glasses", reminderHour: 10, reminderMinute: 0)
+            makeDraft(title: "Daily Practice: \(cleanedPrompt)", icon: .book, color: .purple, category: .productivity, habitType: .measurable, goal: 30, unit: "mins", reminderHour: 9, reminderMinute: 0),
+            makeDraft(title: "Track Progress & Reflection", icon: .book, color: .blue, category: .mindfulness, habitType: .binary, reminderHour: 21, reminderMinute: 0),
+            makeDraft(title: "Stay Hydrated & Energized", icon: .water, color: .green, category: .health, habitType: .measurable, goal: 8, unit: "glasses", reminderHour: 10, reminderMinute: 0)
         ]
     }
     
@@ -325,6 +325,7 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
         title: String,
         icon: HabitIcon,
         color: HabitColor,
+        category: HabitCategory = .health,
         habitType: HabitType,
         goal: Int = 1,
         unit: String = "",
@@ -335,6 +336,7 @@ final class AIRoutineGeneratorServiceImpl: AIRoutineGeneratorService {
         draft.title = title
         draft.icon = icon
         draft.color = color
+        draft.category = category
         draft.habitType = habitType
         draft.goal = goal
         draft.unit = unit

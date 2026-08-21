@@ -76,6 +76,7 @@ final class AIRoutineGeneratorViewModel: ObservableObject {
                     title: draft.title,
                     icon: draft.icon,
                     color: draft.color,
+                    category: draft.category,
                     goal: draft.habitType == .measurable ? draft.goal : nil,
                     unit: draft.unit,
                     habitType: draft.habitType,

@@ -19,6 +19,8 @@ struct HabitDraft {
 
     var color: HabitColor = .blue
     
+    var category: HabitCategory = .health
+    
     var unit = ""
 
     var frequency: HabitFrequency = .daily

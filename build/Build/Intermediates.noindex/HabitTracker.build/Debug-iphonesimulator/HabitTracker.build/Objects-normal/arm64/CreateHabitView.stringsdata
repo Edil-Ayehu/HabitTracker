@@ -7,7 +7,7 @@
         "key": "Edit Habit",
         "location": {
           "startingColumn": 41,
-          "startingLine": 110
+          "startingLine": 111
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Create Habit",
         "location": {
           "startingColumn": 56,
-          "startingLine": 110
+          "startingLine": 111
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Delete Habit?",
         "location": {
           "startingColumn": 13,
-          "startingLine": 114
+          "startingLine": 115
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Error",
         "location": {
           "startingColumn": 13,
-          "startingLine": 128
+          "startingLine": 129
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 20,
-          "startingLine": 118
+          "startingLine": 119
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 123
+          "startingLine": 124
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Are you sure you want to delete this habit? All recorded entries will be removed.",
         "location": {
           "startingColumn": 18,
-          "startingLine": 125
+          "startingLine": 126
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "OK",
         "location": {
           "startingColumn": 20,
-          "startingLine": 139
+          "startingLine": 140
         }
       },
       {
@@ -87,7 +87,7 @@
         "key": "Edit your habit",
         "location": {
           "startingColumn": 33,
-          "startingLine": 158
+          "startingLine": 159
         }
       },
       {
@@ -95,7 +95,7 @@
         "key": "Create a habit",
         "location": {
           "startingColumn": 53,
-          "startingLine": 158
+          "startingLine": 159
         }
       },
       {
@@ -103,7 +103,7 @@
         "key": "Update your habit details",
         "location": {
           "startingColumn": 32,
-          "startingLine": 163
+          "startingLine": 164
         }
       },
       {
@@ -111,7 +111,7 @@
         "key": "Small actions create big changes.",
         "location": {
           "startingColumn": 62,
-          "startingLine": 163
+          "startingLine": 164
         }
       },
       {
@@ -119,7 +119,7 @@
         "key": "Build Routine with AI ✨",
         "location": {
           "startingColumn": 34,
-          "startingLine": 183
+          "startingLine": 184
         }
       },
       {
@@ -127,7 +127,7 @@
         "key": "Auto-generate habits for your goals",
         "location": {
           "startingColumn": 34,
-          "startingLine": 186
+          "startingLine": 187
         }
       },
       {
@@ -135,7 +135,7 @@
         "key": "Habit Name",
         "location": {
           "startingColumn": 17,
-          "startingLine": 224
+          "startingLine": 225
         }
       },
       {
@@ -143,7 +143,7 @@
         "key": "Tracking Type",
         "location": {
           "startingColumn": 17,
-          "startingLine": 254
+          "startingLine": 255
         }
       },
       {
@@ -151,7 +151,15 @@
         "key": "",
         "location": {
           "startingColumn": 17,
-          "startingLine": 262
+          "startingLine": 263
+        }
+      },
+      {
+        "comment": "",
+        "key": "Category",
+        "location": {
+          "startingColumn": 19,
+          "startingLine": 290
         }
       },
       {
@@ -159,7 +167,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 17,
-          "startingLine": 307
+          "startingLine": 343
         }
       },
       {
@@ -167,7 +175,7 @@
         "key": "times per day",
         "location": {
           "startingColumn": 18,
-          "startingLine": 318
+          "startingLine": 354
         }
       },
       {
@@ -175,20 +183,12 @@
         "key": "Daily Goal",
         "location": {
           "startingColumn": 17,
-          "startingLine": 299
+          "startingLine": 335
         }
       },
       {
         "comment": "",
         "key": "",
-        "location": {
-          "startingColumn": 17,
-          "startingLine": 326
-        }
-      },
-      {
-        "comment": "",
-        "key": "Frequency",
         "location": {
           "startingColumn": 17,
           "startingLine": 362
@@ -196,10 +196,18 @@
       },
       {
         "comment": "",
+        "key": "Frequency",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 398
+        }
+      },
+      {
+        "comment": "",
         "key": "",
         "location": {
           "startingColumn": 17,
-          "startingLine": 370
+          "startingLine": 406
         }
       },
       {
@@ -207,7 +215,7 @@
         "key": "Choose Icon",
         "location": {
           "startingColumn": 17,
-          "startingLine": 409
+          "startingLine": 445
         }
       },
       {
@@ -215,7 +223,7 @@
         "key": "Complete once daily",
         "location": {
           "startingColumn": 25,
-          "startingLine": 466
+          "startingLine": 502
         }
       },
       {
@@ -223,7 +231,7 @@
         "key": "%lld times daily",
         "location": {
           "startingColumn": 29,
-          "startingLine": 468
+          "startingLine": 504
         }
       },
       {
@@ -231,7 +239,7 @@
         "key": "Delete Habit",
         "location": {
           "startingColumn": 26,
-          "startingLine": 510
+          "startingLine": 546
         }
       }
     ]

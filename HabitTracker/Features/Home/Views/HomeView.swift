@@ -60,16 +60,56 @@ struct HomeView: View {
             
             SectionHeader(title: "Today's Habits")
             
-            if vm.entries.isEmpty {
+            if !vm.entries.isEmpty {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        Button {
+                            vm.selectedCategoryFilter = nil
+                        } label: {
+                            Text("All (\(vm.entries.count))")
+                                .font(AppFont.caption())
+                                .fontWeight(vm.selectedCategoryFilter == nil ? .bold : .medium)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(vm.selectedCategoryFilter == nil ? AppColors.primary.opacity(0.18) : Color.gray.opacity(0.1))
+                                .foregroundStyle(vm.selectedCategoryFilter == nil ? AppColors.primary : AppColors.textSecondary)
+                                .clipShape(Capsule())
+                        }
+                        
+                        ForEach(HabitCategory.allCases) { category in
+                            let isSelected = vm.selectedCategoryFilter == category
+                            let count = vm.entries.filter { $0.habit.habitCategory == category }.count
+                            
+                            Button {
+                                vm.selectedCategoryFilter = isSelected ? nil : category
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Image(systemName: category.icon)
+                                    Text("\(category.title) (\(count))")
+                                }
+                                .font(AppFont.caption())
+                                .fontWeight(isSelected ? .bold : .medium)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(isSelected ? category.color.opacity(0.18) : Color.gray.opacity(0.1))
+                                .foregroundStyle(isSelected ? category.color : AppColors.textSecondary)
+                                .clipShape(Capsule())
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if vm.filteredEntries.isEmpty {
                 EmptyStateView(
                     image: "figure.walk",
-                    title: "No Habits",
-                    subtitle: "Tap + to create your first habit."
+                    title: vm.selectedCategoryFilter == nil ? "No Habits" : "No \(vm.selectedCategoryFilter?.title ?? "") Habits",
+                    subtitle: vm.selectedCategoryFilter == nil ? "Tap + to create your first habit." : "No habits in this category for today."
                 )
             } else {
                 LazyVStack(spacing: AppSpacing.md) {
                     
-                    ForEach(vm.entries) { entry in
+                    ForEach(vm.filteredEntries) { entry in
                         HabitRow(
                             entry: entry,
                             onIncrement: {

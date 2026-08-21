@@ -29,10 +29,20 @@ struct HabitRow: View {
                     .foregroundStyle(entry.habit.habitColor.color)
                     .frame(width: 40)
 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 4) {
 
-                    Text(entry.habit.title)
-                        .font(AppFont.headline())
+                    HStack(spacing: 6) {
+                        Text(entry.habit.title)
+                            .font(AppFont.headline())
+                        
+                        Label(entry.habit.habitCategory.title, systemImage: entry.habit.habitCategory.icon)
+                            .font(.system(size: 9, weight: .bold))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(entry.habit.habitCategory.color.opacity(0.12))
+                            .foregroundStyle(entry.habit.habitCategory.color)
+                            .clipShape(Capsule())
+                    }
 
 //                    Text("\(entry.progress)/\(entry.habit.goal)")
 //                        .foregroundStyle(

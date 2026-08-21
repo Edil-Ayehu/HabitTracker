@@ -78,6 +78,7 @@ struct CreateHabitView: View {
                         
                         typeCard
                         
+                        categoryCard
                         
                         if vm.draft.habitType == .measurable {
                             
@@ -284,6 +285,41 @@ private extension CreateHabitView {
         
     }
     
+    var categoryCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Category", systemImage: "folder.fill")
+                .font(.headline)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(HabitCategory.allCases) { category in
+                        let isSelected = vm.draft.category == category
+                        
+                        Button {
+                            vm.draft.category = category
+                        } label: {
+                            HStack(spacing: 6) {
+                                Image(systemName: category.icon)
+                                Text(category.title)
+                            }
+                            .font(.subheadline)
+                            .fontWeight(isSelected ? .bold : .regular)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(isSelected ? category.color.opacity(0.18) : Color.gray.opacity(0.1))
+                            .foregroundStyle(isSelected ? category.color : AppColors.textPrimary)
+                            .clipShape(Capsule())
+                            .overlay(
+                                Capsule()
+                                    .stroke(isSelected ? category.color : Color.clear, lineWidth: 1.5)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        .cardStyle()
+    }
 }
 
 private extension CreateHabitView {

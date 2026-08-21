@@ -20,6 +20,8 @@ final class Habit {
 
     var color: String
     
+    var categoryRaw: String = HabitCategory.health.rawValue
+    
     var habitType: HabitType
 
     var goal: Int?
@@ -41,6 +43,7 @@ final class Habit {
         title: String,
         icon: HabitIcon,
         color: HabitColor,
+        category: HabitCategory = .health,
         goal: Int?,
         unit: String?,
         habitType: HabitType,
@@ -54,6 +57,7 @@ final class Habit {
         self.title = title
         self.icon = icon.rawValue
         self.color = color.rawValue
+        self.categoryRaw = category.rawValue
         self.goal = goal
         self.unit = unit
         self.habitType = habitType
@@ -74,5 +78,10 @@ extension Habit {
     
     var habitIcon: HabitIcon {
         HabitIcon(rawValue: icon) ?? .water
+    }
+    
+    var habitCategory: HabitCategory {
+        get { HabitCategory(rawValue: categoryRaw) ?? .health }
+        set { categoryRaw = newValue.rawValue }
     }
 }

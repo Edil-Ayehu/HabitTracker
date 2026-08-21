@@ -7,7 +7,7 @@
         "key": "Delete Habit?",
         "location": {
           "startingColumn": 13,
-          "startingLine": 108
+          "startingLine": 148
         }
       },
       {
@@ -15,7 +15,23 @@
         "key": "🎉 Daily Goal Complete!",
         "location": {
           "startingColumn": 13,
-          "startingLine": 127
+          "startingLine": 167
+        }
+      },
+      {
+        "comment": "",
+        "key": "All (%lld)",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 69
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ (%lld)",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 88
         }
       },
       {
@@ -23,7 +39,7 @@
         "key": "Edit Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 89
+          "startingLine": 129
         }
       },
       {
@@ -31,7 +47,7 @@
         "key": "Delete Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 96
+          "startingLine": 136
         }
       },
       {
@@ -39,7 +55,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 20,
-          "startingLine": 112
+          "startingLine": 152
         }
       },
       {
@@ -47,7 +63,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 118
+          "startingLine": 158
         }
       },
       {
@@ -55,7 +71,7 @@
         "key": "Are you sure you want to delete '%@'? This will remove all recorded entries for this habit.",
         "location": {
           "startingColumn": 22,
-          "startingLine": 123
+          "startingLine": 163
         }
       },
       {
@@ -63,7 +79,7 @@
         "key": "Keep Going",
         "location": {
           "startingColumn": 20,
-          "startingLine": 130
+          "startingLine": 170
         }
       },
       {
@@ -71,7 +87,7 @@
         "key": "\"%@\"\n\n— %@",
         "location": {
           "startingColumn": 22,
-          "startingLine": 133
+          "startingLine": 173
         }
       }
     ]
