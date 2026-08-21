@@ -20,6 +20,8 @@ struct CreateHabitView: View {
     
     
     
+    @State private var showDeleteConfirmation = false
+    
     init(vm: CreateHabitViewModel) {
         _vm = StateObject(
             wrappedValue: vm
@@ -100,7 +102,7 @@ struct CreateHabitView: View {
                 
                 
                 
-                createButton
+                actionButtons
                     .padding()
             }
             
@@ -108,7 +110,20 @@ struct CreateHabitView: View {
         .navigationTitle(vm.isEditing ? "Edit Habit" : "Create Habit")
         .navigationBarTitleDisplayMode(.inline)
         
-        
+        .confirmationDialog(
+            "Delete Habit?",
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                if vm.deleteHabit() {
+                    router.popToRoot()
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Are you sure you want to delete this habit? All recorded entries will be removed.")
+        }
         .alert(
             "Error",
             isPresented: Binding(
@@ -440,25 +455,30 @@ private extension CreateHabitView {
 
 private extension CreateHabitView {
     
-    
-    var createButton: some View {
-        
-        
-        PrimaryButton(
-            title: vm.isEditing ? "Save Changes" : "Create Habit",
-            isLoading:vm.isLoading
-        ){
-            
-            if vm.saveHabit(){
-                
-                router.pop()
+    var actionButtons: some View {
+        VStack(spacing: AppSpacing.sm) {
+            PrimaryButton(
+                title: vm.isEditing ? "Save Changes" : "Create Habit",
+                isLoading: vm.isLoading
+            ) {
+                if vm.saveHabit() {
+                    router.pop()
+                }
             }
             
+            if vm.isEditing {
+                Button(role: .destructive) {
+                    showDeleteConfirmation = true
+                } label: {
+                    Text("Delete Habit")
+                        .font(AppFont.headline())
+                        .foregroundStyle(AppColors.error)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                }
+            }
         }
-        
-        
     }
-    
 }
 
 extension View {

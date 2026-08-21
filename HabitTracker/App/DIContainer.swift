@@ -24,7 +24,7 @@ final class DIContainer {
     func makeHabitUseCase() -> HabitUseCase {
         
         let repository = HabitRepositoryImpl(
-            context: ModelContext(container)
+            context: container.mainContext
         )
         
         return HabitUseCaseImpl(

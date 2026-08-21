@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>colors</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameBackground</string>
+			<key>relativePath</key>
+			<string>./Background.colorset</string>
+			<key>swiftSymbol</key>
+			<string>background</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameBorder</string>
+			<key>relativePath</key>
+			<string>./Border.colorset</string>
+			<key>swiftSymbol</key>
+			<string>border</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameButtonBackground</string>
+			<key>relativePath</key>
+			<string>./ButtonBackground.colorset</string>
+			<key>swiftSymbol</key>
+			<string>buttonBackground</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCalendarComplete</string>
+			<key>relativePath</key>
+			<string>./CalendarComplete.colorset</string>
+			<key>swiftSymbol</key>
+			<string>calendarComplete</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCalendarEmpty</string>
+			<key>relativePath</key>
+			<string>./CalendarEmpty.colorset</string>
+			<key>swiftSymbol</key>
+			<string>calendarEmpty</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCalendarHigh</string>
+			<key>relativePath</key>
+			<string>./CalendarHigh.colorset</string>
+			<key>swiftSymbol</key>
+			<string>calendarHigh</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCalendarLow</string>
+			<key>relativePath</key>
+			<string>./CalendarLow.colorset</string>
+			<key>swiftSymbol</key>
+			<string>calendarLow</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCalendarMedium</string>
+			<key>relativePath</key>
+			<string>./CalendarMedium.colorset</string>
+			<key>swiftSymbol</key>
+			<string>calendarMedium</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameCard</string>
+			<key>relativePath</key>
+			<string>./Card.colorset</string>
+			<key>swiftSymbol</key>
+			<string>card</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameError</string>
+			<key>relativePath</key>
+			<string>./Error.colorset</string>
+			<key>swiftSymbol</key>
+			<string>error</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNamePrimary</string>
+			<key>relativePath</key>
+			<string>./Primary.colorset</string>
+			<key>swiftSymbol</key>
+			<string>primary</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNamePrimaryDark</string>
+			<key>relativePath</key>
+			<string>./PrimaryDark.colorset</string>
+			<key>swiftSymbol</key>
+			<string>primaryDark</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameSuccess</string>
+			<key>relativePath</key>
+			<string>./Success.colorset</string>
+			<key>swiftSymbol</key>
+			<string>success</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameSurface</string>
+			<key>relativePath</key>
+			<string>./Surface.colorset</string>
+			<key>swiftSymbol</key>
+			<string>surface</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameTextPrimary</string>
+			<key>relativePath</key>
+			<string>./TextPrimary.colorset</string>
+			<key>swiftSymbol</key>
+			<string>textPrimary</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameTextSecondary</string>
+			<key>relativePath</key>
+			<string>./TextSecondary.colorset</string>
+			<key>swiftSymbol</key>
+			<string>textSecondary</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACColorNameWarning</string>
+			<key>relativePath</key>
+			<string>./Warning.colorset</string>
+			<key>swiftSymbol</key>
+			<string>warning</string>
+		</dict>
+	</array>
+	<key>images</key>
+	<array/>
+	<key>symbols</key>
+	<array/>
+</dict>
+</plist>

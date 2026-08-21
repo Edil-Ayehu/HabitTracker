@@ -1,0 +1,72 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Statistics/Views/StatisticsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Day",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 68
+        }
+      },
+      {
+        "comment": "",
+        "key": "Completion",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 70
+        }
+      },
+      {
+        "comment": "",
+        "key": "Day",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "Completion",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 78
+        }
+      },
+      {
+        "comment": "",
+        "key": "Day",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 96
+        }
+      },
+      {
+        "comment": "",
+        "key": "Completed",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "Completed",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 119
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 143
+        }
+      }
+    ]
+  },
+  "version": 1
+}

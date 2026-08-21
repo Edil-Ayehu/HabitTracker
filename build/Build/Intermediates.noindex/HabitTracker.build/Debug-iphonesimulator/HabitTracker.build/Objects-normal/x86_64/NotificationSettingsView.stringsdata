@@ -1,0 +1,40 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Settings/Views/NotificationSettingsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Notifications are disabled in Settings.",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open Settings",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 60
+        }
+      },
+      {
+        "comment": "",
+        "key": "Enable Notifications",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 27
+        }
+      },
+      {
+        "comment": "",
+        "key": "Permission",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 44
+        }
+      }
+    ]
+  },
+  "version": 1
+}

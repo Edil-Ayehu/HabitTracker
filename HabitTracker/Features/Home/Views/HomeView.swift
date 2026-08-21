@@ -16,6 +16,9 @@ struct HomeView: View {
     @EnvironmentObject private var router: AppRouter
     
     
+    @State private var habitToDelete: Habit?
+    @State private var showDeleteConfirmation = false
+    
     @StateObject
     private var vm = DIContainer.shared.makeHomeViewModel()
     
@@ -68,19 +71,47 @@ struct HomeView: View {
                                 router.push(.habitDetail(entry.habit))
                             }
                         )
+                        .contextMenu {
+                            Button {
+                                router.push(.editHabit(entry.habit))
+                            } label: {
+                                Label("Edit Habit", systemImage: "pencil")
+                            }
+                            
+                            Button(role: .destructive) {
+                                habitToDelete = entry.habit
+                                showDeleteConfirmation = true
+                            } label: {
+                                Label("Delete Habit", systemImage: "trash")
+                            }
+                        }
                     }
                 }
             }
-            
-            
-            
-            
             
         }
         .onAppear {
             vm.load()
         }
-        
+        .confirmationDialog(
+            "Delete Habit?",
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                if let habit = habitToDelete {
+                    vm.deleteHabit(habit)
+                    habitToDelete = nil
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                habitToDelete = nil
+            }
+        } message: {
+            if let habit = habitToDelete {
+                Text("Are you sure you want to delete '\(habit.title)'? This will remove all recorded entries for this habit.")
+            }
+        }
         .alert(
             "🎉 Daily Goal Complete!",
             isPresented: $vm.showQuote

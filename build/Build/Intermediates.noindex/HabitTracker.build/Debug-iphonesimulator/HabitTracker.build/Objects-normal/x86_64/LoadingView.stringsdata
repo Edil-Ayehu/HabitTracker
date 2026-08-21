@@ -1,0 +1,16 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Core/Components/LoadingView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Loading...",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 18
+        }
+      }
+    ]
+  },
+  "version": 1
+}

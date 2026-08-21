@@ -33,98 +33,52 @@ final class HabitDetailViewModel: ObservableObject {
     
     let habit: Habit
     
+    let title: String
+    let goal: Int
+    let isMeasurable: Bool
+    let isBinary: Bool
+    let icon: HabitIcon
+    let color: HabitColor
+    
+    @Published var reminderEnabled: Bool
+    @Published var reminderTime: Date
+    
     init(
         habit: Habit,
         useCase: HabitUseCase
     ) {
         self.habitUseCase = useCase
         self.habit = habit
-    }
-    
-    var reminderEnabled: Bool {
-        habit.reminderEnabled
-    }
-    
-    var reminderTime: Date {
-
+        self.title = habit.title
+        self.icon = habit.habitIcon
+        self.color = habit.habitColor
+        self.isMeasurable = habit.habitType == .measurable
+        self.isBinary = habit.habitType == .binary
+        
+        switch habit.habitType {
+        case .binary:
+            self.goal = 1
+        case .measurable:
+            self.goal = habit.goal ?? 1
+        }
+        
+        self.reminderEnabled = habit.reminderEnabled
+        
         var components = DateComponents()
-
-        components.hour =
-            habit.reminderHour ?? 9
-
-        components.minute =
-            habit.reminderMinute ?? 0
-
-
-        return Calendar.current.date(
-            from: components
-        ) ?? Date()
+        components.hour = habit.reminderHour ?? 9
+        components.minute = habit.reminderMinute ?? 0
+        self.reminderTime = Calendar.current.date(from: components) ?? Date()
     }
-    
-//    func updateReminder(
-//        enabled: Bool,
-//        time: Date
-//    ) {
-//
-//
-//        let calendar = Calendar.current
-//
-//
-//        habit.reminderEnabled = enabled
-//
-//
-//        if enabled {
-//
-//            habit.reminderHour =
-//            calendar.component(
-//                .hour,
-//                from: time
-//            )
-//
-//
-//            habit.reminderMinute =
-//            calendar.component(
-//                .minute,
-//                from: time
-//            )
-//
-//
-//            NotificationManager.shared
-//                .scheduleHabitReminder(
-//                    habit: habit
-//                )
-//
-//
-//        } else {
-//
-//
-//            NotificationManager.shared
-//                .removeReminder(
-//                    habit: habit
-//                )
-//        }
-//
-//
-//        do {
-//
-//            load()
-//
-//        } catch {
-//
-//            errorMessage =
-//            error.localizedDescription
-//        }
-//
-//    }
     
     func updateReminder(
         enabled: Bool,
         time: Date
     ) {
-        
         let calendar = Calendar.current
         
         habit.reminderEnabled = enabled
+        reminderEnabled = enabled
+        reminderTime = time
         
         if enabled {
             
@@ -189,14 +143,6 @@ final class HabitDetailViewModel: ObservableObject {
         }
     }
     
-    var isMeasurable: Bool {
-        habit.habitType == .measurable
-    }
-    
-    var isBinary: Bool {
-        habit.habitType == .binary
-    }
-    
     var isCompletedToday: Bool {
         todayEntry?.completed ?? false
     }
@@ -211,27 +157,6 @@ final class HabitDetailViewModel: ObservableObject {
     
     var canComplete: Bool {
         !isCompletedToday
-    }
-    
-    var title: String {
-        habit.title
-    }
-    
-    var goal: Int {
-        switch habit.habitType {
-        case .binary:
-            return 1
-        case .measurable:
-            return habit.goal ?? 1
-        }
-    }
-        
-    var icon: HabitIcon {
-        habit.habitIcon
-    }
-    
-    var color: HabitColor {
-        habit.habitColor
     }
     
     var todayEntry: HabitEntry? {
@@ -370,6 +295,17 @@ final class HabitDetailViewModel: ObservableObject {
         } catch {
 
             errorMessage = error.localizedDescription
+        }
+    }
+
+    func deleteHabit() -> Bool {
+        entries = []
+        do {
+            try habitUseCase.deleteHabit(habit)
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
         }
     }
 }

@@ -202,13 +202,27 @@ struct HabitDetailView: View {
         
         .confirmationDialog("Delete habit?", isPresented: $showDeleteDialog) {
             Button("Delete", role: .destructive) {
-
+                if vm.deleteHabit() {
+                    router.pop()
+                }
             }
             
             Button("Cancel", role: .cancel) {
                 
             }
+        } message: {
+            Text("Are you sure you want to delete '\(vm.title)'? This will remove all tracked progress for this habit.")
         }
-        
+        .alert(
+            "Error",
+            isPresented: Binding(
+                get: { vm.errorMessage != nil },
+                set: { if !$0 { vm.errorMessage = nil } }
+            )
+        ) {
+            Button("OK") {}
+        } message: {
+            Text(vm.errorMessage ?? "")
+        }
     }
 }

@@ -1,0 +1,24 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Settings/Views/SettingsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Appearance",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 26
+        }
+      },
+      {
+        "comment": "",
+        "key": "Theme",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 32
+        }
+      }
+    ]
+  },
+  "version": 1
+}

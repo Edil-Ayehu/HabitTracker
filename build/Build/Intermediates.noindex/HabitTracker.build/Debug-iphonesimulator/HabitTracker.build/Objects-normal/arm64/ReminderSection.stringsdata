@@ -1,0 +1,40 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Habits/Components/ReminderSection.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Reminder Time",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 95
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reminder",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 74
+        }
+      },
+      {
+        "comment": "",
+        "key": "Remove Reminder",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 122
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -145,4 +145,15 @@ final class CreateHabitViewModel: ObservableObject {
     func updateReminderDate(_ date: Date) {
         draft.reminderTime = date
     }
+    
+    func deleteHabit() -> Bool {
+        guard let habit = editingHabit else { return false }
+        do {
+            try habitUseCase.deleteHabit(habit)
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
 }

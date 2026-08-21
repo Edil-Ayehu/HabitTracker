@@ -1,0 +1,80 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Home/Views/HomeView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Delete Habit?",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 97
+        }
+      },
+      {
+        "comment": "",
+        "key": "🎉 Daily Goal Complete!",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 116
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit Habit",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 78
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete Habit",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 85
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 107
+        }
+      },
+      {
+        "comment": "",
+        "key": "Are you sure you want to delete '%@'? This will remove all recorded entries for this habit.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 112
+        }
+      },
+      {
+        "comment": "",
+        "key": "Keep Going",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 119
+        }
+      },
+      {
+        "comment": "",
+        "key": "\"%@\"\n\n— %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 122
+        }
+      }
+    ]
+  },
+  "version": 1
+}

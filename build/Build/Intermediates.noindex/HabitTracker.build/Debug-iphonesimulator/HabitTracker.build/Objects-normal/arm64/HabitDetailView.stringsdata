@@ -1,0 +1,104 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Habits/Views/HabitDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Delete habit?",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 203
+        }
+      },
+      {
+        "comment": "",
+        "key": "Error",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 217
+        }
+      },
+      {
+        "comment": "",
+        "key": "Completed Today",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld / %lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 47
+        }
+      },
+      {
+        "comment": "",
+        "key": "Today's Reflection",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit Note",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 96
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 190
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 194
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 204
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 210
+        }
+      },
+      {
+        "comment": "",
+        "key": "Are you sure you want to delete '%@'? This will remove all tracked progress for this habit.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 214
+        }
+      },
+      {
+        "comment": "",
+        "key": "OK",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 223
+        }
+      }
+    ]
+  },
+  "version": 1
+}

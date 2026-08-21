@@ -33,9 +33,18 @@ final class HabitRepositoryImpl: HabitRepository {
     }
     
     func deleteHabit(_ habit: Habit) throws {
+        let habitID = habit.id
+        let descriptor = FetchDescriptor<Habit>(
+            predicate: #Predicate { $0.id == habitID }
+        )
+        let targetHabit = try context.fetch(descriptor).first ?? habit
         
-        context.delete(habit)
+        let entries = try fetchEntries(for: habit)
+        for entry in entries {
+            context.delete(entry)
+        }
         
+        context.delete(targetHabit)
         try context.save()
     }
     

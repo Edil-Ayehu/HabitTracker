@@ -1,0 +1,16 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Core/Components/CircularProgressView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 36
+        }
+      }
+    ]
+  },
+  "version": 1
+}

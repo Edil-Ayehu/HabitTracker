@@ -1,0 +1,32 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Core/Components/HabitRow.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld/%lld",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "Completed",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 47
+        }
+      },
+      {
+        "comment": "",
+        "key": "Not completed",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 48
+        }
+      }
+    ]
+  },
+  "version": 1
+}

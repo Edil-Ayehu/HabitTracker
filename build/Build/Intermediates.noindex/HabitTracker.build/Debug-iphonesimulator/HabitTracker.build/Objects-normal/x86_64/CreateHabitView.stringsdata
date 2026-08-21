@@ -1,0 +1,224 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Habits/Views/CreateHabitView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Edit Habit",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 110
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create Habit",
+        "location": {
+          "startingColumn": 56,
+          "startingLine": 110
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete Habit?",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 114
+        }
+      },
+      {
+        "comment": "",
+        "key": "Error",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 128
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reminder",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 57
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reminder Time",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 118
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 123
+        }
+      },
+      {
+        "comment": "",
+        "key": "Are you sure you want to delete this habit? All recorded entries will be removed.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 125
+        }
+      },
+      {
+        "comment": "",
+        "key": "OK",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 139
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit your habit",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 158
+        }
+      },
+      {
+        "comment": "",
+        "key": "Create a habit",
+        "location": {
+          "startingColumn": 53,
+          "startingLine": 158
+        }
+      },
+      {
+        "comment": "",
+        "key": "Update your habit details",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 163
+        }
+      },
+      {
+        "comment": "",
+        "key": "Small actions create big changes.",
+        "location": {
+          "startingColumn": 62,
+          "startingLine": 163
+        }
+      },
+      {
+        "comment": "",
+        "key": "Habit Name",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 187
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tracking Type",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 217
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 225
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 270
+        }
+      },
+      {
+        "comment": "",
+        "key": "times per day",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 281
+        }
+      },
+      {
+        "comment": "",
+        "key": "Daily Goal",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 262
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 289
+        }
+      },
+      {
+        "comment": "",
+        "key": "Frequency",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 325
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 333
+        }
+      },
+      {
+        "comment": "",
+        "key": "Choose Icon",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 372
+        }
+      },
+      {
+        "comment": "",
+        "key": "Complete once daily",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 429
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld times daily",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 431
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete Habit",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 473
+        }
+      }
+    ]
+  },
+  "version": 1
+}

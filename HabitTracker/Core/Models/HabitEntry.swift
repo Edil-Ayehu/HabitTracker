@@ -24,7 +24,6 @@ final class HabitEntry {
     
     var note: String
     
-    @Relationship(deleteRule: .cascade)
     var habit: Habit
     
     init(

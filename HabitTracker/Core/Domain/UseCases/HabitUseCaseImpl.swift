@@ -78,6 +78,7 @@ final class HabitUseCaseImpl: HabitUseCase {
     }
     
     func deleteHabit(_ habit: Habit) throws {
+        NotificationManager.shared.removeReminder(habit: habit)
         try repository.deleteHabit(habit)
     }
     

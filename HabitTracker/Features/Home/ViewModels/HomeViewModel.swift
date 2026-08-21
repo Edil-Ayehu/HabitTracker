@@ -119,6 +119,17 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func deleteHabit(_ habit: Habit) {
+        entries.removeAll { $0.habitID == habit.id }
+        do {
+            try habitUseCase.deleteHabit(habit)
+            entries = try habitUseCase.fetchTodayEntries()
+            reloadStatistics()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+    
     private func checkDailyCompletion() {
 
         guard statistics.totalHabits > 0 else { return }

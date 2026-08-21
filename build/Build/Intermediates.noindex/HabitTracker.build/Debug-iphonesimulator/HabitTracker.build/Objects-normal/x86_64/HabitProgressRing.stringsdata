@@ -1,0 +1,24 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Core/Components/HabitProgressRing.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "/ %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 53
+        }
+      }
+    ]
+  },
+  "version": 1
+}
