@@ -25,6 +25,8 @@ final class HomeViewModel: ObservableObject {
     
     @Published var showQuote: Bool = false
     @Published var quote: Quote?
+    @Published var showConfetti: Bool = false
+    @Published var showCelebrationBanner: Bool = false
     
     private let quoteDateKey = "quote.date"
     private let quoteCompletedKey = "quote.completed"
@@ -148,6 +150,12 @@ final class HomeViewModel: ObservableObject {
         if alreadyShownForCurrentCompletion() {
             return
         }
+
+        showConfetti = true
+        showCelebrationBanner = true
+        
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
 
         quote = quoteUseCase.randomQuote()
 

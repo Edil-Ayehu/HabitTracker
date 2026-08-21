@@ -12,14 +12,6 @@
       },
       {
         "comment": "",
-        "key": "🎉 Daily Goal Complete!",
-        "location": {
-          "startingColumn": 13,
-          "startingLine": 167
-        }
-      },
-      {
-        "comment": "",
         "key": "All (%lld)",
         "location": {
           "startingColumn": 34,
@@ -72,22 +64,6 @@
         "location": {
           "startingColumn": 22,
           "startingLine": 163
-        }
-      },
-      {
-        "comment": "",
-        "key": "Keep Going",
-        "location": {
-          "startingColumn": 20,
-          "startingLine": 170
-        }
-      },
-      {
-        "comment": "",
-        "key": "\"%@\"\n\n— %@",
-        "location": {
-          "startingColumn": 22,
-          "startingLine": 173
         }
       }
     ]

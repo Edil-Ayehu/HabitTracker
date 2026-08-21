@@ -163,14 +163,30 @@ struct HomeView: View {
                 Text("Are you sure you want to delete '\(habit.title)'? This will remove all recorded entries for this habit.")
             }
         }
-        .alert(
-            "🎉 Daily Goal Complete!",
-            isPresented: $vm.showQuote
-        ) {
-            Button("Keep Going") {}
-        } message: {
-            if let quote = vm.quote {
-                Text("\"\(quote.text)\"\n\n— \(quote.author)")
+        .overlay {
+            if vm.showConfetti {
+                ConfettiView()
+            }
+        }
+        .overlay {
+            if vm.showCelebrationBanner {
+                ZStack {
+                    Color.black.opacity(0.35)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation { vm.showCelebrationBanner = false }
+                        }
+                    
+                    CelebrationBanner(
+                        title: "🎉 All Habits Completed!",
+                        subtitle: "Fantastic work! You've completed 100% of your daily habits for today.",
+                        quoteText: vm.quote?.text,
+                        quoteAuthor: vm.quote?.author
+                    ) {
+                        withAnimation { vm.showCelebrationBanner = false }
+                    }
+                }
+                .transition(.scale.combined(with: .opacity))
             }
         }
         

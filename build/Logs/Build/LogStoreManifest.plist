@@ -6,6 +6,48 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
+		<key>3BA6A709-8723-4F36-8E11-A829F06AF7EF</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>3BA6A709-8723-4F36-8E11-A829F06AF7EF.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>2</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>HabitTracker project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>HabitTracker</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project HabitTracker with scheme HabitTracker</string>
+			<key>timeStartedRecording</key>
+			<real>809013510.52539301</real>
+			<key>timeStoppedRecording</key>
+			<real>809013515.40030098</real>
+			<key>title</key>
+			<string>Building project HabitTracker with scheme HabitTracker</string>
+			<key>uniqueIdentifier</key>
+			<string>3BA6A709-8723-4F36-8E11-A829F06AF7EF</string>
+		</dict>
 		<key>D060C282-F7DF-4DFA-8A4C-EA24945A04F6</key>
 		<dict>
 			<key>className</key>
