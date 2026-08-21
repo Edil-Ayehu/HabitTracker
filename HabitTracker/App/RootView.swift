@@ -45,6 +45,11 @@ struct RootView: View {
                         
                     case .notification:
                         NotificationSettingsView()
+                        
+                    case .aiRoutineGenerator:
+                        AIRoutineGeneratorView(
+                            vm: DIContainer.shared.makeAIRoutineGeneratorViewModel()
+                        )
                     }
                 }
         }

@@ -7,7 +7,7 @@
         "key": "Delete Habit?",
         "location": {
           "startingColumn": 13,
-          "startingLine": 105
+          "startingLine": 108
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "🎉 Daily Goal Complete!",
         "location": {
           "startingColumn": 13,
-          "startingLine": 124
+          "startingLine": 127
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Edit Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 86
+          "startingLine": 89
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Delete Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 93
+          "startingLine": 96
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 20,
-          "startingLine": 109
+          "startingLine": 112
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 115
+          "startingLine": 118
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Are you sure you want to delete '%@'? This will remove all recorded entries for this habit.",
         "location": {
           "startingColumn": 22,
-          "startingLine": 120
+          "startingLine": 123
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Keep Going",
         "location": {
           "startingColumn": 20,
-          "startingLine": 127
+          "startingLine": 130
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "\"%@\"\n\n— %@",
         "location": {
           "startingColumn": 22,
-          "startingLine": 130
+          "startingLine": 133
         }
       }
     ]

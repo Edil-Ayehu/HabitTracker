@@ -79,4 +79,11 @@ final class DIContainer {
             useCase: makeHabitUseCase()
         )
     }
+    
+    func makeAIRoutineGeneratorViewModel() -> AIRoutineGeneratorViewModel {
+        AIRoutineGeneratorViewModel(
+            habitUseCase: makeHabitUseCase(),
+            aiService: AIRoutineGeneratorServiceImpl()
+        )
+    }
 }

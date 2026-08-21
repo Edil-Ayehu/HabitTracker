@@ -116,10 +116,26 @@
       },
       {
         "comment": "",
+        "key": "Build Routine with AI ✨",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 183
+        }
+      },
+      {
+        "comment": "",
+        "key": "Auto-generate habits for your goals",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 186
+        }
+      },
+      {
+        "comment": "",
         "key": "Habit Name",
         "location": {
           "startingColumn": 17,
-          "startingLine": 187
+          "startingLine": 224
         }
       },
       {
@@ -127,36 +143,12 @@
         "key": "Tracking Type",
         "location": {
           "startingColumn": 17,
-          "startingLine": 217
+          "startingLine": 254
         }
       },
       {
         "comment": "",
         "key": "",
-        "location": {
-          "startingColumn": 17,
-          "startingLine": 225
-        }
-      },
-      {
-        "comment": "",
-        "key": "%lld",
-        "location": {
-          "startingColumn": 17,
-          "startingLine": 270
-        }
-      },
-      {
-        "comment": "",
-        "key": "times per day",
-        "location": {
-          "startingColumn": 18,
-          "startingLine": 281
-        }
-      },
-      {
-        "comment": "",
-        "key": "Daily Goal",
         "location": {
           "startingColumn": 17,
           "startingLine": 262
@@ -164,10 +156,34 @@
       },
       {
         "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 307
+        }
+      },
+      {
+        "comment": "",
+        "key": "times per day",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 318
+        }
+      },
+      {
+        "comment": "",
+        "key": "Daily Goal",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 299
+        }
+      },
+      {
+        "comment": "",
         "key": "",
         "location": {
           "startingColumn": 17,
-          "startingLine": 289
+          "startingLine": 326
         }
       },
       {
@@ -175,7 +191,7 @@
         "key": "Frequency",
         "location": {
           "startingColumn": 17,
-          "startingLine": 325
+          "startingLine": 362
         }
       },
       {
@@ -183,7 +199,7 @@
         "key": "",
         "location": {
           "startingColumn": 17,
-          "startingLine": 333
+          "startingLine": 370
         }
       },
       {
@@ -191,7 +207,7 @@
         "key": "Choose Icon",
         "location": {
           "startingColumn": 17,
-          "startingLine": 372
+          "startingLine": 409
         }
       },
       {
@@ -199,7 +215,7 @@
         "key": "Complete once daily",
         "location": {
           "startingColumn": 25,
-          "startingLine": 429
+          "startingLine": 466
         }
       },
       {
@@ -207,7 +223,7 @@
         "key": "%lld times daily",
         "location": {
           "startingColumn": 29,
-          "startingLine": 431
+          "startingLine": 468
         }
       },
       {
@@ -215,7 +231,7 @@
         "key": "Delete Habit",
         "location": {
           "startingColumn": 26,
-          "startingLine": 473
+          "startingLine": 510
         }
       }
     ]

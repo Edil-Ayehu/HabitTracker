@@ -32,6 +32,9 @@ struct HomeView: View {
                 onAdd: {
                     router.push(.createHabit)
                 },
+                onAIGenerator: {
+                    router.push(.aiRoutineGenerator)
+                },
                 navigateToSetting: {
                     router.push(.settings)
                 }

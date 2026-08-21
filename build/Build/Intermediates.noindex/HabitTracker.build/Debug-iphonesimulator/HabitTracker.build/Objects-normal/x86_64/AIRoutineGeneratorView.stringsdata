@@ -1,0 +1,120 @@
+{
+  "source": "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Habits/Views/AIRoutineGeneratorView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Error",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "🎉 Habits Added!",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 42
+        }
+      },
+      {
+        "comment": "",
+        "key": "OK",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 37
+        }
+      },
+      {
+        "comment": "",
+        "key": "View My Habits",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 48
+        }
+      },
+      {
+        "comment": "",
+        "key": "Successfully added %lld AI-crafted habit%@ to your routine!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 53
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI Habit Architect",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 75
+        }
+      },
+      {
+        "comment": "",
+        "key": "Describe your goal in plain text or pick a template to auto-generate customized habits.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 78
+        }
+      },
+      {
+        "comment": "",
+        "key": "What is your goal?",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 89
+        }
+      },
+      {
+        "comment": "",
+        "key": "e.g. Prepare for 10k, Improve Sleep...",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 93
+        }
+      },
+      {
+        "comment": "",
+        "key": "Build",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "AI is crafting your routine...",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 165
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld %@ / day",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 204
+        }
+      },
+      {
+        "comment": "",
+        "key": "Daily Completion",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 208
+        }
+      },
+      {
+        "comment": "",
+        "key": "•",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 213
+        }
+      }
+    ]
+  },
+  "version": 1
+}

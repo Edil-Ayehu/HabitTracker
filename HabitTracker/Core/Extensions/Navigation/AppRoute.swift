@@ -15,4 +15,5 @@ enum AppRoute: Hashable {
     case statistics
     case settings
     case notification
+    case aiRoutineGenerator
 }

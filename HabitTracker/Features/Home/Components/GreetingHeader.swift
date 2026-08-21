@@ -10,11 +10,9 @@ import SwiftUI
 struct GreetingHeader: View {
 
     let greeting: String
-
     let date: String
-
     let onAdd: () -> Void
-    
+    var onAIGenerator: (() -> Void)? = nil
     let navigateToSetting: () -> Void
 
     var body: some View {
@@ -33,6 +31,13 @@ struct GreetingHeader: View {
             }
 
             Spacer()
+
+            if let onAIGenerator {
+                AppIconButton(
+                    systemImage: "sparkles",
+                    action: onAIGenerator
+                )
+            }
 
             AppIconButton(
                 systemImage: "gearshape",

@@ -7,7 +7,7 @@
         "key": "Next Goal: %@",
         "location": {
           "startingColumn": 26,
-          "startingLine": 54
+          "startingLine": 56
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "%lld%%",
         "location": {
           "startingColumn": 26,
-          "startingLine": 60
+          "startingLine": 62
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "%lld%%",
         "location": {
           "startingColumn": 22,
-          "startingLine": 120
+          "startingLine": 122
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Unlocked",
         "location": {
           "startingColumn": 23,
-          "startingLine": 116
+          "startingLine": 118
         }
       }
     ]

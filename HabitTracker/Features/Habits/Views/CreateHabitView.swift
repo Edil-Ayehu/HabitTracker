@@ -166,6 +166,43 @@ private extension CreateHabitView {
                 AppColors.textSecondary
             )
             
+            if !vm.isEditing {
+                Button {
+                    router.push(.aiRoutineGenerator)
+                } label: {
+                    HStack {
+                        ZStack {
+                            Circle()
+                                .fill(AppColors.primary.opacity(0.15))
+                                .frame(width: 36, height: 36)
+                            Image(systemName: "sparkles")
+                                .foregroundStyle(AppColors.primary)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Build Routine with AI ✨")
+                                .font(AppFont.headline())
+                                .foregroundStyle(AppColors.textPrimary)
+                            Text("Auto-generate habits for your goals")
+                                .font(AppFont.caption())
+                                .foregroundStyle(AppColors.textSecondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(AppColors.textSecondary)
+                    }
+                    .padding(12)
+                    .background(AppColors.card)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(AppColors.primary.opacity(0.3), lineWidth: 1)
+                    )
+                }
+            }
+            
         }
         .frame(
             maxWidth:.infinity,
