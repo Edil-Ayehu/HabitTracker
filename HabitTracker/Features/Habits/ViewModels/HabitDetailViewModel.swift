@@ -144,7 +144,9 @@ final class HabitDetailViewModel: ObservableObject {
                 selectedImage = nil
             }
 
-            isEditingNote = note.isEmpty && selectedImage == nil
+            if note.isEmpty && todayEntry?.imageData == nil {
+                isEditingNote = true
+            }
             
             streak = calculateStreak(from: entries)
             bestStreak = calculateBestStreak(from: entries)

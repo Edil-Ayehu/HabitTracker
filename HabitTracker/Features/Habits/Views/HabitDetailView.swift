@@ -16,6 +16,7 @@ struct HabitDetailView: View {
     @State private var showImagePickerOptions: Bool = false
     @State private var showImagePicker: Bool = false
     @State private var pickerSourceType: UIImagePickerController.SourceType = .photoLibrary
+    @FocusState private var isNoteFocused: Bool
 
     var body: some View {
         AppScaffold(title: vm.title) {
@@ -63,11 +64,17 @@ struct HabitDetailView: View {
                                 .font(AppFont.headline())
                             
                             if vm.isEditingNote {
-                                TextEditor(text: $vm.note)
-                                    .frame(height: 80)
-                                    .padding(8)
+                                TextField("Add your thoughts or reflection here...", text: $vm.note, axis: .vertical)
+                                    .font(AppFont.body())
+                                    .lineLimit(3...6)
+                                    .focused($isNoteFocused)
+                                    .padding(12)
                                     .background(Color.gray.opacity(0.08))
                                     .clipShape(RoundedRectangle(cornerRadius: 12))
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        isNoteFocused = true
+                                    }
                                 
                                 if let image = vm.selectedImage {
                                     ZStack(alignment: .topTrailing) {
@@ -93,6 +100,7 @@ struct HabitDetailView: View {
                                 
                                 HStack(spacing: 12) {
                                     Button {
+                                        vm.isEditingNote = true
                                         showImagePickerOptions = true
                                     } label: {
                                         Label(
@@ -252,7 +260,11 @@ struct HabitDetailView: View {
             
             Button("Cancel", role: .cancel) {}
         }
-        .sheet(isPresented: $showImagePicker) {
+        .sheet(isPresented: $showImagePicker, onDismiss: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                isNoteFocused = true
+            }
+        }) {
             ImagePicker(sourceType: pickerSourceType, selectedImage: $vm.selectedImage)
         }
     }
