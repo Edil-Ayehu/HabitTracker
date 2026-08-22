@@ -122,6 +122,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 habit: entry.habit,
                 entry: entry
             )
+        syncWidgetData()
     }
     
     
@@ -155,6 +156,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 habit: entry.habit,
                 entry: entry
             )
+        syncWidgetData()
     }
     
     
@@ -186,6 +188,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 habit: entry.habit,
                 entry: entry
             )
+        syncWidgetData()
     }
     
     
@@ -451,5 +454,13 @@ final class HabitUseCaseImpl: HabitUseCase {
         entry.note = note
         entry.imageData = imageData
         try repository.update()
+        syncWidgetData()
+    }
+    
+    private func syncWidgetData() {
+        if let entries = try? repository.fetchTodayEntries(),
+           let statistics = try? fetchStatistics() {
+            WidgetSharedData.sync(entries: entries, statistics: statistics)
+        }
     }
 }

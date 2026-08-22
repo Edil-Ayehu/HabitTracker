@@ -94,6 +94,13 @@ struct SettingsView: View {
                     }
 
                     settingsRow(
+                        title: "Widgets & Home Screen",
+                        icon: "square.grid.2x2.fill"
+                    ) {
+                        router.push(.widgetPreview)
+                    }
+
+                    settingsRow(
                         title: "Statistics",
                         icon: "chart.bar.fill"
                     ) {

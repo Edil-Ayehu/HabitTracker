@@ -50,6 +50,9 @@ struct RootView: View {
                         AIRoutineGeneratorView(
                             vm: DIContainer.shared.makeAIRoutineGeneratorViewModel()
                         )
+                        
+                    case .widgetPreview:
+                        WidgetPreviewView()
                     }
                 }
         }
