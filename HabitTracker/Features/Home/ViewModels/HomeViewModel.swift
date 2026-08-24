@@ -107,44 +107,38 @@ final class HomeViewModel: ObservableObject {
     }
     
     func increment(_ entry: HabitEntry) {
-        
+        let wasCompletedBefore = entry.completed
         do {
-            
             try habitUseCase.increment(entry)
-            
             entries = try habitUseCase.fetchTodayEntries()
-            
             reloadStatistics()
             
-            awardXP(10)
-            
-            AudioManager.shared.playClickSound()
-            
+            if let updated = entries.first(where: { $0.id == entry.id }), !wasCompletedBefore && updated.completed {
+                awardXP(25)
+                AudioManager.shared.playCompletionSound()
+            } else {
+                AudioManager.shared.playClickSound()
+            }
         } catch {
-            
             errorMessage = error.localizedDescription
-            
         }
     }
     
     func complete(_ entry: HabitEntry) {
-        
+        let wasCompletedBefore = entry.completed
         do {
-            
             try habitUseCase.complete(entry)
-            
             entries = try habitUseCase.fetchTodayEntries()
-            
             reloadStatistics()
             
-            awardXP(15)
-            
-            AudioManager.shared.playCompletionSound()
-            
+            if !wasCompletedBefore {
+                awardXP(25)
+                AudioManager.shared.playCompletionSound()
+            } else {
+                AudioManager.shared.playClickSound()
+            }
         } catch {
-            
             errorMessage = error.localizedDescription
-            
         }
     }
     
