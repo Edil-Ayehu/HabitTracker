@@ -775,6 +775,16 @@
     "swift-dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FocusTimerCard.swiftdeps",
     "swiftmodule" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FocusTimerCard~partial.swiftmodule"
   },
+  "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Habits/Views/FullScreenFocusView.swift" : {
+    "const-values" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FullScreenFocusView.swiftconstvalues",
+    "dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FullScreenFocusView.d",
+    "diagnostics" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FullScreenFocusView.dia",
+    "index-unit-output-path" : "/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FullScreenFocusView.o",
+    "llvm-bc" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FullScreenFocusView.bc",
+    "object" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FullScreenFocusView.o",
+    "swift-dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FullScreenFocusView.swiftdeps",
+    "swiftmodule" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/FullScreenFocusView~partial.swiftmodule"
+  },
   "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Habits/Views/HabitDetailView.swift" : {
     "const-values" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/HabitDetailView.swiftconstvalues",
     "dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/x86_64/HabitDetailView.d",

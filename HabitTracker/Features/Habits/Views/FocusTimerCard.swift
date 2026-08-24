@@ -6,13 +6,17 @@
 import SwiftUI
 
 struct FocusTimerCard: View {
-    @StateObject private var timer = FocusTimerEngine()
+    var habitTitle: String = "Focus Session"
+    var habitIcon: String = "timer"
     let onCompleteSession: () -> Void
+    
+    @StateObject private var timer = FocusTimerEngine()
     
     let presets = [5, 15, 25, 45, 60]
     
     @State private var showCustomTimeSheet = false
     @State private var customMinutesInput: String = "20"
+    @State private var showFullScreenMode = false
     
     var body: some View {
         CardView {
@@ -25,7 +29,7 @@ struct FocusTimerCard: View {
                     Spacer()
                     
                     if timer.isRunning {
-                        Text("Session Active")
+                        Text("Active")
                             .font(.system(size: 10, weight: .bold))
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
@@ -33,6 +37,24 @@ struct FocusTimerCard: View {
                             .foregroundStyle(AppColors.success)
                             .clipShape(Capsule())
                     }
+                    
+                    Button {
+                        showFullScreenMode = true
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                .font(.system(size: 11, weight: .bold))
+                            Text("Full Screen")
+                                .font(AppFont.caption())
+                                .fontWeight(.semibold)
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(AppColors.primary.opacity(0.12))
+                        .foregroundStyle(AppColors.primary)
+                        .clipShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
                 }
                 
                 // Duration Presets & Custom Chip
@@ -99,7 +121,7 @@ struct FocusTimerCard: View {
                     VStack(spacing: 4) {
                         HStack(spacing: 4) {
                             Text(timer.timeFormatted)
-                                .font(.system(size: 36, weight: .black, design: .rounded))
+                                .font(.system(size: 30, weight: .black, design: .rounded))
                                 .foregroundStyle(AppColors.textPrimary)
                             
                             if !timer.isRunning {
@@ -174,6 +196,15 @@ struct FocusTimerCard: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Enter a custom duration in minutes for your focus session.")
+        }
+        .fullScreenCover(isPresented: $showFullScreenMode) {
+            FullScreenFocusView(
+                timer: timer,
+                habitTitle: habitTitle,
+                habitIcon: habitIcon,
+                onDismiss: {},
+                onCompleteSession: onCompleteSession
+            )
         }
         .onChange(of: timer.isFinished) { _, finished in
             if finished {

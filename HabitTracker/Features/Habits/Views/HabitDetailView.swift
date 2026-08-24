@@ -45,7 +45,10 @@ struct HabitDetailView: View {
                     }
                 }
                 
-                FocusTimerCard {
+                FocusTimerCard(
+                    habitTitle: vm.title,
+                    habitIcon: vm.icon.rawValue
+                ) {
                     vm.complete()
                 }
                 
