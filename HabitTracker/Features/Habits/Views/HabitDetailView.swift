@@ -45,6 +45,10 @@ struct HabitDetailView: View {
                     }
                 }
                 
+                FocusTimerCard {
+                    vm.complete()
+                }
+                
                 if vm.canComplete {
                     PrimaryButton(
                         title: vm.isBinary ? "Complete Habit" : "Mark Complete"
