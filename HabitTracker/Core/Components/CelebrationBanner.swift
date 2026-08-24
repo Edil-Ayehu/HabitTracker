@@ -11,6 +11,7 @@ struct CelebrationBanner: View {
     let subtitle: String
     var quoteText: String? = nil
     var quoteAuthor: String? = nil
+    var onShare: (() -> Void)? = nil
     let onDismiss: () -> Void
     
     var body: some View {
@@ -57,18 +58,38 @@ struct CelebrationBanner: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14))
             }
             
-            Button {
-                onDismiss()
-            } label: {
-                Text("Keep it up! 🙌")
-                    .font(AppFont.headline())
-                    .foregroundStyle(Color.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
-                    .background(AppColors.primary)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+            VStack(spacing: 10) {
+                if let onShare {
+                    Button {
+                        onShare()
+                    } label: {
+                        HStack {
+                            Image(systemName: "square.and.arrow.up.fill")
+                            Text("Share Achievement")
+                        }
+                        .font(AppFont.headline())
+                        .foregroundStyle(AppColors.primary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(AppColors.primary.opacity(0.15))
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                    }
+                    .buttonStyle(.plain)
+                }
+                
+                Button {
+                    onDismiss()
+                } label: {
+                    Text("Keep it up! 🙌")
+                        .font(AppFont.headline())
+                        .foregroundStyle(Color.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(AppColors.primary)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
         }
         .padding(24)
         .background(

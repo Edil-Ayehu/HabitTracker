@@ -12,12 +12,41 @@ struct StatisticsView: View {
 
     @StateObject
     var vm: StatisticsViewModel
+    
+    @State private var shareImage: UIImage?
+    @State private var showShareSheet = false
 
     var body: some View {
 
         AppScaffold(title: "Statistics") {
 
             if let statistics = vm.statistics {
+                
+                // MARK: Share Card Button
+                Button {
+                    renderAndShare(statistics: statistics)
+                } label: {
+                    HStack {
+                        Image(systemName: "square.and.arrow.up.fill")
+                            .font(.system(size: 16, weight: .bold))
+                        Text("Share Progress Card")
+                            .font(AppFont.body())
+                            .fontWeight(.bold)
+                    }
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(
+                        LinearGradient(
+                            colors: [AppColors.primary, Color.purple],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .shadow(color: AppColors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
+                }
+                .buttonStyle(.plain)
 
                 // MARK: Overview
 
@@ -167,6 +196,28 @@ struct StatisticsView: View {
         }
         .onAppear {
             vm.load()
+        }
+        .sheet(isPresented: $showShareSheet) {
+            if let image = shareImage {
+                ShareSheet(items: [image])
+            }
+        }
+    }
+    
+    @MainActor
+    private func renderAndShare(statistics: HabitStatistics) {
+        let card = ShareableAchievementCard(
+            streak: statistics.currentStreak,
+            completedCount: statistics.completedHabits,
+            totalCount: statistics.totalHabits,
+            completionRate: Int(statistics.completionRate * 100),
+            quoteText: "Consistency is what transforms average into excellence."
+        )
+        let renderer = ImageRenderer(content: card)
+        renderer.scale = UIScreen.main.scale
+        if let image = renderer.uiImage {
+            shareImage = image
+            showShareSheet = true
         }
     }
 }

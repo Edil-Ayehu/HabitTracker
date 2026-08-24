@@ -265,6 +265,16 @@
     "swift-dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/SectionHeader.swiftdeps",
     "swiftmodule" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/SectionHeader~partial.swiftmodule"
   },
+  "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Core/Components/ShareSheet.swift" : {
+    "const-values" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareSheet.swiftconstvalues",
+    "dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareSheet.d",
+    "diagnostics" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareSheet.dia",
+    "index-unit-output-path" : "/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareSheet.o",
+    "llvm-bc" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareSheet.bc",
+    "object" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareSheet.o",
+    "swift-dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareSheet.swiftdeps",
+    "swiftmodule" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareSheet~partial.swiftmodule"
+  },
   "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Core/Components/Sheets/AppAlert.swift" : {
     "const-values" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/AppAlert.swiftconstvalues",
     "dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/AppAlert.d",
@@ -854,6 +864,16 @@
     "object" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/SettingsView.o",
     "swift-dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/SettingsView.swiftdeps",
     "swiftmodule" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Statistics/Views/ShareableAchievementCard.swift" : {
+    "const-values" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareableAchievementCard.swiftconstvalues",
+    "dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareableAchievementCard.d",
+    "diagnostics" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareableAchievementCard.dia",
+    "index-unit-output-path" : "/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareableAchievementCard.o",
+    "llvm-bc" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareableAchievementCard.bc",
+    "object" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareableAchievementCard.o",
+    "swift-dependencies" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareableAchievementCard.swiftdeps",
+    "swiftmodule" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/ShareableAchievementCard~partial.swiftmodule"
   },
   "/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker/Features/Statistics/Views/StatisticsView.swift" : {
     "const-values" : "/Users/ram/SwiftUI tutorial/HabitTracker/build/Build/Intermediates.noindex/HabitTracker.build/Debug-iphonesimulator/HabitTracker.build/Objects-normal/arm64/StatisticsView.swiftconstvalues",

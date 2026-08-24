@@ -19,6 +19,9 @@ struct HomeView: View {
     @State private var habitToDelete: Habit?
     @State private var showDeleteConfirmation = false
     
+    @State private var shareImage: UIImage?
+    @State private var showShareSheet = false
+    
     @StateObject
     private var vm = DIContainer.shared.makeHomeViewModel()
     
@@ -181,7 +184,10 @@ struct HomeView: View {
                         title: "🎉 All Habits Completed!",
                         subtitle: "Fantastic work! You've completed 100% of your daily habits for today.",
                         quoteText: vm.quote?.text,
-                        quoteAuthor: vm.quote?.author
+                        quoteAuthor: vm.quote?.author,
+                        onShare: {
+                            renderAndShareCelebration()
+                        }
                     ) {
                         withAnimation { vm.showCelebrationBanner = false }
                     }
@@ -189,7 +195,29 @@ struct HomeView: View {
                 .transition(.scale.combined(with: .opacity))
             }
         }
+        .sheet(isPresented: $showShareSheet) {
+            if let image = shareImage {
+                ShareSheet(items: [image])
+            }
+        }
         
+    }
+    
+    @MainActor
+    private func renderAndShareCelebration() {
+        let card = ShareableAchievementCard(
+            streak: vm.statistics.currentStreak,
+            completedCount: vm.statistics.completedHabits,
+            totalCount: vm.statistics.totalHabits,
+            completionRate: Int(vm.statistics.completionRate * 100),
+            quoteText: vm.quote?.text
+        )
+        let renderer = ImageRenderer(content: card)
+        renderer.scale = UIScreen.main.scale
+        if let image = renderer.uiImage {
+            shareImage = image
+            showShareSheet = true
+        }
     }
     
     private var formattedDate: String {
