@@ -43,6 +43,14 @@ struct HomeView: View {
                 }
             )
             
+            LevelProgressCard(
+                profile: vm.userProfile,
+                quests: vm.dailyQuests,
+                onClaimQuest: { quest in
+                    vm.claimQuest(quest)
+                }
+            )
+            
             TodayProgressCard(
                 completed: vm.statistics.completedHabits,
                 total: vm.statistics.totalHabits
@@ -190,6 +198,22 @@ struct HomeView: View {
                         }
                     ) {
                         withAnimation { vm.showCelebrationBanner = false }
+                    }
+                }
+                .transition(.scale.combined(with: .opacity))
+            }
+        }
+        .overlay {
+            if vm.showLevelUpBanner {
+                ZStack {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation { vm.showLevelUpBanner = false }
+                        }
+                    
+                    LevelUpBanner(profile: vm.userProfile) {
+                        withAnimation { vm.showLevelUpBanner = false }
                     }
                 }
                 .transition(.scale.combined(with: .opacity))

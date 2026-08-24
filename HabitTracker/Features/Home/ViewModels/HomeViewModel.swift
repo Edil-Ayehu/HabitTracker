@@ -27,6 +27,9 @@ final class HomeViewModel: ObservableObject {
     @Published var quote: Quote?
     @Published var showConfetti: Bool = false
     @Published var showCelebrationBanner: Bool = false
+    @Published var userProfile: UserProfile = QuestManager.shared.getUserProfile()
+    @Published var dailyQuests: [DailyQuest] = []
+    @Published var showLevelUpBanner: Bool = false
     
     private let quoteDateKey = "quote.date"
     private let quoteCompletedKey = "quote.completed"
@@ -70,6 +73,8 @@ final class HomeViewModel: ObservableObject {
             
             statistics = try habitUseCase.fetchStatistics()
             
+            refreshGamification()
+            
             checkDailyCompletion()
             
         } catch {
@@ -78,11 +83,19 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    private func refreshGamification() {
+        userProfile = QuestManager.shared.getUserProfile()
+        QuestManager.shared.updateQuestProgress(completedHabits: statistics.completedHabits, streak: statistics.currentStreak)
+        dailyQuests = QuestManager.shared.getDailyQuests(habitsCount: statistics.totalHabits, streak: statistics.currentStreak)
+    }
+    
     private func reloadStatistics() {
         
         do {
             
             statistics = try habitUseCase.fetchStatistics()
+            
+            refreshGamification()
             
             checkDailyCompletion()
             
@@ -103,6 +116,8 @@ final class HomeViewModel: ObservableObject {
             
             reloadStatistics()
             
+            awardXP(10)
+            
             AudioManager.shared.playClickSound()
             
         } catch {
@@ -122,12 +137,33 @@ final class HomeViewModel: ObservableObject {
             
             reloadStatistics()
             
+            awardXP(15)
+            
             AudioManager.shared.playCompletionSound()
             
         } catch {
             
             errorMessage = error.localizedDescription
             
+        }
+    }
+    
+    func claimQuest(_ quest: DailyQuest) {
+        let result = QuestManager.shared.claimQuest(quest)
+        userProfile = result.profile
+        dailyQuests = QuestManager.shared.getDailyQuests(habitsCount: statistics.totalHabits, streak: statistics.currentStreak)
+        if result.leveledUp {
+            showLevelUpBanner = true
+            AudioManager.shared.playCelebrationSound()
+        }
+    }
+    
+    private func awardXP(_ amount: Int) {
+        let result = QuestManager.shared.addXP(amount)
+        userProfile = result.profile
+        if result.leveledUp {
+            showLevelUpBanner = true
+            AudioManager.shared.playCelebrationSound()
         }
     }
     
