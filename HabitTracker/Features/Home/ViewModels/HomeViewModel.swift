@@ -86,7 +86,7 @@ final class HomeViewModel: ObservableObject {
     private func refreshGamification() {
         userProfile = QuestManager.shared.getUserProfile()
         QuestManager.shared.updateQuestProgress(completedHabits: statistics.completedHabits, streak: statistics.currentStreak)
-        dailyQuests = QuestManager.shared.getDailyQuests(habitsCount: statistics.totalHabits, streak: statistics.currentStreak)
+        dailyQuests = QuestManager.shared.getDailyQuests(totalHabits: statistics.totalHabits, completedHabits: statistics.completedHabits, streak: statistics.currentStreak)
     }
     
     private func reloadStatistics() {
@@ -151,7 +151,7 @@ final class HomeViewModel: ObservableObject {
     func claimQuest(_ quest: DailyQuest) {
         let result = QuestManager.shared.claimQuest(quest)
         userProfile = result.profile
-        dailyQuests = QuestManager.shared.getDailyQuests(habitsCount: statistics.totalHabits, streak: statistics.currentStreak)
+        dailyQuests = QuestManager.shared.getDailyQuests(totalHabits: statistics.totalHabits, completedHabits: statistics.completedHabits, streak: statistics.currentStreak)
         if result.leveledUp {
             showLevelUpBanner = true
             AudioManager.shared.playCelebrationSound()

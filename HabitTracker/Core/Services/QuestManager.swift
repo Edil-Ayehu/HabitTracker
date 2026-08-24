@@ -42,20 +42,38 @@ final class QuestManager {
         return (newProfile, leveledUp)
     }
     
-    func getDailyQuests(habitsCount: Int, streak: Int) -> [DailyQuest] {
+    func getDailyQuests(totalHabits: Int, completedHabits: Int, streak: Int) -> [DailyQuest] {
         let todayStr = Date.now.formatted(date: .numeric, time: .omitted)
+        let targetForQ2 = totalHabits >= 3 ? 3 : max(1, totalHabits)
+        let titleForQ2 = targetForQ2 == 1 ? "Complete 1 Habit" : "Complete \(targetForQ2) Habits Today"
+        
         if lastGeneratedDate != todayStr {
-            let targetForQ2 = max(1, min(3, habitsCount))
             let newQuests = [
-                DailyQuest(id: "q1", title: "Complete 1 Habit", icon: "checkmark.circle.fill", rewardXP: 30, currentProgress: 0, targetGoal: 1),
-                DailyQuest(id: "q2", title: "Complete Daily Goal", icon: "flame.fill", rewardXP: 50, currentProgress: 0, targetGoal: targetForQ2),
-                DailyQuest(id: "q3", title: "Maintain Active Streak", icon: "star.fill", rewardXP: 75, currentProgress: min(streak, 3), targetGoal: 3)
+                DailyQuest(id: "q1", title: "Complete 1 Habit", icon: "checkmark.circle.fill", rewardXP: 30, currentProgress: min(completedHabits, 1), targetGoal: 1),
+                DailyQuest(id: "q2", title: titleForQ2, icon: "flame.fill", rewardXP: 50, currentProgress: min(completedHabits, targetForQ2), targetGoal: targetForQ2),
+                DailyQuest(id: "q3", title: "Maintain 3-Day Streak", icon: "star.fill", rewardXP: 75, currentProgress: min(streak, 3), targetGoal: 3)
             ]
             saveQuests(newQuests)
             lastGeneratedDate = todayStr
             return newQuests
         }
-        return loadQuests()
+        
+        var quests = loadQuests()
+        // Update quest 2 target if totalHabits changed and quest is not yet completed/claimed
+        if let idx = quests.firstIndex(where: { $0.id == "q2" }), !quests[idx].isClaimed {
+            let updatedTarget = totalHabits >= 3 ? 3 : max(1, totalHabits)
+            quests[idx] = DailyQuest(
+                id: "q2",
+                title: updatedTarget == 1 ? "Complete 1 Habit" : "Complete \(updatedTarget) Habits Today",
+                icon: "flame.fill",
+                rewardXP: 50,
+                currentProgress: min(completedHabits, updatedTarget),
+                targetGoal: updatedTarget,
+                isClaimed: quests[idx].isClaimed
+            )
+            saveQuests(quests)
+        }
+        return quests
     }
     
     func updateQuestProgress(completedHabits: Int, streak: Int) {
@@ -93,8 +111,8 @@ final class QuestManager {
               let decoded = try? JSONDecoder().decode([DailyQuest].self, from: data) else {
             return [
                 DailyQuest(id: "q1", title: "Complete 1 Habit", icon: "checkmark.circle.fill", rewardXP: 30, currentProgress: 0, targetGoal: 1),
-                DailyQuest(id: "q2", title: "Complete Daily Goal", icon: "flame.fill", rewardXP: 50, currentProgress: 0, targetGoal: 3),
-                DailyQuest(id: "q3", title: "Maintain Active Streak", icon: "star.fill", rewardXP: 75, currentProgress: 0, targetGoal: 3)
+                DailyQuest(id: "q2", title: "Complete 3 Habits Today", icon: "flame.fill", rewardXP: 50, currentProgress: 0, targetGoal: 3),
+                DailyQuest(id: "q3", title: "Maintain 3-Day Streak", icon: "star.fill", rewardXP: 75, currentProgress: 0, targetGoal: 3)
             ]
         }
         return decoded
