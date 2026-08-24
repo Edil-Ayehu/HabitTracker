@@ -2,55 +2,50 @@
 //  HabitTrackerWidget.swift
 //  HabitTrackerWidget
 //
-//  Created by Edil on 24/08/2026.
-//
 
 import WidgetKit
 import SwiftUI
 
-struct Provider: AppIntentTimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())
+struct HabitWidgetProvider: TimelineProvider {
+    func placeholder(in context: Context) -> HabitWidgetTimelineEntry {
+        HabitWidgetTimelineEntry(date: Date(), data: WidgetSharedData.load())
     }
 
-    func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        SimpleEntry(date: Date(), configuration: configuration)
-    }
-    
-    func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        return Timeline(entries: entries, policy: .atEnd)
+    func getSnapshot(in context: Context, completion: @escaping (HabitWidgetTimelineEntry) -> ()) {
+        let entry = HabitWidgetTimelineEntry(date: Date(), data: WidgetSharedData.load())
+        completion(entry)
     }
 
-//    func relevances() async -> WidgetRelevances<ConfigurationAppIntent> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
+    func getTimeline(in context: Context, completion: @escaping (Timeline<HabitWidgetTimelineEntry>) -> ()) {
+        let data = WidgetSharedData.load()
+        let entry = HabitWidgetTimelineEntry(date: Date(), data: data)
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date()) ?? Date()
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        completion(timeline)
+    }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct HabitWidgetTimelineEntry: TimelineEntry {
     let date: Date
-    let configuration: ConfigurationAppIntent
+    let data: HabitWidgetData
 }
 
-struct HabitTrackerWidgetEntryView : View {
-    var entry: Provider.Entry
+struct HabitTrackerWidgetEntryView: View {
+    @Environment(\.widgetFamily) var family
+    var entry: HabitWidgetProvider.Entry
 
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Favorite Emoji:")
-            Text(entry.configuration.favoriteEmoji)
+        switch family {
+        case .systemSmall:
+            HabitSmallWidgetView(data: entry.data)
+        case .systemMedium:
+            HabitMediumWidgetView(data: entry.data)
+        case .accessoryCircular:
+            HabitLockScreenCircularView(data: entry.data)
+        case .accessoryRectangular:
+            HabitLockScreenRectangularView(data: entry.data)
+        default:
+            HabitSmallWidgetView(data: entry.data)
         }
     }
 }
@@ -59,30 +54,12 @@ struct HabitTrackerWidget: Widget {
     let kind: String = "HabitTrackerWidget"
 
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(kind: kind, intent: ConfigurationAppIntent.self, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: HabitWidgetProvider()) { entry in
             HabitTrackerWidgetEntryView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
         }
+        .configurationDisplayName("Habit Tracker")
+        .description("Track your daily habits and streaks directly from your Home Screen or Lock Screen.")
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular])
     }
-}
-
-extension ConfigurationAppIntent {
-    fileprivate static var smiley: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "😀"
-        return intent
-    }
-    
-    fileprivate static var starEyes: ConfigurationAppIntent {
-        let intent = ConfigurationAppIntent()
-        intent.favoriteEmoji = "🤩"
-        return intent
-    }
-}
-
-#Preview(as: .systemSmall) {
-    HabitTrackerWidget()
-} timeline: {
-    SimpleEntry(date: .now, configuration: .smiley)
-    SimpleEntry(date: .now, configuration: .starEyes)
 }

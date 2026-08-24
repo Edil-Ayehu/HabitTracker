@@ -1,6 +1,6 @@
 //
-//  WidgetSharedData.swift
-//  HabitTracker
+//  WidgetSharedModels.swift
+//  HabitTrackerWidget
 //
 
 import Foundation
@@ -37,39 +37,6 @@ enum WidgetSharedData {
         FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: appGroupID)?
             .appendingPathComponent("habit_widget_data.json")
-    }
-    
-    static func sync(entries: [HabitEntry], statistics: HabitStatistics) {
-        let items = entries.map { entry in
-            HabitWidgetEntryItem(
-                id: entry.habitID.uuidString,
-                title: entry.habit.title,
-                icon: entry.habit.icon,
-                category: entry.habit.habitCategory.title,
-                completed: entry.completed,
-                progress: entry.progress,
-                goal: entry.habit.goal ?? 1,
-                isMeasurable: entry.habit.habitType == .measurable
-            )
-        }
-        
-        let widgetData = HabitWidgetData(
-            totalHabits: statistics.totalHabits,
-            completedHabits: statistics.completedHabits,
-            completionRate: Int(statistics.completionRate * 100),
-            currentStreak: statistics.currentStreak,
-            items: items
-        )
-        
-        if let encoded = try? JSONEncoder().encode(widgetData) {
-            sharedUserDefaults?.set(encoded, forKey: storageKey)
-            UserDefaults.standard.set(encoded, forKey: storageKey)
-            if let fileURL = sharedFileURL {
-                try? encoded.write(to: fileURL)
-            }
-        }
-        
-        WidgetCenter.shared.reloadAllTimelines()
     }
     
     static func load() -> HabitWidgetData {

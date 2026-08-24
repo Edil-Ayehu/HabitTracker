@@ -2,9 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LastAccessedDate</key>
-	<date>2026-08-24T08:59:03Z</date>
-	<key>WorkspacePath</key>
-	<string>/Users/ram/SwiftUI tutorial/HabitTracker/HabitTracker.xcodeproj</string>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.myorganization.HabitTracker</string>
+	</array>
 </dict>
 </plist>

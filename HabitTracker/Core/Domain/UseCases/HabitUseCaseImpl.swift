@@ -37,6 +37,8 @@ final class HabitUseCaseImpl: HabitUseCase {
             }
         }
         
+        syncWidgetData()
+        
         return entries
     }
     
@@ -82,11 +84,13 @@ final class HabitUseCaseImpl: HabitUseCase {
     
     func addHabit(_ habit: Habit) throws {
         try repository.saveHabit(habit)
+        syncWidgetData()
     }
     
     func deleteHabit(_ habit: Habit) throws {
         NotificationManager.shared.removeReminder(habit: habit)
         try repository.deleteHabit(habit)
+        syncWidgetData()
     }
     
     
