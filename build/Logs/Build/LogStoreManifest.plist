@@ -6,7 +6,7 @@
 	<integer>11</integer>
 	<key>logs</key>
 	<dict>
-		<key>D4513BC0-C397-4603-8852-4B1F78CCF20E</key>
+		<key>B7E51087-D3C3-4432-932A-BFDFBB6951F2</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,7 +15,7 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>D4513BC0-C397-4603-8852-4B1F78CCF20E.xcactivitylog</string>
+			<string>B7E51087-D3C3-4432-932A-BFDFBB6951F2.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
@@ -40,13 +40,13 @@
 			<key>signature</key>
 			<string>Building project HabitTracker with scheme HabitTracker</string>
 			<key>timeStartedRecording</key>
-			<real>809030650.22697902</real>
+			<real>809205448.30570304</real>
 			<key>timeStoppedRecording</key>
-			<real>809030655.02698505</real>
+			<real>809205451.71289003</real>
 			<key>title</key>
 			<string>Building project HabitTracker with scheme HabitTracker</string>
 			<key>uniqueIdentifier</key>
-			<string>D4513BC0-C397-4603-8852-4B1F78CCF20E</string>
+			<string>B7E51087-D3C3-4432-932A-BFDFBB6951F2</string>
 		</dict>
 	</dict>
 </dict>

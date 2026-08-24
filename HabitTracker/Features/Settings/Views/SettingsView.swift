@@ -13,6 +13,7 @@ struct SettingsView: View {
     @EnvironmentObject private var router: AppRouter
     
     @AppStorage("geminiApiKey") private var geminiApiKey: String = ""
+    @AppStorage("soundEffectsEnabled") private var soundEffectsEnabled: Bool = true
 
     var body: some View {
 
@@ -40,6 +41,21 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+                }
+            }
+            
+            // Sound Effects Card
+            CardView {
+                VStack(alignment: .leading, spacing: 10) {
+                    Toggle(isOn: $soundEffectsEnabled) {
+                        Label("Sound Effects", systemImage: "speaker.wave.2.fill")
+                            .font(AppFont.headline())
+                    }
+                    .tint(AppColors.primary)
+                    
+                    Text("Play audio chimes when completing habits and celebrating daily goals.")
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColors.textSecondary)
                 }
             }
             

@@ -103,6 +103,7 @@ final class HomeViewModel: ObservableObject {
             
             reloadStatistics()
             
+            AudioManager.shared.playClickSound()
             
         } catch {
             
@@ -120,6 +121,8 @@ final class HomeViewModel: ObservableObject {
             entries = try habitUseCase.fetchTodayEntries()
             
             reloadStatistics()
+            
+            AudioManager.shared.playCompletionSound()
             
         } catch {
             
@@ -156,6 +159,7 @@ final class HomeViewModel: ObservableObject {
         
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
+        AudioManager.shared.playCelebrationSound()
 
         quote = quoteUseCase.randomQuote()
 

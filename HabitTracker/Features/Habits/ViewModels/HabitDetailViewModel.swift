@@ -231,6 +231,8 @@ final class HabitDetailViewModel: ObservableObject {
             
             load()
             
+            AudioManager.shared.playCompletionSound()
+            
         } catch {
             
             errorMessage = error.localizedDescription
