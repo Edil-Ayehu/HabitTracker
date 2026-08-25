@@ -159,16 +159,20 @@ final class HabitDetailViewModel: ObservableObject {
         todayEntry?.completed ?? false
     }
     
+    var isFrozenToday: Bool {
+        todayEntry?.isFrozen ?? false
+    }
+    
     var canIncrement: Bool {
-        isMeasurable && progress < goal && !isCompletedToday
+        isMeasurable && progress < goal && !isCompletedToday && !isFrozenToday
     }
     
     var canDecrement: Bool {
-        isMeasurable && progress > 0
+        isMeasurable && progress > 0 && !isFrozenToday
     }
     
     var canComplete: Bool {
-        !isCompletedToday
+        !isCompletedToday && !isFrozenToday
     }
     
     var todayEntry: HabitEntry? {

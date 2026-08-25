@@ -80,7 +80,11 @@ struct HabitRow: View {
                 Spacer()
                 
                 // MARK: - Right Action Controls
-                if entry.habit.habitType == .binary {
+                if entry.isFrozen {
+                    Image(systemName: "shield.fill")
+                        .font(.system(size: 26))
+                        .foregroundStyle(Color.cyan)
+                } else if entry.habit.habitType == .binary {
                     Button {
                         onComplete()
                     } label: {
