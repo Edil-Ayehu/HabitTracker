@@ -219,9 +219,20 @@ struct HabitDetailView: View {
                                     
                                     Spacer()
                                     
-                                    Image(systemName: entry.completed ? "checkmark.circle.fill" : "circle")
-                                        .font(.title3)
-                                        .foregroundStyle(entry.completed ? AppColors.success : Color.gray.opacity(0.4))
+                                    if entry.isFrozen {
+                                        HStack(spacing: 4) {
+                                            Image(systemName: "shield.fill")
+                                                .font(.title3)
+                                                .foregroundStyle(Color.cyan)
+                                            Text("Frozen")
+                                                .font(.system(size: 11, weight: .bold))
+                                                .foregroundStyle(Color.cyan)
+                                        }
+                                    } else {
+                                        Image(systemName: entry.completed ? "checkmark.circle.fill" : "circle")
+                                            .font(.title3)
+                                            .foregroundStyle(entry.completed ? AppColors.success : Color.gray.opacity(0.4))
+                                    }
                                 }
                                 
                                 if !entry.note.isEmpty {

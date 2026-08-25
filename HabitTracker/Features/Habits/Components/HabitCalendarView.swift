@@ -203,6 +203,10 @@ struct HabitCalendarView: View {
             return Color.gray.opacity(0.12)
         }
 
+        if entry.isFrozen {
+            return Color.cyan
+        }
+
         let progress: Double
 
         switch entry.habit.habitType {
