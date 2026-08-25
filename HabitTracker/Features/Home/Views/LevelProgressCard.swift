@@ -110,6 +110,35 @@ struct LevelProgressCard: View {
                     .frame(height: 8)
                 }
                 
+                // Freeze Tokens Status & Purchase
+                HStack {
+                    HStack(spacing: 4) {
+                        Image(systemName: "shield.fill")
+                            .font(.system(size: 11))
+                            .foregroundStyle(Color.cyan)
+                        Text("\(StreakFreezeManager.shared.tokens) Freeze Tokens")
+                            .font(AppFont.caption())
+                            .fontWeight(.semibold)
+                    }
+                    
+                    Spacer()
+                    
+                    if StreakFreezeManager.shared.canBuyTokenWithXP() {
+                        Button {
+                            _ = StreakFreezeManager.shared.buyTokenWithXP()
+                        } label: {
+                            Text("Buy Token (150 XP)")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundStyle(Color.cyan)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(Color.cyan.opacity(0.15))
+                                .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                
                 // Expandable Quests Section
                 if isQuestsExpanded {
                     VStack(alignment: .leading, spacing: 10) {

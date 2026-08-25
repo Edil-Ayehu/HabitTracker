@@ -240,6 +240,17 @@ final class HabitDetailViewModel: ObservableObject {
         }
     }
     
+    func freezeHabit() {
+        guard let entry = todayEntry else { return }
+        do {
+            try habitUseCase.freezeHabit(entry)
+            load()
+            AudioManager.shared.playClickSound()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+    
     
     private func calculateStreak(from entries: [HabitEntry]) -> Int {
 

@@ -27,6 +27,8 @@ final class HabitEntry {
     @Attribute(.externalStorage)
     var imageData: Data?
     
+    var isFrozen: Bool
+    
     var habit: Habit
     
     init(
@@ -47,5 +49,6 @@ final class HabitEntry {
         
         note = ""
         imageData = nil
+        isFrozen = false
     }
 }

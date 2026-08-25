@@ -53,7 +53,19 @@ struct HabitRow: View {
                         .clipShape(Capsule())
                         
                         // Status / Progress Subtitle
-                        if entry.habit.habitType == .measurable {
+                        if entry.isFrozen {
+                            HStack(spacing: 3) {
+                                Image(systemName: "shield.fill")
+                                    .font(.system(size: 9))
+                                Text("Frozen 🛡️")
+                                    .font(.system(size: 10, weight: .bold))
+                            }
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(Color.cyan.opacity(0.18))
+                            .foregroundStyle(Color.cyan)
+                            .clipShape(Capsule())
+                        } else if entry.habit.habitType == .measurable {
                             Text("\(entry.progress)/\(entry.habit.goal ?? 1) \(entry.habit.unit ?? "")")
                                 .font(AppFont.caption())
                                 .foregroundStyle(AppColors.textSecondary)

@@ -208,14 +208,22 @@ final class HabitUseCaseImpl: HabitUseCase {
                 }
         )
         
+        let frozenDates = Set(
+            entries
+                .filter(\.isFrozen)
+                .map {
+                    calendar.startOfDay(for: $0.date)
+                }
+        )
+        
         var streak = 0
         
         let today = calendar.startOfDay(for: Date())
         
         var currentDate = today
         
-        // If today's habit isn't completed, start counting from yesterday.
-        if !completedDates.contains(today) {
+        // If today's habit isn't completed or frozen, start counting from yesterday.
+        if !completedDates.contains(today) && !frozenDates.contains(today) {
             guard let yesterday = calendar.date(
                 byAdding: .day,
                 value: -1,
@@ -227,9 +235,10 @@ final class HabitUseCaseImpl: HabitUseCase {
             currentDate = yesterday
         }
         
-        while completedDates.contains(currentDate) {
-            
-            streak += 1
+        while completedDates.contains(currentDate) || frozenDates.contains(currentDate) {
+            if completedDates.contains(currentDate) {
+                streak += 1
+            }
             
             guard let previousDay = calendar.date(
                 byAdding: .day,
@@ -459,6 +468,15 @@ final class HabitUseCaseImpl: HabitUseCase {
         entry.imageData = imageData
         try repository.update()
         syncWidgetData()
+    }
+    
+    func freezeHabit(_ entry: HabitEntry) throws {
+        guard StreakFreezeManager.shared.canUseToken() else { return }
+        if StreakFreezeManager.shared.useToken() {
+            entry.isFrozen = true
+            try repository.update()
+            syncWidgetData()
+        }
     }
     
     private func syncWidgetData() {

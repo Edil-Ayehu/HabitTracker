@@ -7,7 +7,7 @@
         "key": "%lld/%lld %@",
         "location": {
           "startingColumn": 34,
-          "startingLine": 57
+          "startingLine": 69
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Done Today",
         "location": {
           "startingColumn": 52,
-          "startingLine": 61
+          "startingLine": 73
         }
       },
       {
@@ -23,7 +23,15 @@
         "key": "Daily Goal",
         "location": {
           "startingColumn": 67,
-          "startingLine": 61
+          "startingLine": 73
+        }
+      },
+      {
+        "comment": "",
+        "key": "Frozen 🛡️",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 60
         }
       }
     ]

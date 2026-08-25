@@ -36,4 +36,6 @@ protocol HabitUseCase {
     func saveNote(_ note: String, for entry: HabitEntry) throws
     
     func updateCheckIn(note: String, imageData: Data?, for entry: HabitEntry) throws
+    
+    func freezeHabit(_ entry: HabitEntry) throws
 }

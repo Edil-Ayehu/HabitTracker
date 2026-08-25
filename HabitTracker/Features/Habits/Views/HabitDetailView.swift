@@ -53,11 +53,37 @@ struct HabitDetailView: View {
                 }
                 
                 if vm.canComplete {
-                    PrimaryButton(
-                        title: vm.isBinary ? "Complete Habit" : "Mark Complete"
-                    ) {
-                        vm.complete()
+                    VStack(spacing: 10) {
+                        PrimaryButton(
+                            title: vm.isBinary ? "Complete Habit" : "Mark Complete"
+                        ) {
+                            vm.complete()
+                        }
+                        
+                        if let entry = vm.todayEntry, !entry.isFrozen {
+                            Button {
+                                vm.freezeHabit()
+                            } label: {
+                                HStack(spacing: 6) {
+                                    Image(systemName: "shield.fill")
+                                    Text("Freeze Habit Today (1 Token)")
+                                }
+                                .font(AppFont.caption())
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.cyan)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 10)
+                                .background(Color.cyan.opacity(0.12))
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(!StreakFreezeManager.shared.canUseToken())
+                        }
                     }
+                } else if vm.todayEntry?.isFrozen == true {
+                    Label("Frozen Today 🛡️", systemImage: "shield.fill")
+                        .foregroundStyle(Color.cyan)
+                        .font(AppFont.headline())
                 } else {
                     Label("Completed Today", systemImage: "checkmark.circle.fill")
                         .foregroundStyle(AppColors.success)
