@@ -63,10 +63,14 @@ struct WidgetPreviewView: View {
                                             .font(AppFont.caption())
                                             .foregroundStyle(AppColors.textSecondary)
                                         HabitLockScreenRectangularView(data: widgetData)
-                                            .frame(width: 160, height: 60)
-                                            .padding(8)
-                                            .background(Color.black)
+                                            .frame(width: 170, height: 60)
+                                            .padding(10)
+                                            .background(AppColors.card)
                                             .clipShape(RoundedRectangle(cornerRadius: 12))
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+                                            )
                                     }
                                 }
                             default:

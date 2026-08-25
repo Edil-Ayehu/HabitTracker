@@ -178,19 +178,21 @@ struct HabitLockScreenRectangularView: View {
     let data: HabitWidgetData
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 3) {
             HStack(spacing: 4) {
                 Image(systemName: "flame.fill")
+                    .foregroundStyle(.orange)
                 Text("Streak: \(data.currentStreak) days")
                     .font(.system(size: 12, weight: .bold))
+                    .foregroundStyle(.primary)
             }
             
             Text("\(data.completedHabits) of \(data.totalHabits) Habits Done")
-                .font(.system(size: 11))
+                .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(.secondary)
             
             ProgressView(value: Double(data.completionRate), total: 100)
-                .tint(.white)
+                .tint(Color.indigo)
         }
     }
 }
