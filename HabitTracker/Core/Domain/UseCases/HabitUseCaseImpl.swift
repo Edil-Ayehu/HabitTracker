@@ -48,7 +48,7 @@ final class HabitUseCaseImpl: HabitUseCase {
         
         let totalHabits = entries.count
         
-        let completedHabits = entries.filter(\.completed).count
+        let completedHabits = entries.filter { $0.completed || $0.isFrozen }.count
         
         let completionRate: Double
         
@@ -298,10 +298,10 @@ final class HabitUseCaseImpl: HabitUseCase {
         let monthlyMasterUnlocked = currentStreak >= 30
         let unstoppableUnlocked = currentStreak >= 100
         
-        let perfectDayUnlocked = !todayEntries.isEmpty && todayEntries.allSatisfy(\.completed)
+        let perfectDayUnlocked = !todayEntries.isEmpty && todayEntries.allSatisfy { $0.completed || $0.isFrozen }
         let perfectDayProgress: Double = {
             guard !todayEntries.isEmpty else { return 0.0 }
-            let completedCount = todayEntries.filter(\.completed).count
+            let completedCount = todayEntries.filter { $0.completed || $0.isFrozen }.count
             return Double(completedCount) / Double(todayEntries.count)
         }()
         
@@ -423,7 +423,7 @@ final class HabitUseCaseImpl: HabitUseCase {
             result.append(
                 DailyCompletion(
                     date: start,
-                    completed: todaysEntries.filter(\.completed).count,
+                    completed: todaysEntries.filter { $0.completed || $0.isFrozen }.count,
                     total: todaysEntries.count
                 )
             )
@@ -448,7 +448,7 @@ final class HabitUseCaseImpl: HabitUseCase {
 
                     title: habit.title,
 
-                    completed: entries.filter(\.completed).count
+                    completed: entries.filter { $0.completed || $0.isFrozen }.count
                 )
             )
         }
