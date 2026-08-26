@@ -77,6 +77,12 @@ final class ChallengeManager: ObservableObject {
         saveActiveProgress()
     }
     
+    func unenroll(challengeID: String) {
+        objectWillChange.send()
+        activeProgressMap.removeValue(forKey: challengeID)
+        saveActiveProgress()
+    }
+    
     func progress(for challengeID: String) -> ChallengeProgressState? {
         return activeProgressMap[challengeID]
     }

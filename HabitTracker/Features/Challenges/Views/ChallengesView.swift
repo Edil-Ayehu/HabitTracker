@@ -10,6 +10,7 @@ struct ChallengesView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var showCompletionAlert = false
+    @State private var challengeToUnenroll: HabitChallenge?
     
     var body: some View {
         AppScaffold(title: "30-Day Challenges 🏆") {
@@ -38,6 +39,15 @@ struct ChallengesView: View {
                                                 .background(AppColors.primary.opacity(0.15))
                                                 .foregroundStyle(AppColors.primary)
                                                 .clipShape(Capsule())
+                                            
+                                            Button {
+                                                challengeToUnenroll = active
+                                            } label: {
+                                                Image(systemName: "xmark.circle.fill")
+                                                    .font(.system(size: 16))
+                                                    .foregroundStyle(.red.opacity(0.7))
+                                            }
+                                            .buttonStyle(.plain)
                                         }
                                         
                                         Text("\(active.goalPerDay) \(active.unit) daily target")
@@ -120,6 +130,26 @@ struct ChallengesView: View {
             Button("Awesome!") {}
         } message: {
             Text("Congratulations! You completed the 30-day challenge and earned +500 XP & an exclusive trophy badge!")
+        }
+        .confirmationDialog(
+            "Unenroll from Challenge?",
+            isPresented: Binding(
+                get: { challengeToUnenroll != nil },
+                set: { if !$0 { challengeToUnenroll = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Unenroll", role: .destructive) {
+                if let target = challengeToUnenroll {
+                    manager.unenroll(challengeID: target.id)
+                    AudioManager.shared.playClickSound()
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            if let target = challengeToUnenroll {
+                Text("Are you sure you want to unenroll from '\(target.title)'? Your current 30-day progress for this bootcamp will be reset.")
+            }
         }
     }
 }
