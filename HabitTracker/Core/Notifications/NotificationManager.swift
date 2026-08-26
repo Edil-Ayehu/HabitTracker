@@ -173,6 +173,12 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     // MARK: - Nightly Reflection Reminder
     
     func scheduleNightlyReflectionReminder(hour: Int? = nil, minute: Int? = nil) {
+        let isReflectionEnabled = UserDefaults.standard.object(forKey: "reflectionReminderEnabled") as? Bool ?? true
+        guard isReflectionEnabled else {
+            removeNightlyReflectionReminder()
+            return
+        }
+        
         Task {
             let status = await authorizationStatus()
             if status == .notDetermined {
@@ -211,6 +217,10 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
                 }
             }
         }
+    }
+    
+    func removeNightlyReflectionReminder() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["nightly_reflection_reminder"])
     }
     
     // MARK: - Remove All

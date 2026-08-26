@@ -14,6 +14,7 @@ struct SettingsView: View {
     
     @AppStorage("geminiApiKey") private var geminiApiKey: String = ""
     @AppStorage("soundEffectsEnabled") private var soundEffectsEnabled: Bool = true
+    @AppStorage("reflectionReminderEnabled") private var reflectionReminderEnabled: Bool = true
 
     var body: some View {
 
@@ -62,28 +63,40 @@ struct SettingsView: View {
             // Nightly Reflection Reminder Card
             CardView {
                 VStack(alignment: .leading, spacing: 12) {
-                    Label("Nightly Reflection Reminder", systemImage: "moon.fill")
-                        .font(AppFont.headline())
+                    Toggle(isOn: $reflectionReminderEnabled) {
+                        Label("Nightly Reflection Reminder", systemImage: "moon.fill")
+                            .font(AppFont.headline())
+                    }
+                    .tint(AppColors.primary)
+                    .onChange(of: reflectionReminderEnabled) { newValue in
+                        if newValue {
+                            NotificationManager.shared.scheduleNightlyReflectionReminder()
+                        } else {
+                            NotificationManager.shared.removeNightlyReflectionReminder()
+                        }
+                    }
                     
-                    DatePicker(
-                        "Reminder Time",
-                        selection: Binding(
-                            get: {
-                                let hour = UserDefaults.standard.object(forKey: "reflectionReminderHour") as? Int ?? 21
-                                let minute = UserDefaults.standard.object(forKey: "reflectionReminderMinute") as? Int ?? 0
-                                return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
-                            },
-                            set: { newDate in
-                                let components = Calendar.current.dateComponents([.hour, .minute], from: newDate)
-                                NotificationManager.shared.scheduleNightlyReflectionReminder(
-                                    hour: components.hour ?? 21,
-                                    minute: components.minute ?? 0
-                                )
-                            }
-                        ),
-                        displayedComponents: .hourAndMinute
-                    )
-                    .font(AppFont.body())
+                    if reflectionReminderEnabled {
+                        DatePicker(
+                            "Reminder Time",
+                            selection: Binding(
+                                get: {
+                                    let hour = UserDefaults.standard.object(forKey: "reflectionReminderHour") as? Int ?? 21
+                                    let minute = UserDefaults.standard.object(forKey: "reflectionReminderMinute") as? Int ?? 0
+                                    return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
+                                },
+                                set: { newDate in
+                                    let components = Calendar.current.dateComponents([.hour, .minute], from: newDate)
+                                    NotificationManager.shared.scheduleNightlyReflectionReminder(
+                                        hour: components.hour ?? 21,
+                                        minute: components.minute ?? 0
+                                    )
+                                }
+                            ),
+                            displayedComponents: .hourAndMinute
+                        )
+                        .font(AppFont.body())
+                    }
                     
                     Text("Configured time to receive your daily evening mood & reflection notification.")
                         .font(AppFont.caption())

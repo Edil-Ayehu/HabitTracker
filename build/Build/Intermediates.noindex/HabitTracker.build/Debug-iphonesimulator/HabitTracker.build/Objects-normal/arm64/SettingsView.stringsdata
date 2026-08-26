@@ -7,7 +7,7 @@
         "key": "Appearance",
         "location": {
           "startingColumn": 25,
-          "startingLine": 27
+          "startingLine": 28
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Theme",
         "location": {
           "startingColumn": 25,
-          "startingLine": 33
+          "startingLine": 34
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Play audio chimes when completing habits and celebrating daily goals.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 56
+          "startingLine": 57
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Sound Effects",
         "location": {
           "startingColumn": 31,
-          "startingLine": 51
+          "startingLine": 52
         }
       },
       {
@@ -39,23 +39,23 @@
         "key": "Configured time to receive your daily evening mood & reflection notification.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 88
-        }
-      },
-      {
-        "comment": "",
-        "key": "Nightly Reflection Reminder",
-        "location": {
-          "startingColumn": 27,
-          "startingLine": 65
+          "startingLine": 101
         }
       },
       {
         "comment": "",
         "key": "Reminder Time",
         "location": {
-          "startingColumn": 25,
-          "startingLine": 69
+          "startingColumn": 29,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "Nightly Reflection Reminder",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 67
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Enter your Google Gemini API Key to enable real-time AI routine generation.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 114
+          "startingLine": 127
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "AI API Key (e.g. AIzaSy...)",
         "location": {
           "startingColumn": 33,
-          "startingLine": 118
+          "startingLine": 131
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "Active",
         "location": {
           "startingColumn": 34,
-          "startingLine": 104
+          "startingLine": 117
         }
       },
       {
@@ -87,7 +87,7 @@
         "key": "Gemini AI Engine",
         "location": {
           "startingColumn": 31,
-          "startingLine": 98
+          "startingLine": 111
         }
       }
     ]
