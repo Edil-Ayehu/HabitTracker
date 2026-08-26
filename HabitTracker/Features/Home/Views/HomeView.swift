@@ -21,6 +21,7 @@ struct HomeView: View {
     
     @State private var shareImage: UIImage?
     @State private var showShareSheet = false
+    @State private var showChallengesSheet = false
     
     @StateObject
     private var vm = DIContainer.shared.makeHomeViewModel()
@@ -50,6 +51,44 @@ struct HomeView: View {
                     vm.claimQuest(quest)
                 }
             )
+            
+            // MARK: 30-Day Challenges Banner
+            Button {
+                showChallengesSheet = true
+            } label: {
+                CardView {
+                    HStack(spacing: 12) {
+                        ZStack {
+                            Circle()
+                                .fill(LinearGradient(colors: [.orange, .yellow], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .frame(width: 42, height: 42)
+                            Image(systemName: "trophy.fill")
+                                .font(.system(size: 20))
+                                .foregroundStyle(.white)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack {
+                                Text("30-Day Challenges & Bootcamps")
+                                    .font(AppFont.headline())
+                                    .foregroundStyle(AppColors.textPrimary)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundStyle(AppColors.textSecondary)
+                            }
+                            
+                            Text("Enroll in 30-day bootcamps & earn +500 XP trophies")
+                                .font(AppFont.caption())
+                                .foregroundStyle(AppColors.textSecondary)
+                        }
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            .sheet(isPresented: $showChallengesSheet) {
+                ChallengesView()
+            }
             
             TodayProgressCard(
                 completed: vm.statistics.completedHabits,

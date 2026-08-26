@@ -11,7 +11,6 @@ struct LevelProgressCard: View {
     let onClaimQuest: (DailyQuest) -> Void
     
     @State private var isQuestsExpanded = false
-    @State private var showChallengesSheet = false
     
     var body: some View {
         CardView {
@@ -56,50 +55,26 @@ struct LevelProgressCard: View {
                     
                     Spacer()
                     
-                    HStack(spacing: 6) {
-                        Button {
-                            showChallengesSheet = true
-                        } label: {
-                            HStack(spacing: 4) {
-                                Image(systemName: "trophy.fill")
-                                    .font(.system(size: 11))
-                                    .foregroundStyle(Color.orange)
-                                Text("Challenges")
-                                    .font(AppFont.caption())
-                                    .fontWeight(.bold)
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 6)
-                            .background(Color.orange.opacity(0.15))
-                            .foregroundStyle(Color.orange)
-                            .clipShape(Capsule())
+                    Button {
+                        withAnimation(.spring()) {
+                            isQuestsExpanded.toggle()
                         }
-                        .buttonStyle(.plain)
-                        .sheet(isPresented: $showChallengesSheet) {
-                            ChallengesView()
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "flag.fill")
+                                .font(.system(size: 11))
+                                .foregroundStyle(AppColors.primary)
+                            Text("Quests (\(quests.filter { $0.isCompleted && !$0.isClaimed }.count))")
+                                .font(AppFont.caption())
+                                .fontWeight(.bold)
+                            Image(systemName: isQuestsExpanded ? "chevron.up" : "chevron.down")
+                                .font(.system(size: 10))
                         }
-                        
-                        Button {
-                            withAnimation(.spring()) {
-                                isQuestsExpanded.toggle()
-                            }
-                        } label: {
-                            HStack(spacing: 4) {
-                                Image(systemName: "flag.fill")
-                                    .font(.system(size: 11))
-                                    .foregroundStyle(AppColors.primary)
-                                Text("Quests (\(quests.filter { $0.isCompleted && !$0.isClaimed }.count))")
-                                    .font(AppFont.caption())
-                                    .fontWeight(.bold)
-                                Image(systemName: isQuestsExpanded ? "chevron.up" : "chevron.down")
-                                    .font(.system(size: 10))
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 6)
-                            .background(AppColors.primary.opacity(0.15))
-                            .foregroundStyle(AppColors.primary)
-                            .clipShape(Capsule())
-                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(AppColors.primary.opacity(0.15))
+                        .foregroundStyle(AppColors.primary)
+                        .clipShape(Capsule())
                     }
                 }
                 
