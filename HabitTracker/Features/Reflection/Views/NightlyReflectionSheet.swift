@@ -17,13 +17,15 @@ struct NightlyReflectionSheet: View {
     var body: some View {
         AppScaffold(title: "Nightly Reflection 🌙") {
             VStack(alignment: .leading, spacing: AppSpacing.lg) {
+                let isEditing = manager.todayReflection != nil
+                
                 // Header Banner
                 CardView {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("How was your day?")
+                        Text(isEditing ? "Edit Today's Reflection" : "How was your day?")
                             .font(AppFont.title())
                             .fontWeight(.bold)
-                        Text("Log your mood, reflect on gratitude, and earn +25 XP.")
+                        Text(isEditing ? "Update your mood, gratitude, or evening journal entry." : "Log your mood, reflect on gratitude, and earn +25 XP.")
                             .font(AppFont.caption())
                             .foregroundStyle(AppColors.textSecondary)
                     }
@@ -91,7 +93,7 @@ struct NightlyReflectionSheet: View {
                     }
                 }
                 
-                // Save Button
+                // Save / Update Button
                 Button {
                     manager.saveReflection(
                         mood: selectedMood,
@@ -104,7 +106,7 @@ struct NightlyReflectionSheet: View {
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "checkmark.circle.fill")
-                        Text("Save Reflection (+25 XP)")
+                        Text(isEditing ? "Update Reflection" : "Save Reflection (+25 XP)")
                     }
                     .font(AppFont.body())
                     .fontWeight(.bold)

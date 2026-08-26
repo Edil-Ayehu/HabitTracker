@@ -47,6 +47,7 @@ final class ReflectionManager: ObservableObject {
     }
     
     func saveReflection(mood: MoodRating, journalNote: String, gratitudeNote: String, completionRate: Int) {
+        let isFirstSave = reflectionsMap[ReflectionManager.todayISOString] == nil
         objectWillChange.send()
         let reflection = NightlyReflection(
             dateString: ReflectionManager.todayISOString,
@@ -58,8 +59,10 @@ final class ReflectionManager: ObservableObject {
         reflectionsMap[ReflectionManager.todayISOString] = reflection
         saveReflections()
         
-        _ = QuestManager.shared.addXP(25)
-        MascotManager.shared.addGrowthPoints(5)
+        if isFirstSave {
+            _ = QuestManager.shared.addXP(25)
+            MascotManager.shared.addGrowthPoints(5)
+        }
     }
     
     func fetchRecentReflections(days: Int = 7) -> [NightlyReflection] {
