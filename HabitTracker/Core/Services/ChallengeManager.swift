@@ -7,6 +7,13 @@ import Foundation
 import SwiftUI
 import Combine
 
+struct ChallengeProgressState: Codable, Identifiable {
+    var id: String { challengeID }
+    let challengeID: String
+    var completedDays: Int
+    var lastCheckInDate: String
+}
+
 final class ChallengeManager: ObservableObject {
     static let shared = ChallengeManager()
     
@@ -21,20 +28,40 @@ final class ChallengeManager: ObservableObject {
         return dateFormatter.string(from: Date())
     }
     
-    @Published var activeChallengeID: String
-    @Published var completedDays: Int
-    @Published var lastCheckInDate: String
-    @Published var completedChallengeIDsRaw: String
+    @Published var activeProgressMap: [String: ChallengeProgressState] = [:]
+    @Published var completedChallengeIDsRaw: String = ""
     
     private init() {
-        self.activeChallengeID = UserDefaults.standard.string(forKey: "activeChallengeID") ?? ""
-        self.completedDays = UserDefaults.standard.integer(forKey: "challengeCompletedDays")
-        self.lastCheckInDate = UserDefaults.standard.string(forKey: "lastChallengeCheckInDate") ?? ""
         self.completedChallengeIDsRaw = UserDefaults.standard.string(forKey: "completedChallengeIDs") ?? ""
+        loadActiveProgress()
     }
     
-    var activeChallenge: HabitChallenge? {
-        HabitChallenge.prebuiltChallenges.first(where: { $0.id == activeChallengeID })
+    private func loadActiveProgress() {
+        if let data = UserDefaults.standard.data(forKey: "activeProgressMapData"),
+           let map = try? JSONDecoder().decode([String: ChallengeProgressState].self, from: data) {
+            self.activeProgressMap = map
+        } else {
+            // Migration for legacy single challenge
+            let singleID = UserDefaults.standard.string(forKey: "activeChallengeID") ?? ""
+            if !singleID.isEmpty {
+                let days = UserDefaults.standard.integer(forKey: "challengeCompletedDays")
+                let lastDate = UserDefaults.standard.string(forKey: "lastChallengeCheckInDate") ?? ""
+                let state = ChallengeProgressState(challengeID: singleID, completedDays: days, lastCheckInDate: lastDate)
+                self.activeProgressMap[singleID] = state
+                saveActiveProgress()
+            }
+        }
+    }
+    
+    private func saveActiveProgress() {
+        if let data = try? JSONEncoder().encode(activeProgressMap) {
+            UserDefaults.standard.set(data, forKey: "activeProgressMapData")
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    var activeChallenges: [HabitChallenge] {
+        HabitChallenge.prebuiltChallenges.filter { activeProgressMap.keys.contains($0.id) }
     }
     
     var completedChallengeIDs: [String] {
@@ -42,49 +69,48 @@ final class ChallengeManager: ObservableObject {
     }
     
     func enroll(in challenge: HabitChallenge) {
-        // Prevent re-enrolling from resetting completed progress
-        guard activeChallengeID != challenge.id else { return }
+        guard activeProgressMap[challenge.id] == nil else { return }
         
         objectWillChange.send()
-        activeChallengeID = challenge.id
-        completedDays = 0
-        lastCheckInDate = ""
-        
-        UserDefaults.standard.set(challenge.id, forKey: "activeChallengeID")
-        UserDefaults.standard.set(0, forKey: "challengeCompletedDays")
-        UserDefaults.standard.set("", forKey: "lastChallengeCheckInDate")
-        UserDefaults.standard.synchronize()
+        let newState = ChallengeProgressState(challengeID: challenge.id, completedDays: 0, lastCheckInDate: "")
+        activeProgressMap[challenge.id] = newState
+        saveActiveProgress()
+    }
+    
+    func progress(for challengeID: String) -> ChallengeProgressState? {
+        return activeProgressMap[challengeID]
+    }
+    
+    func isEnrolled(in challengeID: String) -> Bool {
+        return activeProgressMap[challengeID] != nil
     }
     
     @discardableResult
-    func checkInToday() -> Bool {
+    func checkInToday(for challengeID: String) -> Bool {
         let todayStr = ChallengeManager.todayISOString
-        guard lastCheckInDate != todayStr else { return false }
+        guard var state = activeProgressMap[challengeID] else { return false }
+        guard state.lastCheckInDate != todayStr else { return false }
         
         objectWillChange.send()
-        let newDays = min(30, completedDays + 1)
-        completedDays = newDays
-        lastCheckInDate = todayStr
-        
-        UserDefaults.standard.set(newDays, forKey: "challengeCompletedDays")
-        UserDefaults.standard.set(todayStr, forKey: "lastChallengeCheckInDate")
+        state.completedDays = min(30, state.completedDays + 1)
+        state.lastCheckInDate = todayStr
+        activeProgressMap[challengeID] = state
         
         var finished = false
-        if newDays >= 30, let active = activeChallenge {
-            _ = QuestManager.shared.addXP(active.xpReward)
+        if state.completedDays >= 30, let challenge = HabitChallenge.prebuiltChallenges.first(where: { $0.id == challengeID }) {
+            _ = QuestManager.shared.addXP(challenge.xpReward)
             var current = completedChallengeIDs
-            if !current.contains(active.id) {
-                current.append(active.id)
+            if !current.contains(challengeID) {
+                current.append(challengeID)
                 let raw = current.joined(separator: ",")
                 completedChallengeIDsRaw = raw
                 UserDefaults.standard.set(raw, forKey: "completedChallengeIDs")
             }
-            activeChallengeID = ""
-            UserDefaults.standard.set("", forKey: "activeChallengeID")
+            activeProgressMap.removeValue(forKey: challengeID)
             finished = true
         }
         
-        UserDefaults.standard.synchronize()
+        saveActiveProgress()
         return finished
     }
     
