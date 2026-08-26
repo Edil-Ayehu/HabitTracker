@@ -75,7 +75,7 @@ struct ChallengesView: View {
                             .padding(.vertical, 4)
                             
                             // Check-in Button
-                            let todayChecked = manager.lastCheckInDate == Date.now.formatted(date: .numeric, time: .omitted)
+                            let todayChecked = manager.lastCheckInDate == ChallengeManager.todayISOString
                             Button {
                                 let finished = manager.checkInToday()
                                 AudioManager.shared.playCompletionSound()
