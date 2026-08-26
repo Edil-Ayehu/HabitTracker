@@ -36,10 +36,34 @@
       },
       {
         "comment": "",
+        "key": "Configured time to receive your daily evening mood & reflection notification.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 88
+        }
+      },
+      {
+        "comment": "",
+        "key": "Nightly Reflection Reminder",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reminder Time",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 69
+        }
+      },
+      {
+        "comment": "",
         "key": "Enter your Google Gemini API Key to enable real-time AI routine generation.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 82
+          "startingLine": 114
         }
       },
       {
@@ -47,7 +71,7 @@
         "key": "AI API Key (e.g. AIzaSy...)",
         "location": {
           "startingColumn": 33,
-          "startingLine": 86
+          "startingLine": 118
         }
       },
       {
@@ -55,7 +79,7 @@
         "key": "Active",
         "location": {
           "startingColumn": 34,
-          "startingLine": 72
+          "startingLine": 104
         }
       },
       {
@@ -63,7 +87,7 @@
         "key": "Gemini AI Engine",
         "location": {
           "startingColumn": 31,
-          "startingLine": 66
+          "startingLine": 98
         }
       }
     ]

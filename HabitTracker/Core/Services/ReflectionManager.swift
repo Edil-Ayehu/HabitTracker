@@ -25,6 +25,7 @@ final class ReflectionManager: ObservableObject {
     
     private init() {
         loadReflections()
+        NotificationManager.shared.scheduleNightlyReflectionReminder()
     }
     
     private func loadReflections() {

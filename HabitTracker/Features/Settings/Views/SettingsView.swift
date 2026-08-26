@@ -59,6 +59,38 @@ struct SettingsView: View {
                 }
             }
             
+            // Nightly Reflection Reminder Card
+            CardView {
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("Nightly Reflection Reminder", systemImage: "moon.fill")
+                        .font(AppFont.headline())
+                    
+                    DatePicker(
+                        "Reminder Time",
+                        selection: Binding(
+                            get: {
+                                let hour = UserDefaults.standard.object(forKey: "reflectionReminderHour") as? Int ?? 21
+                                let minute = UserDefaults.standard.object(forKey: "reflectionReminderMinute") as? Int ?? 0
+                                return Calendar.current.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
+                            },
+                            set: { newDate in
+                                let components = Calendar.current.dateComponents([.hour, .minute], from: newDate)
+                                NotificationManager.shared.scheduleNightlyReflectionReminder(
+                                    hour: components.hour ?? 21,
+                                    minute: components.minute ?? 0
+                                )
+                            }
+                        ),
+                        displayedComponents: .hourAndMinute
+                    )
+                    .font(AppFont.body())
+                    
+                    Text("Configured time to receive your daily evening mood & reflection notification.")
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColors.textSecondary)
+                }
+            }
+            
             // Gemini AI Configuration Card
             CardView {
                 VStack(alignment: .leading, spacing: 14) {
