@@ -97,6 +97,15 @@ struct StatisticsView: View {
                     }
                 }
 
+                // MARK: Day of Week Analytics & Insights
+                if let insights = vm.analyticsInsights {
+                    DayOfWeekChartCard(insights: insights)
+                    
+                    if !insights.tips.isEmpty {
+                        SmartInsightsCard(tips: insights.tips)
+                    }
+                }
+
                 // MARK: Weekly Trend
 
                 SectionHeader(title: "Weekly Completion")

@@ -38,4 +38,6 @@ protocol HabitUseCase {
     func updateCheckIn(note: String, imageData: Data?, for entry: HabitEntry) throws
     
     func freezeHabit(_ entry: HabitEntry) throws
+    
+    func fetchAllEntries() throws -> [HabitEntry]
 }

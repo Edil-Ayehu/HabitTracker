@@ -479,6 +479,10 @@ final class HabitUseCaseImpl: HabitUseCase {
         }
     }
     
+    func fetchAllEntries() throws -> [HabitEntry] {
+        return try repository.fetchAllEntries()
+    }
+    
     private func syncWidgetData() {
         if let entries = try? repository.fetchTodayEntries(),
            let statistics = try? fetchStatistics() {
