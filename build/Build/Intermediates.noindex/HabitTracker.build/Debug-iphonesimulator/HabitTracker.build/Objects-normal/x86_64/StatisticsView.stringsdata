@@ -60,18 +60,18 @@
       },
       {
         "comment": "",
-        "key": "Completed",
+        "key": "Habits",
         "location": {
-          "startingColumn": 33,
-          "startingLine": 169
+          "startingColumn": 47,
+          "startingLine": 167
         }
       },
       {
         "comment": "",
-        "key": "%lld",
+        "key": "%lld habit%@ (%lld%%)",
         "location": {
-          "startingColumn": 38,
-          "startingLine": 193
+          "startingColumn": 42,
+          "startingLine": 198
         }
       }
     ]

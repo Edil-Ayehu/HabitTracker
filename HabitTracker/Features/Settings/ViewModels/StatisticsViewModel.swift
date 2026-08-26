@@ -16,6 +16,7 @@ final class StatisticsViewModel: ObservableObject {
     @Published var habits: [HabitProgress] = []
     
     @Published var analyticsInsights: AnalyticsInsights?
+    @Published var categoryBalance: [CategoryBalance] = []
 
     private let useCase: HabitUseCase
 
@@ -32,6 +33,8 @@ final class StatisticsViewModel: ObservableObject {
             weekly = try useCase.weeklyCompletion()
 
             habits = try useCase.habitProgress()
+            
+            categoryBalance = (try? useCase.categoryBalance()) ?? []
             
             let allEntries = try useCase.fetchAllEntries()
             analyticsInsights = HabitAnalyticsEngine.shared.analyze(entries: allEntries)

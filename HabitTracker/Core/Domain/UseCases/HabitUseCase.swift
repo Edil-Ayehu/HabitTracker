@@ -40,4 +40,6 @@ protocol HabitUseCase {
     func freezeHabit(_ entry: HabitEntry) throws
     
     func fetchAllEntries() throws -> [HabitEntry]
+    
+    func categoryBalance() throws -> [CategoryBalance]
 }

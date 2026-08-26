@@ -156,42 +156,49 @@ struct StatisticsView: View {
                     .frame(height: 220)
                 }
 
-                // MARK: Habit Distribution
+                // MARK: Category Life Balance
 
-                SectionHeader(title: "Habit Distribution")
+                if !vm.categoryBalance.isEmpty {
+                    SectionHeader(title: "Category Life Balance")
 
-                CardView {
+                    CardView {
+                        Chart(vm.categoryBalance) { item in
+                            SectorMark(
+                                angle: .value("Habits", item.habitCount),
+                                innerRadius: .ratio(0.65),
+                                angularInset: 2.0
+                            )
+                            .foregroundStyle(item.category.color)
+                            .cornerRadius(5)
+                        }
+                        .frame(height: 220)
 
-                    Chart(vm.habits) { habit in
+                        Divider()
+                            .padding(.vertical, 8)
 
-                        SectorMark(
-                            angle: .value(
-                                "Completed",
-                                habit.completed
-                            ),
-                            innerRadius: .ratio(0.6)
-                        )
-                    }
-                    .frame(height: 260)
+                        LazyVStack(spacing: 10) {
+                            ForEach(vm.categoryBalance) { item in
+                                HStack {
+                                    HStack(spacing: 8) {
+                                        Circle()
+                                            .fill(item.category.color)
+                                            .frame(width: 10, height: 10)
+                                        
+                                        Image(systemName: item.category.icon)
+                                            .font(.system(size: 12))
+                                            .foregroundStyle(item.category.color)
+                                        
+                                        Text(item.category.title)
+                                            .font(AppFont.body())
+                                            .fontWeight(.semibold)
+                                    }
 
-                    Divider()
-                        .padding(.vertical)
+                                    Spacer()
 
-                    LazyVStack(alignment: .leading) {
-
-                        ForEach(vm.habits) { habit in
-
-                            HStack {
-
-                                Circle()
-                                    .frame(width: 10, height: 10)
-
-                                Text(habit.title)
-
-                                Spacer()
-
-                                Text("\(habit.completed)")
-                                    .foregroundStyle(.secondary)
+                                    Text("\(item.habitCount) habit\(item.habitCount == 1 ? "" : "s") (\(item.percentage)%)")
+                                        .font(AppFont.caption())
+                                        .foregroundStyle(AppColors.textSecondary)
+                                }
                             }
                         }
                     }

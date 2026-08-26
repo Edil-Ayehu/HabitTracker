@@ -483,6 +483,22 @@ final class HabitUseCaseImpl: HabitUseCase {
         return try repository.fetchAllEntries()
     }
     
+    func categoryBalance() throws -> [CategoryBalance] {
+        let habits = try repository.fetchHabits()
+        guard !habits.isEmpty else { return [] }
+        
+        var countMap: [HabitCategory: Int] = [:]
+        for habit in habits {
+            countMap[habit.habitCategory, default: 0] += 1
+        }
+        
+        let total = Double(habits.count)
+        return countMap.map { (cat, count) in
+            let pct = Int((Double(count) / total) * 100.0)
+            return CategoryBalance(category: cat, habitCount: count, percentage: pct)
+        }.sorted(by: { $0.habitCount > $1.habitCount })
+    }
+    
     private func syncWidgetData() {
         if let entries = try? repository.fetchTodayEntries(),
            let statistics = try? fetchStatistics() {
