@@ -90,6 +90,9 @@ struct HomeView: View {
                 ChallengesView()
             }
             
+            // MARK: Nightly Reflection Card
+            ReflectionPromptCard(completionRate: Int(vm.statistics.completionRate * 100))
+            
             TodayProgressCard(
                 completed: vm.statistics.completedHabits,
                 total: vm.statistics.totalHabits

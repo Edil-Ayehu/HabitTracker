@@ -15,7 +15,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 39,
-          "startingLine": 118
+          "startingLine": 121
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Completion",
         "location": {
           "startingColumn": 33,
-          "startingLine": 120
+          "startingLine": 123
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 39,
-          "startingLine": 126
+          "startingLine": 129
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Completion",
         "location": {
           "startingColumn": 33,
-          "startingLine": 128
+          "startingLine": 131
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 33,
-          "startingLine": 146
+          "startingLine": 149
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Completed",
         "location": {
           "startingColumn": 33,
-          "startingLine": 151
+          "startingLine": 154
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Habits",
         "location": {
           "startingColumn": 47,
-          "startingLine": 167
+          "startingLine": 170
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "%lld habit%@ (%lld%%)",
         "location": {
           "startingColumn": 42,
-          "startingLine": 198
+          "startingLine": 201
         }
       }
     ]

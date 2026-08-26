@@ -105,6 +105,9 @@ struct StatisticsView: View {
                         SmartInsightsCard(tips: insights.tips)
                     }
                 }
+                
+                // MARK: Mood & Happiness Analytics
+                MoodAnalyticsCard()
 
                 // MARK: Weekly Trend
 
