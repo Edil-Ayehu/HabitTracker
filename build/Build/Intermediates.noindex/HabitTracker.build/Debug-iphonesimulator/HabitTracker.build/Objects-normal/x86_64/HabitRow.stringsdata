@@ -7,7 +7,7 @@
         "key": "%lld/%lld %@",
         "location": {
           "startingColumn": 34,
-          "startingLine": 81
+          "startingLine": 83
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Done Today",
         "location": {
           "startingColumn": 52,
-          "startingLine": 85
+          "startingLine": 87
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Daily Goal",
         "location": {
           "startingColumn": 67,
-          "startingLine": 85
+          "startingLine": 87
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Frozen 🛡️",
         "location": {
           "startingColumn": 38,
-          "startingLine": 60
+          "startingLine": 62
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Rest Day 🛡️",
         "location": {
           "startingColumn": 38,
-          "startingLine": 72
+          "startingLine": 74
         }
       }
     ]

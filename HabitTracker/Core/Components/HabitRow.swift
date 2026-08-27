@@ -13,6 +13,8 @@ struct HabitRow: View {
     let onIncrement: () -> Void
     let onComplete: () -> Void
     let onTap: () -> Void
+    
+    @ObservedObject private var vacationManager = VacationManager.shared
 
     var body: some View {
         CardView {
@@ -65,9 +67,9 @@ struct HabitRow: View {
                             .background(Color.cyan.opacity(0.18))
                             .foregroundStyle(Color.cyan)
                             .clipShape(Capsule())
-                        } else if VacationManager.shared.isVacationActive && !entry.completed {
+                        } else if vacationManager.isVacationActive && !entry.completed {
                             HStack(spacing: 3) {
-                                Text(VacationManager.shared.vacationState?.reason.emoji ?? "🏖️")
+                                Text(vacationManager.vacationState?.reason.emoji ?? "🏖️")
                                     .font(.system(size: 9))
                                 Text("Rest Day 🛡️")
                                     .font(.system(size: 10, weight: .bold))

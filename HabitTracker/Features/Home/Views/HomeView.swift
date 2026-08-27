@@ -25,6 +25,7 @@ struct HomeView: View {
     
     @StateObject
     private var vm = DIContainer.shared.makeHomeViewModel()
+    @StateObject private var vacationManager = VacationManager.shared
     
     var body: some View {
         
@@ -96,7 +97,7 @@ struct HomeView: View {
             // MARK: Vacation & Rest Days Banner
             VacationBannerCard()
             
-            if !VacationManager.shared.isVacationActive {
+            if !vacationManager.isVacationActive {
                 TodayProgressCard(
                     completed: vm.statistics.completedHabits,
                     total: vm.statistics.totalHabits
