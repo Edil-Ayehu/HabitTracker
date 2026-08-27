@@ -43,7 +43,7 @@ final class HabitAnalyticsEngine {
         for entry in entries {
             let weekday = calendar.component(.weekday, from: entry.date)
             totalByDay[weekday, default: 0] += 1
-            if entry.completed || entry.isFrozen {
+            if entry.completed || entry.isFrozen || VacationManager.shared.isDateInVacation(entry.date) {
                 completedByDay[weekday, default: 0] += 1
             }
         }

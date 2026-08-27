@@ -172,9 +172,24 @@ final class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     
     // MARK: - Nightly Reflection Reminder
     
+    private func isTodayReflectionCompleted() -> Bool {
+        guard let data = UserDefaults.standard.data(forKey: "nightlyReflectionsData"),
+              let map = try? JSONDecoder().decode([String: NightlyReflection].self, from: data) else {
+            return false
+        }
+        let todayStr = ReflectionManager.todayISOString
+        return map[todayStr] != nil
+    }
+    
     func scheduleNightlyReflectionReminder(hour: Int? = nil, minute: Int? = nil) {
         let isReflectionEnabled = UserDefaults.standard.object(forKey: "reflectionReminderEnabled") as? Bool ?? true
         guard isReflectionEnabled else {
+            removeNightlyReflectionReminder()
+            return
+        }
+        
+        // If today's reflection is already completed, do not schedule reminder
+        guard !isTodayReflectionCompleted() else {
             removeNightlyReflectionReminder()
             return
         }

@@ -25,7 +25,6 @@ final class ReflectionManager: ObservableObject {
     
     private init() {
         loadReflections()
-        NotificationManager.shared.scheduleNightlyReflectionReminder()
     }
     
     private func loadReflections() {
@@ -63,6 +62,9 @@ final class ReflectionManager: ObservableObject {
             _ = QuestManager.shared.addXP(25)
             MascotManager.shared.addGrowthPoints(5)
         }
+        
+        // Automatically cancel today's pending reminder since reflection is completed!
+        NotificationManager.shared.removeNightlyReflectionReminder()
     }
     
     func fetchRecentReflections(days: Int = 7) -> [NightlyReflection] {

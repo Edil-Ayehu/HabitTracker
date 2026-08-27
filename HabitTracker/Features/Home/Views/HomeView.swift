@@ -93,6 +93,9 @@ struct HomeView: View {
             // MARK: Nightly Reflection Card
             ReflectionPromptCard(completionRate: Int(vm.statistics.completionRate * 100))
             
+            // MARK: Vacation & Rest Days Banner
+            VacationBannerCard()
+            
             TodayProgressCard(
                 completed: vm.statistics.completedHabits,
                 total: vm.statistics.totalHabits
