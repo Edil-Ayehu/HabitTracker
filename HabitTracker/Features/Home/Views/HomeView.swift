@@ -96,10 +96,12 @@ struct HomeView: View {
             // MARK: Vacation & Rest Days Banner
             VacationBannerCard()
             
-            TodayProgressCard(
-                completed: vm.statistics.completedHabits,
-                total: vm.statistics.totalHabits
-            )
+            if !VacationManager.shared.isVacationActive {
+                TodayProgressCard(
+                    completed: vm.statistics.completedHabits,
+                    total: vm.statistics.totalHabits
+                )
+            }
             
             StatsGrid(
                 streak: vm.statistics.currentStreak,
