@@ -65,6 +65,18 @@ struct HabitRow: View {
                             .background(Color.cyan.opacity(0.18))
                             .foregroundStyle(Color.cyan)
                             .clipShape(Capsule())
+                        } else if VacationManager.shared.isVacationActive && !entry.completed {
+                            HStack(spacing: 3) {
+                                Text(VacationManager.shared.vacationState?.reason.emoji ?? "🏖️")
+                                    .font(.system(size: 9))
+                                Text("Rest Day 🛡️")
+                                    .font(.system(size: 10, weight: .bold))
+                            }
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(Color.orange.opacity(0.18))
+                            .foregroundStyle(Color.orange)
+                            .clipShape(Capsule())
                         } else if entry.habit.habitType == .measurable {
                             Text("\(entry.progress)/\(entry.habit.goal ?? 1) \(entry.habit.unit ?? "")")
                                 .font(AppFont.caption())

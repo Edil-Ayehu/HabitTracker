@@ -7,7 +7,7 @@
         "key": "%lld/%lld %@",
         "location": {
           "startingColumn": 34,
-          "startingLine": 69
+          "startingLine": 81
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Done Today",
         "location": {
           "startingColumn": 52,
-          "startingLine": 73
+          "startingLine": 85
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Daily Goal",
         "location": {
           "startingColumn": 67,
-          "startingLine": 73
+          "startingLine": 85
         }
       },
       {
@@ -32,6 +32,14 @@
         "location": {
           "startingColumn": 38,
           "startingLine": 60
+        }
+      },
+      {
+        "comment": "",
+        "key": "Rest Day 🛡️",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 72
         }
       }
     ]
