@@ -23,6 +23,8 @@ struct HabitWidgetData: Codable {
     let completionRate: Int
     let currentStreak: Int
     let items: [HabitWidgetEntryItem]
+    var isVacationActive: Bool = false
+    var vacationReasonEmoji: String = "🏖️"
 }
 
 enum WidgetSharedData {

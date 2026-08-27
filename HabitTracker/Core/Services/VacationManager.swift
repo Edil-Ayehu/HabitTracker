@@ -6,6 +6,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import WidgetKit
 
 final class VacationManager: ObservableObject {
     static let shared = VacationManager()
@@ -58,12 +59,14 @@ final class VacationManager: ObservableObject {
         )
         self.vacationState = state
         saveState()
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     func deactivateVacation() {
         objectWillChange.send()
         self.vacationState = nil
         saveState()
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     func isDateInVacation(_ date: Date) -> Bool {

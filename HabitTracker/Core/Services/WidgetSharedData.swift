@@ -23,6 +23,8 @@ struct HabitWidgetData: Codable {
     let completionRate: Int
     let currentStreak: Int
     let items: [HabitWidgetEntryItem]
+    var isVacationActive: Bool = false
+    var vacationReasonEmoji: String = "🏖️"
 }
 
 enum WidgetSharedData {
@@ -58,7 +60,9 @@ enum WidgetSharedData {
             completedHabits: statistics.completedHabits,
             completionRate: Int(statistics.completionRate * 100),
             currentStreak: statistics.currentStreak,
-            items: items
+            items: items,
+            isVacationActive: VacationManager.shared.isVacationActive,
+            vacationReasonEmoji: VacationManager.shared.vacationState?.reason.emoji ?? "🏖️"
         )
         
         if let encoded = try? JSONEncoder().encode(widgetData) {
