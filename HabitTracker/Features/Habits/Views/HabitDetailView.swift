@@ -60,7 +60,7 @@ struct HabitDetailView: View {
                             vm.complete()
                         }
                         
-                        if let entry = vm.todayEntry, !entry.isFrozen {
+                        if let entry = vm.todayEntry, !entry.isFrozen, !VacationManager.shared.isVacationActive {
                             Button {
                                 vm.freezeHabit()
                             } label: {
@@ -78,11 +78,20 @@ struct HabitDetailView: View {
                             }
                             .buttonStyle(.plain)
                             .disabled(!StreakFreezeManager.shared.canUseToken())
+                        } else if VacationManager.shared.isVacationActive {
+                            Label("Protected by Vacation Mode 🏖️", systemImage: "shield.fill")
+                                .foregroundStyle(Color.orange)
+                                .font(AppFont.caption())
+                                .fontWeight(.bold)
                         }
                     }
                 } else if vm.todayEntry?.isFrozen == true {
                     Label("Frozen Today 🛡️", systemImage: "shield.fill")
                         .foregroundStyle(Color.cyan)
+                        .font(AppFont.headline())
+                } else if VacationManager.shared.isVacationActive && vm.todayEntry?.completed != true {
+                    Label("Protected by Vacation Mode 🏖️", systemImage: "shield.fill")
+                        .foregroundStyle(Color.orange)
                         .font(AppFont.headline())
                 } else {
                     Label("Completed Today", systemImage: "checkmark.circle.fill")

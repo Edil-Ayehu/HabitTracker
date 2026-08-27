@@ -7,7 +7,7 @@
         "key": "Delete habit?",
         "location": {
           "startingColumn": 29,
-          "startingLine": 276
+          "startingLine": 285
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Attach Photo",
         "location": {
           "startingColumn": 29,
-          "startingLine": 286
+          "startingLine": 295
         }
       },
       {
@@ -23,7 +23,15 @@
         "key": "Frozen Today 🛡️",
         "location": {
           "startingColumn": 27,
-          "startingLine": 84
+          "startingLine": 89
+        }
+      },
+      {
+        "comment": "",
+        "key": "Protected by Vacation Mode 🏖️",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 93
         }
       },
       {
@@ -31,7 +39,7 @@
         "key": "Completed Today",
         "location": {
           "startingColumn": 27,
-          "startingLine": 88
+          "startingLine": 97
         }
       },
       {
@@ -40,6 +48,14 @@
         "location": {
           "startingColumn": 30,
           "startingLine": 38
+        }
+      },
+      {
+        "comment": "",
+        "key": "Protected by Vacation Mode 🏖️",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 82
         }
       },
       {
@@ -55,7 +71,7 @@
         "key": "Today's Reflection & Photo",
         "location": {
           "startingColumn": 34,
-          "startingLine": 96
+          "startingLine": 105
         }
       },
       {
@@ -63,7 +79,7 @@
         "key": "Add your thoughts or reflection here...",
         "location": {
           "startingColumn": 43,
-          "startingLine": 100
+          "startingLine": 109
         }
       },
       {
@@ -71,7 +87,7 @@
         "key": "Add Photo",
         "location": {
           "startingColumn": 71,
-          "startingLine": 140
+          "startingLine": 149
         }
       },
       {
@@ -79,7 +95,7 @@
         "key": "Change Photo",
         "location": {
           "startingColumn": 85,
-          "startingLine": 140
+          "startingLine": 149
         }
       },
       {
@@ -87,7 +103,7 @@
         "key": "Edit Reflection",
         "location": {
           "startingColumn": 43,
-          "startingLine": 178
+          "startingLine": 187
         }
       },
       {
@@ -95,7 +111,7 @@
         "key": "Frozen",
         "location": {
           "startingColumn": 50,
-          "startingLine": 227
+          "startingLine": 236
         }
       },
       {
@@ -103,7 +119,7 @@
         "key": "Edit",
         "location": {
           "startingColumn": 28,
-          "startingLine": 264
+          "startingLine": 273
         }
       },
       {
@@ -111,7 +127,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 28,
-          "startingLine": 268
+          "startingLine": 277
         }
       },
       {
@@ -119,7 +135,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 20,
-          "startingLine": 277
+          "startingLine": 286
         }
       },
       {
@@ -127,7 +143,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 282
+          "startingLine": 291
         }
       },
       {
@@ -135,7 +151,7 @@
         "key": "Are you sure you want to delete '%@'? This will remove all tracked progress for this habit.",
         "location": {
           "startingColumn": 18,
-          "startingLine": 284
+          "startingLine": 293
         }
       },
       {
@@ -143,7 +159,7 @@
         "key": "📷 Take Photo",
         "location": {
           "startingColumn": 24,
-          "startingLine": 288
+          "startingLine": 297
         }
       },
       {
@@ -151,7 +167,7 @@
         "key": "🖼️ Choose from Photo Library",
         "location": {
           "startingColumn": 20,
-          "startingLine": 294
+          "startingLine": 303
         }
       },
       {
@@ -159,7 +175,7 @@
         "key": "Remove Photo",
         "location": {
           "startingColumn": 24,
-          "startingLine": 300
+          "startingLine": 309
         }
       },
       {
@@ -167,7 +183,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 305
+          "startingLine": 314
         }
       }
     ]
