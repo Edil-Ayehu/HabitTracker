@@ -59,14 +59,14 @@ final class VacationManager: ObservableObject {
         )
         self.vacationState = state
         saveState()
-        WidgetCenter.shared.reloadAllTimelines()
+        WidgetSharedData.syncVacationState(isVacationActive: true, reasonEmoji: reason.emoji)
     }
     
     func deactivateVacation() {
         objectWillChange.send()
         self.vacationState = nil
         saveState()
-        WidgetCenter.shared.reloadAllTimelines()
+        WidgetSharedData.syncVacationState(isVacationActive: false, reasonEmoji: "🏖️")
     }
     
     func isDateInVacation(_ date: Date) -> Bool {

@@ -76,6 +76,29 @@ enum WidgetSharedData {
         WidgetCenter.shared.reloadAllTimelines()
     }
     
+    static func syncVacationState(isVacationActive: Bool, reasonEmoji: String) {
+        let currentData = load()
+        let updatedData = HabitWidgetData(
+            totalHabits: currentData.totalHabits,
+            completedHabits: currentData.completedHabits,
+            completionRate: currentData.completionRate,
+            currentStreak: currentData.currentStreak,
+            items: currentData.items,
+            isVacationActive: isVacationActive,
+            vacationReasonEmoji: reasonEmoji
+        )
+        
+        if let encoded = try? JSONEncoder().encode(updatedData) {
+            sharedUserDefaults?.set(encoded, forKey: storageKey)
+            UserDefaults.standard.set(encoded, forKey: storageKey)
+            if let fileURL = sharedFileURL {
+                try? encoded.write(to: fileURL)
+            }
+        }
+        
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
     static func load() -> HabitWidgetData {
         if let data = sharedUserDefaults?.data(forKey: storageKey),
            let decoded = try? JSONDecoder().decode(HabitWidgetData.self, from: data) {
