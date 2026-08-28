@@ -26,11 +26,11 @@ struct OnboardingData {
         ),
         OnboardingSlide(
             id: 1,
-            title: "Grow Your Mascot Tree",
-            subtitle: "Every habit completed waters your tree! Watch it evolve from a Seedling 🌱 to a Zen Blossom 🌸 and unlock royal accessories.",
-            iconName: "tree.fill",
-            gradientColors: [Color.teal, Color.green],
-            badgeText: "Gamification 🌳"
+            title: "Focus Timer & Soundscapes",
+            subtitle: "Boost productivity with Pomodoro focus timers, background ambient soundscapes (Rain 🌧️, Ocean 🌊, Forest 🌲), and level-up XP rewards.",
+            iconName: "timer",
+            gradientColors: [Color.teal, Color.cyan],
+            badgeText: "Focus & XP ⏱️"
         ),
         OnboardingSlide(
             id: 2,
