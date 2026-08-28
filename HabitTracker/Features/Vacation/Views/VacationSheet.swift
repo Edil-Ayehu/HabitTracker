@@ -10,19 +10,38 @@ struct VacationSheet: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var selectedReason: VacationReason = .vacation
-    @State private var endDate: Date = Calendar.current.date(byAdding: .day, value: 3, to: Date()) ?? Date()
+    @State private var endDate: Date = Calendar.current.date(byAdding: .day, value: 2, to: Date()) ?? Date()
     @State private var note: String = ""
     
     var body: some View {
         AppScaffold(title: "Vacation & Rest Days 🏖️") {
             VStack(alignment: .leading, spacing: AppSpacing.lg) {
-                // Intro Banner
+                let requestedDays = manager.calculateDaysBetween(start: Date(), end: endDate)
+                let isExceeded = requestedDays > manager.remainingVacationDaysThisYear
+                
+                // Intro & Quota Card
                 CardView {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Pause & Protect Streaks 🛡️")
-                            .font(AppFont.title())
-                            .fontWeight(.bold)
-                        Text("Pause habit reminders and protect your active streaks during trips, rest days, or illness.")
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("Pause & Protect Streaks 🛡️")
+                                .font(AppFont.title())
+                                .fontWeight(.bold)
+                            
+                            Spacer()
+                            
+                            HStack(spacing: 4) {
+                                Image(systemName: "calendar.badge.clock")
+                                Text("\(manager.remainingVacationDaysThisYear)/\(manager.maxVacationDaysPerYear) Days Left")
+                            }
+                            .font(.system(size: 11, weight: .bold))
+                            .foregroundStyle(manager.remainingVacationDaysThisYear > 0 ? Color.orange : Color.red)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background((manager.remainingVacationDaysThisYear > 0 ? Color.orange : Color.red).opacity(0.15))
+                            .clipShape(Capsule())
+                        }
+                        
+                        Text("Limit: \(manager.maxVacationDaysPerYear) days per calendar year. Prevents streak abuse while keeping rest guilt-free.")
                             .font(AppFont.caption())
                             .foregroundStyle(AppColors.textSecondary)
                     }
@@ -58,17 +77,38 @@ struct VacationSheet: View {
                     }
                 }
                 
-                // End Date Picker
-                SectionHeader(title: "Vacation Until")
+                // End Date Picker & Duration Summary
+                SectionHeader(title: "Vacation Duration")
                 
                 CardView {
-                    DatePicker(
-                        "End Date",
-                        selection: $endDate,
-                        in: Date()...,
-                        displayedComponents: .date
-                    )
-                    .font(AppFont.body())
+                    VStack(alignment: .leading, spacing: 10) {
+                        DatePicker(
+                            "End Date",
+                            selection: $endDate,
+                            in: Date()...,
+                            displayedComponents: .date
+                        )
+                        .font(AppFont.body())
+                        
+                        Divider()
+                        
+                        HStack {
+                            Text("Total Days Requested:")
+                                .font(AppFont.caption())
+                                .foregroundStyle(AppColors.textSecondary)
+                            Spacer()
+                            Text("\(requestedDays) \(requestedDays == 1 ? "day" : "days")")
+                                .font(AppFont.headline())
+                                .foregroundStyle(isExceeded ? Color.red : AppColors.primary)
+                        }
+                        
+                        if isExceeded {
+                            Text("⚠️ Exceeds your remaining yearly allowance (\(manager.remainingVacationDaysThisYear) days remaining).")
+                                .font(AppFont.caption())
+                                .foregroundStyle(Color.red)
+                                .fontWeight(.bold)
+                        }
+                    }
                 }
                 
                 // Optional Note
@@ -88,7 +128,7 @@ struct VacationSheet: View {
                 } label: {
                     HStack(spacing: 8) {
                         Image(systemName: "shield.fill")
-                        Text("Activate Vacation Mode 🛡️")
+                        Text(isExceeded ? "Yearly Limit Exceeded ⚠️" : "Activate Vacation Mode 🛡️")
                     }
                     .font(AppFont.body())
                     .fontWeight(.bold)
@@ -96,15 +136,18 @@ struct VacationSheet: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
                     .background(
-                        LinearGradient(
-                            colors: [selectedReason.themeColor, Color.purple],
-                            startPoint: .leading,
-                            endPoint: .trailing
+                        isExceeded ? AnyShapeStyle(Color.gray) : AnyShapeStyle(
+                            LinearGradient(
+                                colors: [selectedReason.themeColor, Color.purple],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
                         )
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
                 .buttonStyle(.plain)
+                .disabled(isExceeded || manager.remainingVacationDaysThisYear <= 0)
             }
         }
     }

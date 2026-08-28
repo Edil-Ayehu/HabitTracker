@@ -83,7 +83,7 @@ struct VacationBannerCard: View {
                                     .foregroundStyle(AppColors.textSecondary)
                             }
                             
-                            Text("Freeze streaks & pause reminders for trips or rest days")
+                            Text("\(manager.remainingVacationDaysThisYear) of \(manager.maxVacationDaysPerYear) days left this year • Freeze streaks for trips")
                                 .font(AppFont.caption())
                                 .foregroundStyle(AppColors.textSecondary)
                         }
