@@ -80,4 +80,9 @@ final class ReflectionManager: ObservableObject {
         }
         return list
     }
+    
+    func fetchAllReflections() -> [NightlyReflection] {
+        return reflectionsMap.values
+            .sorted(by: { $0.dateString > $1.dateString })
+    }
 }

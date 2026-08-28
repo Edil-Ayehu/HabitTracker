@@ -7,6 +7,7 @@ import SwiftUI
 
 struct MoodAnalyticsCard: View {
     @StateObject private var manager = ReflectionManager.shared
+    @EnvironmentObject private var router: AppRouter
     
     var body: some View {
         let recent = manager.fetchRecentReflections(days: 7)
@@ -81,6 +82,25 @@ struct MoodAnalyticsCard: View {
                                 .italic()
                         }
                     }
+                    
+                    Divider()
+                        .padding(.vertical, 4)
+                    
+                    Button {
+                        router.push(.reflectionJournal)
+                        AudioManager.shared.playClickSound()
+                    } label: {
+                        HStack {
+                            Text("View Reflection Journal 📖")
+                                .font(AppFont.caption())
+                                .fontWeight(.bold)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 12, weight: .bold))
+                        }
+                        .foregroundStyle(AppColors.primary)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
         }

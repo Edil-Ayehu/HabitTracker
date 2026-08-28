@@ -53,6 +53,9 @@ struct RootView: View {
                         
                     case .widgetPreview:
                         WidgetPreviewView()
+                        
+                    case .reflectionJournal:
+                        ReflectionJournalView()
                     }
                 }
         }
