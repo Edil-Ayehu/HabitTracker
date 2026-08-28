@@ -17,10 +17,21 @@ final class HomeViewModel: ObservableObject {
     @Published var entries: [HabitEntry] = []
     
     @Published var selectedCategoryFilter: HabitCategory? = nil
+    @Published var selectedTimeFilter: TimeFilterOption = .timeOfDay(TimeOfDay.current())
     
     var filteredEntries: [HabitEntry] {
-        guard let filter = selectedCategoryFilter else { return entries }
-        return entries.filter { $0.habit.habitCategory == filter }
+        var result = entries
+        
+        if let category = selectedCategoryFilter {
+            result = result.filter { $0.habit.habitCategory == category }
+        }
+        
+        switch selectedTimeFilter {
+        case .all:
+            return result
+        case .timeOfDay(let time):
+            return result.filter { $0.habit.habitTimeOfDay == time || $0.habit.habitTimeOfDay == .anyTime }
+        }
     }
     
     @Published var showQuote: Bool = false

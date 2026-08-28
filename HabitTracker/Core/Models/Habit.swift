@@ -22,6 +22,8 @@ final class Habit {
     
     var categoryRaw: String = HabitCategory.health.rawValue
     
+    var timeOfDayRaw: String = TimeOfDay.anyTime.rawValue
+    
     var habitType: HabitType
 
     var goal: Int?
@@ -44,6 +46,7 @@ final class Habit {
         icon: HabitIcon,
         color: HabitColor,
         category: HabitCategory = .health,
+        timeOfDay: TimeOfDay = .anyTime,
         goal: Int?,
         unit: String?,
         habitType: HabitType,
@@ -58,6 +61,7 @@ final class Habit {
         self.icon = icon.rawValue
         self.color = color.rawValue
         self.categoryRaw = category.rawValue
+        self.timeOfDayRaw = timeOfDay.rawValue
         self.goal = goal
         self.unit = unit
         self.habitType = habitType
@@ -83,5 +87,10 @@ extension Habit {
     var habitCategory: HabitCategory {
         get { HabitCategory(rawValue: categoryRaw) ?? .health }
         set { categoryRaw = newValue.rawValue }
+    }
+    
+    var habitTimeOfDay: TimeOfDay {
+        get { TimeOfDay(rawValue: timeOfDayRaw) ?? .anyTime }
+        set { timeOfDayRaw = newValue.rawValue }
     }
 }

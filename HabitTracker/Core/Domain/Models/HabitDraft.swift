@@ -21,6 +21,8 @@ struct HabitDraft {
     
     var category: HabitCategory = .health
     
+    var timeOfDay: TimeOfDay = .anyTime
+    
     var unit = ""
 
     var frequency: HabitFrequency = .daily

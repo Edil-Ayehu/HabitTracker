@@ -80,6 +80,8 @@ struct CreateHabitView: View {
                         
                         categoryCard
                         
+                        timeOfDayCard
+                        
                         if vm.draft.habitType == .measurable {
                             
                             goalCard
@@ -551,6 +553,44 @@ private extension CreateHabitView {
                 }
             }
         }
+    }
+    
+    var timeOfDayCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label(
+                "Time of Day",
+                systemImage: "clock.fill"
+            )
+            .font(.headline)
+            
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
+                ForEach(TimeOfDay.allCases) { time in
+                    let isSelected = vm.draft.timeOfDay == time
+                    HStack(spacing: 6) {
+                        Image(systemName: time.icon)
+                            .font(.system(size: 14))
+                        Text(time.title)
+                            .font(AppFont.caption())
+                            .fontWeight(isSelected ? .bold : .medium)
+                    }
+                    .foregroundStyle(isSelected ? time.themeColor : AppColors.textPrimary)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(isSelected ? time.themeColor.opacity(0.15) : AppColors.background)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(isSelected ? time.themeColor : Color.clear, lineWidth: 1.5)
+                    )
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        vm.draft.timeOfDay = time
+                        AudioManager.shared.playClickSound()
+                    }
+                }
+            }
+        }
+        .cardStyle()
     }
 }
 

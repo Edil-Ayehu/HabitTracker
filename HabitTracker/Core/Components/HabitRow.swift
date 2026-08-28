@@ -54,6 +54,21 @@ struct HabitRow: View {
                         .foregroundStyle(entry.habit.habitCategory.color)
                         .clipShape(Capsule())
                         
+                        // Time of Day Capsule Badge
+                        if entry.habit.habitTimeOfDay != .anyTime {
+                            HStack(spacing: 3) {
+                                Image(systemName: entry.habit.habitTimeOfDay.icon)
+                                    .font(.system(size: 9))
+                                Text(entry.habit.habitTimeOfDay.shortTitle)
+                                    .font(.system(size: 10, weight: .semibold))
+                            }
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(entry.habit.habitTimeOfDay.themeColor.opacity(0.12))
+                            .foregroundStyle(entry.habit.habitTimeOfDay.themeColor)
+                            .clipShape(Capsule())
+                        }
+                        
                         // Status / Progress Subtitle
                         if entry.isFrozen {
                             HStack(spacing: 3) {

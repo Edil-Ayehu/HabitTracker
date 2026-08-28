@@ -120,6 +120,61 @@ struct HomeView: View {
                 }
             )
             
+            // MARK: Time of Day Filter Bar
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    let allOption = TimeFilterOption.all
+                    let isAllSelected = vm.selectedTimeFilter == allOption
+                    Button {
+                        vm.selectedTimeFilter = allOption
+                        AudioManager.shared.playClickSound()
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text("All Habits 📋")
+                                .font(AppFont.caption())
+                                .fontWeight(isAllSelected ? .bold : .medium)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(isAllSelected ? AppColors.primary.opacity(0.18) : AppColors.card)
+                        .foregroundStyle(isAllSelected ? AppColors.primary : AppColors.textSecondary)
+                        .clipShape(Capsule())
+                        .overlay(
+                            Capsule()
+                                .stroke(isAllSelected ? AppColors.primary : Color.clear, lineWidth: 1)
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    
+                    ForEach(TimeOfDay.allCases.filter { $0 != .anyTime }) { time in
+                        let option = TimeFilterOption.timeOfDay(time)
+                        let isSelected = vm.selectedTimeFilter == option
+                        Button {
+                            vm.selectedTimeFilter = option
+                            AudioManager.shared.playClickSound()
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: time.icon)
+                                    .font(.system(size: 11))
+                                Text(time.title)
+                                    .font(AppFont.caption())
+                                    .fontWeight(isSelected ? .bold : .medium)
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(isSelected ? time.themeColor.opacity(0.18) : AppColors.card)
+                            .foregroundStyle(isSelected ? time.themeColor : AppColors.textSecondary)
+                            .clipShape(Capsule())
+                            .overlay(
+                                Capsule()
+                                    .stroke(isSelected ? time.themeColor : Color.clear, lineWidth: 1)
+                            )
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            
             SectionHeader(title: "Today's Habits")
             
             if !vm.entries.isEmpty {
