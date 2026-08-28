@@ -47,7 +47,8 @@ struct HabitDetailView: View {
                 
                 FocusTimerCard(
                     habitTitle: vm.title,
-                    habitIcon: vm.icon.rawValue
+                    habitIcon: vm.icon.rawValue,
+                    habitID: vm.habit.id.uuidString
                 ) {
                     vm.complete()
                 }
