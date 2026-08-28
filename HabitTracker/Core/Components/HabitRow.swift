@@ -69,6 +69,21 @@ struct HabitRow: View {
                             .clipShape(Capsule())
                         }
                         
+                        // Frequency Capsule Badge (for Weekly & Monthly)
+                        if entry.habit.frequency != .daily {
+                            HStack(spacing: 3) {
+                                Image(systemName: entry.habit.frequency == .weekly ? "calendar" : "calendar.badge.clock")
+                                    .font(.system(size: 9))
+                                Text(entry.habit.frequency.title)
+                                    .font(.system(size: 10, weight: .bold))
+                            }
+                            .padding(.horizontal, 7)
+                            .padding(.vertical, 3)
+                            .background(Color.purple.opacity(0.15))
+                            .foregroundStyle(Color.purple)
+                            .clipShape(Capsule())
+                        }
+                        
                         // Status / Progress Subtitle
                         if entry.isFrozen {
                             HStack(spacing: 3) {
@@ -99,9 +114,20 @@ struct HabitRow: View {
                                 .font(AppFont.caption())
                                 .foregroundStyle(AppColors.textSecondary)
                         } else {
-                            Text(entry.completed ? "Done Today" : "Daily Goal")
-                                .font(AppFont.caption())
-                                .foregroundStyle(entry.completed ? AppColors.success : AppColors.textSecondary)
+                            switch entry.habit.frequency {
+                            case .daily:
+                                Text(entry.completed ? "Done Today" : "Daily Goal")
+                                    .font(AppFont.caption())
+                                    .foregroundStyle(entry.completed ? AppColors.success : AppColors.textSecondary)
+                            case .weekly:
+                                Text(entry.completed ? "Completed for this week 📅" : "Due this week 📅")
+                                    .font(AppFont.caption())
+                                    .foregroundStyle(entry.completed ? AppColors.success : Color.purple)
+                            case .monthly:
+                                Text(entry.completed ? "Completed for this month 🗓️" : "Due this month 🗓️")
+                                    .font(AppFont.caption())
+                                    .foregroundStyle(entry.completed ? AppColors.success : Color.indigo)
+                            }
                         }
                     }
                 }

@@ -83,19 +83,57 @@ final class HabitRepositoryImpl: HabitRepository {
     }
     
     func fetchTodayEntry(for habit: Habit) throws -> HabitEntry? {
-        
         let today = calendar.startOfDay(for: Date())
-        
         let habitID = habit.id
         
-        let descriptor = FetchDescriptor<HabitEntry>(
-            predicate: #Predicate {
-                $0.habitID == habitID &&
-                $0.date == today
+        switch habit.frequency {
+        case .daily:
+            let descriptor = FetchDescriptor<HabitEntry>(
+                predicate: #Predicate {
+                    $0.habitID == habitID &&
+                    $0.date == today
+                }
+            )
+            return try context.fetch(descriptor).first
+            
+        case .weekly:
+            guard let weekInterval = calendar.dateInterval(of: .weekOfYear, for: today) else {
+                let descriptor = FetchDescriptor<HabitEntry>(
+                    predicate: #Predicate { $0.habitID == habitID && $0.date == today }
+                )
+                return try context.fetch(descriptor).first
             }
-        )
-        
-        return try context.fetch(descriptor).first
+            let startOfWeek = weekInterval.start
+            let endOfWeek = weekInterval.end
+            let descriptor = FetchDescriptor<HabitEntry>(
+                predicate: #Predicate {
+                    $0.habitID == habitID &&
+                    $0.date >= startOfWeek &&
+                    $0.date < endOfWeek
+                },
+                sortBy: [SortDescriptor(\.date, order: .reverse)]
+            )
+            return try context.fetch(descriptor).first
+            
+        case .monthly:
+            guard let monthInterval = calendar.dateInterval(of: .month, for: today) else {
+                let descriptor = FetchDescriptor<HabitEntry>(
+                    predicate: #Predicate { $0.habitID == habitID && $0.date == today }
+                )
+                return try context.fetch(descriptor).first
+            }
+            let startOfMonth = monthInterval.start
+            let endOfMonth = monthInterval.end
+            let descriptor = FetchDescriptor<HabitEntry>(
+                predicate: #Predicate {
+                    $0.habitID == habitID &&
+                    $0.date >= startOfMonth &&
+                    $0.date < endOfMonth
+                },
+                sortBy: [SortDescriptor(\.date, order: .reverse)]
+            )
+            return try context.fetch(descriptor).first
+        }
     }
     
     func fetchAllEntries() throws -> [HabitEntry] {
