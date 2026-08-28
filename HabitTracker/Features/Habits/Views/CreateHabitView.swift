@@ -437,29 +437,35 @@ private extension CreateHabitView {
     
     
     var iconCard: some View {
-        
-        
-        VStack(
-            alignment:.leading
-        ){
-            
-            Label(
-                "Choose Icon",
-                systemImage:"star"
-            )
-            .font(.headline)
-            
-            
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Label(
+                    "Choose Icon",
+                    systemImage: "star"
+                )
+                .font(.headline)
+                
+                Spacer()
+                
+                HStack(spacing: 4) {
+                    Image(systemName: "arrow.left.and.right")
+                        .font(.system(size: 10, weight: .bold))
+                    Text("Swipe")
+                        .font(AppFont.caption())
+                        .fontWeight(.semibold)
+                }
+                .foregroundStyle(AppColors.primary)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 3)
+                .background(AppColors.primary.opacity(0.12))
+                .clipShape(Capsule())
+            }
             
             HabitIconPicker(
-                selected:$vm.draft.icon
+                selected: $vm.draft.icon
             )
-            
-            
         }
         .cardStyle()
-        
-        
     }
     
 }

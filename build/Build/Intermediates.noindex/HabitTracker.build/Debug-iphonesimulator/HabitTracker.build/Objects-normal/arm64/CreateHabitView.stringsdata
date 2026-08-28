@@ -214,8 +214,16 @@
         "comment": "",
         "key": "Choose Icon",
         "location": {
-          "startingColumn": 17,
-          "startingLine": 447
+          "startingColumn": 21,
+          "startingLine": 443
+        }
+      },
+      {
+        "comment": "",
+        "key": "Swipe",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 453
         }
       },
       {
@@ -223,7 +231,7 @@
         "key": "Complete once daily",
         "location": {
           "startingColumn": 25,
-          "startingLine": 504
+          "startingLine": 510
         }
       },
       {
@@ -231,7 +239,7 @@
         "key": "%lld times daily",
         "location": {
           "startingColumn": 29,
-          "startingLine": 506
+          "startingLine": 512
         }
       },
       {
@@ -239,7 +247,7 @@
         "key": "Delete Habit",
         "location": {
           "startingColumn": 26,
-          "startingLine": 548
+          "startingLine": 554
         }
       },
       {
@@ -247,7 +255,7 @@
         "key": "Time of Day",
         "location": {
           "startingColumn": 17,
-          "startingLine": 561
+          "startingLine": 567
         }
       }
     ]
