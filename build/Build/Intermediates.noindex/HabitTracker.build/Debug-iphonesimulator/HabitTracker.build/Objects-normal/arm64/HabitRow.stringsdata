@@ -7,7 +7,7 @@
         "key": "%lld/%lld %@",
         "location": {
           "startingColumn": 34,
-          "startingLine": 113
+          "startingLine": 68
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Done Today",
         "location": {
           "startingColumn": 56,
-          "startingLine": 119
+          "startingLine": 74
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Daily Goal",
         "location": {
           "startingColumn": 71,
-          "startingLine": 119
+          "startingLine": 74
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Completed for this week 📅",
         "location": {
           "startingColumn": 56,
-          "startingLine": 123
+          "startingLine": 78
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Due this week 📅",
         "location": {
           "startingColumn": 89,
-          "startingLine": 123
+          "startingLine": 78
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Completed for this month 🗓️",
         "location": {
           "startingColumn": 56,
-          "startingLine": 127
+          "startingLine": 82
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Due this month 🗓️",
         "location": {
           "startingColumn": 93,
-          "startingLine": 127
+          "startingLine": 82
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Frozen 🛡️",
         "location": {
           "startingColumn": 38,
-          "startingLine": 92
+          "startingLine": 47
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Rest Day 🛡️",
         "location": {
           "startingColumn": 38,
-          "startingLine": 104
+          "startingLine": 59
         }
       }
     ]

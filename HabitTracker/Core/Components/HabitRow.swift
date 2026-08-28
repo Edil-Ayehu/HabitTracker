@@ -2,13 +2,10 @@
 //  HabitRow.swift
 //  HabitTracker
 //
-//  Created by Edil on 01/08/2026.
-//
 
 import SwiftUI
 
 struct HabitRow: View {
-    
     let entry: HabitEntry
     let onIncrement: () -> Void
     let onComplete: () -> Void
@@ -32,59 +29,17 @@ struct HabitRow: View {
                 }
                 
                 // MARK: - Middle Title & Metadata
-                VStack(alignment: .leading, spacing: 5) {
+                VStack(alignment: .leading, spacing: 4) {
                     
+                    // Line 1: Title
                     Text(entry.habit.title)
                         .font(AppFont.headline())
                         .foregroundStyle(entry.completed ? AppColors.textSecondary : AppColors.textPrimary)
                         .strikethrough(entry.completed, color: AppColors.textSecondary)
                         .lineLimit(1)
                     
-                    HStack(spacing: 8) {
-                        // Category Capsule Badge
-                        HStack(spacing: 4) {
-                            Image(systemName: entry.habit.habitCategory.icon)
-                                .font(.system(size: 9))
-                            Text(entry.habit.habitCategory.title)
-                                .font(.system(size: 10, weight: .semibold))
-                        }
-                        .padding(.horizontal, 7)
-                        .padding(.vertical, 3)
-                        .background(entry.habit.habitCategory.color.opacity(0.12))
-                        .foregroundStyle(entry.habit.habitCategory.color)
-                        .clipShape(Capsule())
-                        
-                        // Time of Day Capsule Badge
-                        if entry.habit.habitTimeOfDay != .anyTime {
-                            HStack(spacing: 3) {
-                                Image(systemName: entry.habit.habitTimeOfDay.icon)
-                                    .font(.system(size: 9))
-                                Text(entry.habit.habitTimeOfDay.shortTitle)
-                                    .font(.system(size: 10, weight: .semibold))
-                            }
-                            .padding(.horizontal, 7)
-                            .padding(.vertical, 3)
-                            .background(entry.habit.habitTimeOfDay.themeColor.opacity(0.12))
-                            .foregroundStyle(entry.habit.habitTimeOfDay.themeColor)
-                            .clipShape(Capsule())
-                        }
-                        
-                        // Frequency Capsule Badge (for Weekly & Monthly)
-                        if entry.habit.frequency != .daily {
-                            HStack(spacing: 3) {
-                                Image(systemName: entry.habit.frequency == .weekly ? "calendar" : "calendar.badge.clock")
-                                    .font(.system(size: 9))
-                                Text(entry.habit.frequency.title)
-                                    .font(.system(size: 10, weight: .bold))
-                            }
-                            .padding(.horizontal, 7)
-                            .padding(.vertical, 3)
-                            .background(Color.purple.opacity(0.15))
-                            .foregroundStyle(Color.purple)
-                            .clipShape(Capsule())
-                        }
-                        
-                        // Status / Progress Subtitle
+                    // Line 2: Status / Progress Subtitle
+                    HStack(spacing: 6) {
                         if entry.isFrozen {
                             HStack(spacing: 3) {
                                 Image(systemName: "shield.fill")
@@ -93,7 +48,7 @@ struct HabitRow: View {
                                     .font(.system(size: 10, weight: .bold))
                             }
                             .padding(.horizontal, 7)
-                            .padding(.vertical, 3)
+                            .padding(.vertical, 2)
                             .background(Color.cyan.opacity(0.18))
                             .foregroundStyle(Color.cyan)
                             .clipShape(Capsule())
@@ -105,7 +60,7 @@ struct HabitRow: View {
                                     .font(.system(size: 10, weight: .bold))
                             }
                             .padding(.horizontal, 7)
-                            .padding(.vertical, 3)
+                            .padding(.vertical, 2)
                             .background(Color.orange.opacity(0.18))
                             .foregroundStyle(Color.orange)
                             .clipShape(Capsule())
@@ -128,6 +83,52 @@ struct HabitRow: View {
                                     .font(AppFont.caption())
                                     .foregroundStyle(entry.completed ? AppColors.success : Color.indigo)
                             }
+                        }
+                    }
+                    
+                    // Line 3: Clean Capsule Badges (Category • Time of Day • Frequency)
+                    HStack(spacing: 6) {
+                        // Category Capsule Badge
+                        HStack(spacing: 3) {
+                            Image(systemName: entry.habit.habitCategory.icon)
+                                .font(.system(size: 9))
+                            Text(entry.habit.habitCategory.title)
+                                .font(.system(size: 9, weight: .semibold))
+                        }
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(entry.habit.habitCategory.color.opacity(0.12))
+                        .foregroundStyle(entry.habit.habitCategory.color)
+                        .clipShape(Capsule())
+                        
+                        // Time of Day Capsule Badge
+                        if entry.habit.habitTimeOfDay != .anyTime {
+                            HStack(spacing: 3) {
+                                Image(systemName: entry.habit.habitTimeOfDay.icon)
+                                    .font(.system(size: 9))
+                                Text(entry.habit.habitTimeOfDay.shortTitle)
+                                    .font(.system(size: 9, weight: .semibold))
+                            }
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(entry.habit.habitTimeOfDay.themeColor.opacity(0.12))
+                            .foregroundStyle(entry.habit.habitTimeOfDay.themeColor)
+                            .clipShape(Capsule())
+                        }
+                        
+                        // Frequency Capsule Badge (for Weekly & Monthly)
+                        if entry.habit.frequency != .daily {
+                            HStack(spacing: 3) {
+                                Image(systemName: entry.habit.frequency == .weekly ? "calendar" : "calendar.badge.clock")
+                                    .font(.system(size: 9))
+                                Text(entry.habit.frequency.title)
+                                    .font(.system(size: 9, weight: .bold))
+                            }
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.purple.opacity(0.15))
+                            .foregroundStyle(Color.purple)
+                            .clipShape(Capsule())
                         }
                     }
                 }
