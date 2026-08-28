@@ -15,6 +15,8 @@ struct SettingsView: View {
     @AppStorage("geminiApiKey") private var geminiApiKey: String = ""
     @AppStorage("soundEffectsEnabled") private var soundEffectsEnabled: Bool = true
     @AppStorage("reflectionReminderEnabled") private var reflectionReminderEnabled: Bool = true
+    
+    @State private var showOnboardingSheet: Bool = false
 
     var body: some View {
 
@@ -167,7 +169,17 @@ struct SettingsView: View {
                     ) {
                         router.push(.statistics)
                     }
+
+                    settingsRow(
+                        title: "Replay App Guide 📖",
+                        icon: "book.fill"
+                    ) {
+                        showOnboardingSheet = true
+                    }
                 }
+            }
+            .fullScreenCover(isPresented: $showOnboardingSheet) {
+                OnboardingView()
             }
 
             Spacer()

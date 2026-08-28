@@ -7,7 +7,7 @@
         "key": "Delete Habit?",
         "location": {
           "startingColumn": 13,
-          "startingLine": 207
+          "startingLine": 210
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Enroll in 30-day bootcamps & earn +500 XP trophies",
         "location": {
           "startingColumn": 34,
-          "startingLine": 82
+          "startingLine": 85
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "30-Day Challenges & Bootcamps",
         "location": {
           "startingColumn": 38,
-          "startingLine": 73
+          "startingLine": 76
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "All (%lld)",
         "location": {
           "startingColumn": 34,
-          "startingLine": 128
+          "startingLine": 131
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "%@ (%lld)",
         "location": {
           "startingColumn": 42,
-          "startingLine": 147
+          "startingLine": 150
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Edit Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 188
+          "startingLine": 191
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Delete Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 195
+          "startingLine": 198
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 20,
-          "startingLine": 211
+          "startingLine": 214
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 217
+          "startingLine": 220
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "Are you sure you want to delete '%@'? This will remove all recorded entries for this habit.",
         "location": {
           "startingColumn": 22,
-          "startingLine": 222
+          "startingLine": 225
         }
       }
     ]

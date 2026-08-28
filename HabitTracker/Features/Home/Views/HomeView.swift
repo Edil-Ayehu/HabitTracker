@@ -27,6 +27,9 @@ struct HomeView: View {
     private var vm = DIContainer.shared.makeHomeViewModel()
     @StateObject private var vacationManager = VacationManager.shared
     
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
+    @State private var showOnboardingSheet: Bool = false
+    
     var body: some View {
         
         AppScaffold {
@@ -271,6 +274,14 @@ struct HomeView: View {
             if let image = shareImage {
                 ShareSheet(items: [image])
             }
+        }
+        .onAppear {
+            if !hasCompletedOnboarding {
+                showOnboardingSheet = true
+            }
+        }
+        .fullScreenCover(isPresented: $showOnboardingSheet) {
+            OnboardingView()
         }
         
     }
