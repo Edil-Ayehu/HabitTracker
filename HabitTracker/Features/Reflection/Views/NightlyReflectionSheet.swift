@@ -23,7 +23,7 @@ struct NightlyReflectionSheet: View {
                 CardView {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(isEditing ? "Edit Today's Reflection" : "How was your day?")
-                            .font(AppFont.title())
+                            .font(AppFont.headline())
                             .fontWeight(.bold)
                         Text(isEditing ? "Update your mood, gratitude, or evening journal entry." : "Log your mood, reflect on gratitude, and earn +25 XP.")
                             .font(AppFont.caption())

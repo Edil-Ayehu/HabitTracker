@@ -32,7 +32,7 @@ struct AppNavigationBar<Trailing: View>: View {
             VStack(alignment: .leading, spacing: 4) {
 
                 Text(title)
-                    .font(AppFont.largeTitle())
+                    .font(AppFont.title())
 
                 if let subtitle {
                     Text(subtitle)

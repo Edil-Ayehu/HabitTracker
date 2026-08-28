@@ -18,7 +18,7 @@ struct SectionHeader: View {
         HStack {
 
             Text(title)
-                .font(AppFont.title())
+                .font(AppFont.headline())
 
             Spacer()
 
