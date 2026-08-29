@@ -176,11 +176,24 @@ final class HabitDetailViewModel: ObservableObject {
     }
     
     var todayEntry: HabitEntry? {
-
-        let today = Calendar.current.startOfDay(for: Date())
-
-        return entries.first {
-            Calendar.current.isDate($0.date, inSameDayAs: today)
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        
+        switch habit.frequency {
+        case .daily:
+            return entries.first { calendar.isDate($0.date, inSameDayAs: today) }
+            
+        case .weekly:
+            guard let weekInterval = calendar.dateInterval(of: .weekOfYear, for: today) else {
+                return entries.first { calendar.isDate($0.date, inSameDayAs: today) }
+            }
+            return entries.first { $0.date >= weekInterval.start && $0.date < weekInterval.end }
+            
+        case .monthly:
+            guard let monthInterval = calendar.dateInterval(of: .month, for: today) else {
+                return entries.first { calendar.isDate($0.date, inSameDayAs: today) }
+            }
+            return entries.first { $0.date >= monthInterval.start && $0.date < monthInterval.end }
         }
     }
     

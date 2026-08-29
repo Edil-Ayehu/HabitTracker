@@ -196,6 +196,7 @@ struct SettingsView: View {
         HStack {
 
             Label(title, systemImage: icon)
+                .font(AppFont.body())
 
             Spacer()
 

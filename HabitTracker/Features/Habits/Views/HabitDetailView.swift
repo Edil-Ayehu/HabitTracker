@@ -95,7 +95,14 @@ struct HabitDetailView: View {
                         .foregroundStyle(Color.orange)
                         .font(AppFont.headline())
                 } else {
-                    Label("Completed Today", systemImage: "checkmark.circle.fill")
+                    let text: String = {
+                        switch vm.habit.frequency {
+                        case .daily: return "Completed Today"
+                        case .weekly: return "Completed for this week 📅"
+                        case .monthly: return "Completed for this month 🗓️"
+                        }
+                    }()
+                    Label(text, systemImage: "checkmark.circle.fill")
                         .foregroundStyle(AppColors.success)
                         .font(AppFont.headline())
                 }
