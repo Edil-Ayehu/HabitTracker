@@ -7,7 +7,7 @@
         "key": "Share Progress Card",
         "location": {
           "startingColumn": 30,
-          "startingLine": 32
+          "startingLine": 31
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 39,
-          "startingLine": 121
+          "startingLine": 120
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Completion",
         "location": {
           "startingColumn": 33,
-          "startingLine": 123
+          "startingLine": 122
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 39,
-          "startingLine": 129
+          "startingLine": 128
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Completion",
         "location": {
           "startingColumn": 33,
-          "startingLine": 131
+          "startingLine": 130
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 33,
-          "startingLine": 149
+          "startingLine": 148
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Completed",
         "location": {
           "startingColumn": 33,
-          "startingLine": 154
+          "startingLine": 153
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Habits",
         "location": {
           "startingColumn": 47,
-          "startingLine": 170
+          "startingLine": 169
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "%lld habit%@ (%lld%%)",
         "location": {
           "startingColumn": 42,
-          "startingLine": 201
+          "startingLine": 200
         }
       }
     ]

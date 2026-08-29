@@ -13,8 +13,7 @@ struct StatisticsView: View {
     @StateObject
     var vm: StatisticsViewModel
     
-    @State private var shareImage: UIImage?
-    @State private var showShareSheet = false
+    @State private var shareItem: IdentifiableImage?
 
     var body: some View {
 
@@ -216,10 +215,8 @@ struct StatisticsView: View {
         .onAppear {
             vm.load()
         }
-        .sheet(isPresented: $showShareSheet) {
-            if let image = shareImage {
-                ShareSheet(items: [image])
-            }
+        .sheet(item: $shareItem) { item in
+            ShareSheet(items: [item.image])
         }
     }
     
@@ -235,8 +232,7 @@ struct StatisticsView: View {
         let renderer = ImageRenderer(content: card)
         renderer.scale = UIScreen.main.scale
         if let image = renderer.uiImage {
-            shareImage = image
-            showShareSheet = true
+            self.shareItem = IdentifiableImage(image: image)
         }
     }
 }

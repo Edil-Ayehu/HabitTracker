@@ -19,8 +19,7 @@ struct HomeView: View {
     @State private var habitToDelete: Habit?
     @State private var showDeleteConfirmation = false
     
-    @State private var shareImage: UIImage?
-    @State private var showShareSheet = false
+    @State private var shareItem: IdentifiableImage?
     @State private var showChallengesSheet = false
     
     @StateObject
@@ -325,10 +324,8 @@ struct HomeView: View {
                 .transition(.scale.combined(with: .opacity))
             }
         }
-        .sheet(isPresented: $showShareSheet) {
-            if let image = shareImage {
-                ShareSheet(items: [image])
-            }
+        .sheet(item: $shareItem) { item in
+            ShareSheet(items: [item.image])
         }
         .onAppear {
             if !hasCompletedOnboarding {
@@ -353,8 +350,7 @@ struct HomeView: View {
         let renderer = ImageRenderer(content: card)
         renderer.scale = UIScreen.main.scale
         if let image = renderer.uiImage {
-            shareImage = image
-            showShareSheet = true
+            self.shareItem = IdentifiableImage(image: image)
         }
     }
     
