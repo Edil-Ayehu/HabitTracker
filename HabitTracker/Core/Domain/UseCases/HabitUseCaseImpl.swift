@@ -165,22 +165,27 @@ final class HabitUseCaseImpl: HabitUseCase {
     
     
     func complete(_ entry: HabitEntry) throws {
+        let isAlreadyCompleted = entry.completed
         
-        switch entry.habit.habitType {
-            
-        case .binary:
-            
-            entry.progress = 1
-            entry.completed = true
-            
-        case .measurable:
-            
-            guard let goal = entry.habit.goal else {
-                return
+        if isAlreadyCompleted {
+            entry.completed = false
+            entry.progress = 0
+            entry.completedSubTaskIDs = []
+        } else {
+            switch entry.habit.habitType {
+            case .binary:
+                entry.progress = 1
+                entry.completed = true
+                
+            case .measurable:
+                entry.progress = entry.habit.goal ?? 1
+                entry.completed = true
             }
             
-            entry.progress = goal
-            entry.completed = true
+            let allSubTaskIDs = Set(entry.habit.subTasks.map(\.id))
+            if !allSubTaskIDs.isEmpty {
+                entry.completedSubTaskIDs = allSubTaskIDs
+            }
         }
         
         try repository.update()

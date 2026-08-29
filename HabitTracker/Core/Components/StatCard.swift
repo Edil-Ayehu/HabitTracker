@@ -31,8 +31,7 @@ struct StatCard: View {
                     .foregroundStyle(color)
 
                 Text(value)
-                    .font(.title)
-                    .bold()
+                    .font(AppFont.title())
 
                 Text(title)
                     .font(AppFont.body())
