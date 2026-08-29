@@ -230,9 +230,17 @@ struct HabitDetailView: View {
                     ForEach(vm.entries) { entry in
                         CardView {
                             VStack(alignment: .leading, spacing: 8) {
-                                HStack {
-                                    Text(entry.date.formatted(date: .abbreviated, time: .omitted))
-                                        .font(AppFont.headline())
+                                HStack(alignment: .top) {
+                                    VStack(alignment: .leading, spacing: 3) {
+                                        Text(formattedPeriodHeader(for: entry))
+                                            .font(AppFont.headline())
+                                        
+                                        if let checkInTime = formattedCheckInTimestamp(for: entry) {
+                                            Text(checkInTime)
+                                                .font(AppFont.caption())
+                                                .foregroundStyle(AppColors.textSecondary)
+                                        }
+                                    }
                                     
                                     Spacer()
                                     
@@ -327,6 +335,35 @@ struct HabitDetailView: View {
             }
         }) {
             ImagePicker(sourceType: pickerSourceType, selectedImage: $vm.selectedImage)
+        }
+    }
+    
+    private func formattedPeriodHeader(for entry: HabitEntry) -> String {
+        let calendar = Calendar.current
+        switch entry.habit.frequency {
+        case .daily:
+            return entry.date.formatted(date: .abbreviated, time: .omitted)
+            
+        case .weekly:
+            guard let weekInterval = calendar.dateInterval(of: .weekOfYear, for: entry.date) else {
+                return entry.date.formatted(date: .abbreviated, time: .omitted)
+            }
+            let endOfWeek = calendar.date(byAdding: .day, value: -1, to: weekInterval.end) ?? entry.date
+            let startStr = weekInterval.start.formatted(.dateTime.month(.abbreviated).day())
+            let endStr = endOfWeek.formatted(.dateTime.month(.abbreviated).day().year())
+            return "Week of \(startStr) – \(endStr)"
+            
+        case .monthly:
+            return entry.date.formatted(.dateTime.month(.wide).year())
+        }
+    }
+    
+    private func formattedCheckInTimestamp(for entry: HabitEntry) -> String? {
+        switch entry.habit.frequency {
+        case .daily:
+            return nil
+        case .weekly, .monthly:
+            return "Checked off on \(entry.date.formatted(date: .abbreviated, time: .shortened))"
         }
     }
 }
