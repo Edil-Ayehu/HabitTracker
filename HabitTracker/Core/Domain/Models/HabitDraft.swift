@@ -30,5 +30,6 @@ struct HabitDraft {
     var reminderEnabled = false
     
     var reminderTime = Date()
-
+    
+    var subTasks: [SubTask] = []
 }

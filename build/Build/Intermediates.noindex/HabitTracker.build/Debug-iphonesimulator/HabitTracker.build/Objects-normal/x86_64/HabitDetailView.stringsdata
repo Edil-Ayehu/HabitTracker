@@ -7,7 +7,7 @@
         "key": "Delete habit?",
         "location": {
           "startingColumn": 29,
-          "startingLine": 301
+          "startingLine": 350
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Attach Photo",
         "location": {
           "startingColumn": 29,
-          "startingLine": 311
+          "startingLine": 360
         }
       },
       {
@@ -60,10 +60,26 @@
       },
       {
         "comment": "",
+        "key": "%lld/%lld Completed",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 121
+        }
+      },
+      {
+        "comment": "",
+        "key": "Checklist Sub-tasks",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 114
+        }
+      },
+      {
+        "comment": "",
         "key": "Today's Reflection & Photo",
         "location": {
           "startingColumn": 34,
-          "startingLine": 113
+          "startingLine": 161
         }
       },
       {
@@ -71,7 +87,7 @@
         "key": "Add your thoughts or reflection here...",
         "location": {
           "startingColumn": 43,
-          "startingLine": 117
+          "startingLine": 165
         }
       },
       {
@@ -79,7 +95,7 @@
         "key": "Add Photo",
         "location": {
           "startingColumn": 71,
-          "startingLine": 157
+          "startingLine": 205
         }
       },
       {
@@ -87,7 +103,7 @@
         "key": "Change Photo",
         "location": {
           "startingColumn": 85,
-          "startingLine": 157
+          "startingLine": 205
         }
       },
       {
@@ -95,7 +111,7 @@
         "key": "Edit Reflection",
         "location": {
           "startingColumn": 43,
-          "startingLine": 195
+          "startingLine": 244
         }
       },
       {
@@ -103,7 +119,7 @@
         "key": "Frozen",
         "location": {
           "startingColumn": 50,
-          "startingLine": 252
+          "startingLine": 301
         }
       },
       {
@@ -111,7 +127,7 @@
         "key": "Edit",
         "location": {
           "startingColumn": 28,
-          "startingLine": 289
+          "startingLine": 338
         }
       },
       {
@@ -119,7 +135,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 28,
-          "startingLine": 293
+          "startingLine": 342
         }
       },
       {
@@ -127,7 +143,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 20,
-          "startingLine": 302
+          "startingLine": 351
         }
       },
       {
@@ -135,7 +151,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 307
+          "startingLine": 356
         }
       },
       {
@@ -143,7 +159,7 @@
         "key": "Are you sure you want to delete '%@'? This will remove all tracked progress for this habit.",
         "location": {
           "startingColumn": 18,
-          "startingLine": 309
+          "startingLine": 358
         }
       },
       {
@@ -151,7 +167,7 @@
         "key": "📷 Take Photo",
         "location": {
           "startingColumn": 24,
-          "startingLine": 313
+          "startingLine": 362
         }
       },
       {
@@ -159,7 +175,7 @@
         "key": "🖼️ Choose from Photo Library",
         "location": {
           "startingColumn": 20,
-          "startingLine": 319
+          "startingLine": 368
         }
       },
       {
@@ -167,7 +183,7 @@
         "key": "Remove Photo",
         "location": {
           "startingColumn": 24,
-          "startingLine": 325
+          "startingLine": 374
         }
       },
       {
@@ -175,7 +191,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 330
+          "startingLine": 379
         }
       }
     ]

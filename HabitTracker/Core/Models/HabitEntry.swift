@@ -51,4 +51,24 @@ final class HabitEntry {
         imageData = nil
         isFrozen = false
     }
+    
+    var completedSubTaskIDsJSON: String?
+    
+    var completedSubTaskIDs: Set<UUID> {
+        get {
+            guard let data = completedSubTaskIDsJSON?.data(using: .utf8),
+                  let ids = try? JSONDecoder().decode(Set<UUID>.self, from: data) else {
+                return []
+            }
+            return ids
+        }
+        set {
+            if let data = try? JSONEncoder().encode(newValue),
+               let json = String(data: data, encoding: .utf8) {
+                completedSubTaskIDsJSON = json
+            } else {
+                completedSubTaskIDsJSON = nil
+            }
+        }
+    }
 }

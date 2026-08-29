@@ -21,6 +21,7 @@ struct CreateHabitView: View {
     
     
     @State private var showDeleteConfirmation = false
+    @State private var newSubTaskTitle: String = ""
     
     init(vm: CreateHabitViewModel) {
         _vm = StateObject(
@@ -81,6 +82,8 @@ struct CreateHabitView: View {
                         categoryCard
                         
                         timeOfDayCard
+                        
+                        subTasksCard
                         
                         if vm.draft.habitType == .measurable {
                             
@@ -464,6 +467,74 @@ private extension CreateHabitView {
             HabitIconPicker(
                 selected: $vm.draft.icon
             )
+        }
+        .cardStyle()
+    }
+    
+    var subTasksCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("Checklist Sub-tasks (Optional)", systemImage: "checklist")
+                .font(.headline)
+            
+            Text("Break complex habits into smaller checklist items.")
+                .font(AppFont.caption())
+                .foregroundStyle(AppColors.textSecondary)
+            
+            HStack(spacing: 8) {
+                TextField("Add sub-task (e.g. Make Bed)", text: $newSubTaskTitle)
+                    .textFieldStyle(.plain)
+                    .padding(10)
+                    .background(Color.gray.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                
+                Button {
+                    vm.addSubTask(title: newSubTaskTitle)
+                    newSubTaskTitle = ""
+                    AudioManager.shared.playClickSound()
+                } label: {
+                    Text("+ Add")
+                        .font(AppFont.caption())
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 10)
+                        .background(AppColors.primary)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+                .buttonStyle(.plain)
+                .disabled(newSubTaskTitle.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+            
+            if !vm.draft.subTasks.isEmpty {
+                VStack(spacing: 8) {
+                    ForEach(vm.draft.subTasks) { subTask in
+                        HStack {
+                            Image(systemName: "circle")
+                                .font(.system(size: 14))
+                                .foregroundStyle(AppColors.textSecondary)
+                            
+                            Text(subTask.title)
+                                .font(AppFont.body())
+                                .foregroundStyle(AppColors.textPrimary)
+                            
+                            Spacer()
+                            
+                            Button {
+                                vm.removeSubTask(id: subTask.id)
+                                AudioManager.shared.playClickSound()
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .font(.system(size: 16))
+                                    .foregroundStyle(Color.red.opacity(0.7))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(10)
+                        .background(Color.gray.opacity(0.06))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    }
+                }
+            }
         }
         .cardStyle()
     }

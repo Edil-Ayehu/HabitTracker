@@ -10,12 +10,13 @@ struct HabitRow: View {
     let onIncrement: () -> Void
     let onComplete: () -> Void
     let onTap: () -> Void
+    var onToggleSubTask: ((UUID) -> Void)? = nil
     
     @ObservedObject private var vacationManager = VacationManager.shared
 
     var body: some View {
         CardView {
-            HStack(spacing: AppSpacing.md) {
+            HStack(alignment: .top, spacing: AppSpacing.md) {
                 
                 // MARK: - Left Icon Container
                 ZStack {
@@ -86,7 +87,7 @@ struct HabitRow: View {
                         }
                     }
                     
-                    // Line 3: Clean Capsule Badges (Category • Time of Day • Frequency)
+                    // Line 3: Clean Capsule Badges (Category • Time of Day • Frequency • Subtasks)
                     HStack(spacing: 6) {
                         // Category Capsule Badge
                         HStack(spacing: 3) {
@@ -116,6 +117,22 @@ struct HabitRow: View {
                             .clipShape(Capsule())
                         }
                         
+                        // Sub-tasks Progress Badge
+                        if !entry.habit.subTasks.isEmpty {
+                            let completedCount = entry.habit.subTasks.filter { entry.completedSubTaskIDs.contains($0.id) }.count
+                            HStack(spacing: 3) {
+                                Image(systemName: "checklist")
+                                    .font(.system(size: 9))
+                                Text("\(completedCount)/\(entry.habit.subTasks.count)")
+                                    .font(.system(size: 9, weight: .bold))
+                            }
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(AppColors.primary.opacity(0.12))
+                            .foregroundStyle(AppColors.primary)
+                            .clipShape(Capsule())
+                        }
+                        
                         // Frequency Capsule Badge (for Weekly & Monthly)
                         if entry.habit.frequency != .daily {
                             HStack(spacing: 3) {
@@ -130,6 +147,32 @@ struct HabitRow: View {
                             .foregroundStyle(Color.purple)
                             .clipShape(Capsule())
                         }
+                    }
+                    
+                    // Line 4: Interactive Checklist Items
+                    if !entry.habit.subTasks.isEmpty {
+                        VStack(alignment: .leading, spacing: 6) {
+                            ForEach(entry.habit.subTasks) { subTask in
+                                let isDone = entry.completedSubTaskIDs.contains(subTask.id)
+                                Button {
+                                    onToggleSubTask?(subTask.id)
+                                    AudioManager.shared.playClickSound()
+                                } label: {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: isDone ? "checkmark.square.fill" : "square")
+                                            .font(.system(size: 13, weight: .bold))
+                                            .foregroundStyle(isDone ? AppColors.success : AppColors.textSecondary)
+                                        
+                                        Text(subTask.title)
+                                            .font(AppFont.caption())
+                                            .foregroundStyle(isDone ? AppColors.textSecondary : AppColors.textPrimary)
+                                            .strikethrough(isDone, color: AppColors.textSecondary)
+                                    }
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(.top, 4)
                     }
                 }
                 

@@ -7,7 +7,7 @@
         "key": "Notifications are disabled in Settings.",
         "location": {
           "startingColumn": 21,
-          "startingLine": 56
+          "startingLine": 59
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Open Settings",
         "location": {
           "startingColumn": 24,
-          "startingLine": 60
+          "startingLine": 63
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Permission",
         "location": {
           "startingColumn": 26,
-          "startingLine": 44
+          "startingLine": 45
         }
       }
     ]

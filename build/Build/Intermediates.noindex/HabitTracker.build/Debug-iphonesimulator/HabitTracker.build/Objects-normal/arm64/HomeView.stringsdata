@@ -7,7 +7,7 @@
         "key": "Delete Habit?",
         "location": {
           "startingColumn": 13,
-          "startingLine": 264
+          "startingLine": 267
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Edit Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 245
+          "startingLine": 248
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Delete Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 252
+          "startingLine": 255
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 20,
-          "startingLine": 268
+          "startingLine": 271
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 274
+          "startingLine": 277
         }
       },
       {
@@ -87,7 +87,7 @@
         "key": "Are you sure you want to delete '%@'? This will remove all recorded entries for this habit.",
         "location": {
           "startingColumn": 22,
-          "startingLine": 279
+          "startingLine": 282
         }
       }
     ]

@@ -44,6 +44,7 @@ final class CreateHabitViewModel: ObservableObject {
             draft.habitType = habit.habitType
             
             draft.reminderEnabled = habit.reminderEnabled
+            draft.subTasks = habit.subTasks
             
             if let hour = habit.reminderHour,
                let minute = habit.reminderMinute {
@@ -57,6 +58,20 @@ final class CreateHabitViewModel: ObservableObject {
                 Calendar.current.date(from: comp) ?? Date()
             }
         }
+    }
+    
+    func addSubTask(title: String) {
+        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        draft.subTasks.append(SubTask(title: trimmed))
+    }
+    
+    func removeSubTask(at offsets: IndexSet) {
+        draft.subTasks.remove(atOffsets: offsets)
+    }
+    
+    func removeSubTask(id: UUID) {
+        draft.subTasks.removeAll(where: { $0.id == id })
     }
     
     func saveHabit() -> Bool {
@@ -81,6 +96,7 @@ final class CreateHabitViewModel: ObservableObject {
                 habit.unit = draft.unit
                 habit.habitType = draft.habitType
                 habit.frequency = draft.frequency
+                habit.subTasks = draft.subTasks
                 
                 habit.reminderEnabled = draft.reminderEnabled
                 
@@ -115,6 +131,7 @@ final class CreateHabitViewModel: ObservableObject {
                     reminderHour: Calendar.current.component(.hour, from: draft.reminderTime),
                     reminderMinute: Calendar.current.component(.minute, from: draft.reminderTime)
                 )
+                habit.subTasks = draft.subTasks
                 
                 try habitUseCase.addHabit(habit)
                 

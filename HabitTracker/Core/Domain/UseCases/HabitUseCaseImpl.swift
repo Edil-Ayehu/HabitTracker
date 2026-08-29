@@ -499,6 +499,30 @@ final class HabitUseCaseImpl: HabitUseCase {
         }.sorted(by: { $0.habitCount > $1.habitCount })
     }
     
+    func toggleSubTask(_ subTaskID: UUID, for entry: HabitEntry) throws {
+        var set = entry.completedSubTaskIDs
+        if set.contains(subTaskID) {
+            set.remove(subTaskID)
+        } else {
+            set.insert(subTaskID)
+        }
+        entry.completedSubTaskIDs = set
+        
+        let allSubTaskIDs = Set(entry.habit.subTasks.map(\.id))
+        if !allSubTaskIDs.isEmpty {
+            if allSubTaskIDs.isSubset(of: set) {
+                entry.completed = true
+                entry.progress = entry.habit.goal ?? 1
+            } else {
+                entry.completed = false
+                entry.progress = set.count
+            }
+        }
+        
+        try repository.update()
+        syncWidgetData()
+    }
+    
     private func syncWidgetData() {
         if let entries = try? repository.fetchTodayEntries(),
            let statistics = try? fetchStatistics() {

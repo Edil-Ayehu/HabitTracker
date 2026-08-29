@@ -107,6 +107,54 @@ struct HabitDetailView: View {
                         .font(AppFont.headline())
                 }
                 
+                if !vm.habit.subTasks.isEmpty {
+                    CardView {
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Label("Checklist Sub-tasks", systemImage: "checklist")
+                                    .font(AppFont.headline())
+                                
+                                Spacer()
+                                
+                                if let entry = vm.todayEntry {
+                                    let completedCount = vm.habit.subTasks.filter { entry.completedSubTaskIDs.contains($0.id) }.count
+                                    Text("\(completedCount)/\(vm.habit.subTasks.count) Completed")
+                                        .font(AppFont.caption())
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(completedCount == vm.habit.subTasks.count ? AppColors.success : AppColors.primary)
+                                }
+                            }
+                            
+                            VStack(alignment: .leading, spacing: 10) {
+                                ForEach(vm.habit.subTasks) { subTask in
+                                    let isDone = vm.todayEntry?.completedSubTaskIDs.contains(subTask.id) ?? false
+                                    Button {
+                                        vm.toggleSubTask(subTask.id)
+                                        AudioManager.shared.playClickSound()
+                                    } label: {
+                                        HStack(spacing: 10) {
+                                            Image(systemName: isDone ? "checkmark.square.fill" : "square")
+                                                .font(.title3)
+                                                .foregroundStyle(isDone ? AppColors.success : AppColors.textSecondary)
+                                            
+                                            Text(subTask.title)
+                                                .font(AppFont.body())
+                                                .foregroundStyle(isDone ? AppColors.textSecondary : AppColors.textPrimary)
+                                                .strikethrough(isDone, color: AppColors.textSecondary)
+                                            
+                                            Spacer()
+                                        }
+                                        .padding(10)
+                                        .background(isDone ? AppColors.success.opacity(0.08) : Color.gray.opacity(0.06))
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 if !vm.canComplete {
                     CardView {
                         VStack(alignment: .leading, spacing: 14) {

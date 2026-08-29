@@ -257,6 +257,16 @@ final class HabitDetailViewModel: ObservableObject {
         }
     }
     
+    func toggleSubTask(_ subTaskID: UUID) {
+        guard let entry = todayEntry else { return }
+        do {
+            try habitUseCase.toggleSubTask(subTaskID, for: entry)
+            load()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+    
     func freezeHabit() {
         guard let entry = todayEntry else { return }
         do {

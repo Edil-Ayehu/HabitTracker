@@ -42,4 +42,6 @@ protocol HabitUseCase {
     func fetchAllEntries() throws -> [HabitEntry]
     
     func categoryBalance() throws -> [CategoryBalance]
+    
+    func toggleSubTask(_ subTaskID: UUID, for entry: HabitEntry) throws
 }

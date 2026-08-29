@@ -2,8 +2,6 @@
 //  Habit.swift
 //  HabitTracker
 //
-//  Created by Edil on 02/08/2026.
-//
 
 import Foundation
 import SwiftData
@@ -40,6 +38,8 @@ final class Habit {
     var reminderHour: Int?
     
     var reminderMinute: Int?
+    
+    var subTasksJSON: String?
 
     init(
         title: String,
@@ -71,6 +71,7 @@ final class Habit {
         self.reminderEnabled = reminderEnabled
         self.reminderHour = reminderHour
         self.reminderMinute = reminderMinute
+        self.subTasksJSON = nil
     }
 }
 
@@ -92,5 +93,23 @@ extension Habit {
     var habitTimeOfDay: TimeOfDay {
         get { TimeOfDay(rawValue: timeOfDayRaw) ?? .anyTime }
         set { timeOfDayRaw = newValue.rawValue }
+    }
+    
+    var subTasks: [SubTask] {
+        get {
+            guard let data = subTasksJSON?.data(using: .utf8),
+                  let tasks = try? JSONDecoder().decode([SubTask].self, from: data) else {
+                return []
+            }
+            return tasks
+        }
+        set {
+            if let data = try? JSONEncoder().encode(newValue),
+               let json = String(data: data, encoding: .utf8) {
+                subTasksJSON = json
+            } else {
+                subTasksJSON = nil
+            }
+        }
     }
 }

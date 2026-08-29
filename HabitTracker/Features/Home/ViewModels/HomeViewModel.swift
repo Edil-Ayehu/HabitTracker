@@ -153,6 +153,22 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func toggleSubTask(_ subTaskID: UUID, for entry: HabitEntry) {
+        let wasCompletedBefore = entry.completed
+        do {
+            try habitUseCase.toggleSubTask(subTaskID, for: entry)
+            entries = try habitUseCase.fetchTodayEntries()
+            reloadStatistics()
+            
+            if let updated = entries.first(where: { $0.id == entry.id }), !wasCompletedBefore && updated.completed {
+                awardXP(25)
+                AudioManager.shared.playCompletionSound()
+            }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+    
     func claimQuest(_ quest: DailyQuest) {
         let result = QuestManager.shared.claimQuest(quest)
         userProfile = result.profile

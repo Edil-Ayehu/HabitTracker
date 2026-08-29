@@ -236,6 +236,9 @@ struct HomeView: View {
                             },
                             onTap: {
                                 router.push(.habitDetail(entry.habit))
+                            },
+                            onToggleSubTask: { subTaskID in
+                                vm.toggleSubTask(subTaskID, for: entry)
                             }
                         )
                         .contextMenu {
