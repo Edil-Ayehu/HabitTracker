@@ -58,6 +58,7 @@ struct ReflectionPromptCard: View {
         .buttonStyle(.plain)
         .sheet(isPresented: $showReflectionSheet) {
             NightlyReflectionSheet(completionRate: completionRate)
+                .presentationCornerRadius(32)
         }
     }
 }

@@ -26,6 +26,7 @@ struct EmptyStateView: View {
 
             Text(subtitle)
                 .multilineTextAlignment(.center)
+                .font(AppFont.body())
                 .foregroundStyle(AppColors.textSecondary)
 
         }

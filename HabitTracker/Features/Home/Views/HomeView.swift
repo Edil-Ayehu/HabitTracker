@@ -94,6 +94,7 @@ struct HomeView: View {
             .buttonStyle(.plain)
             .sheet(isPresented: $showChallengesSheet) {
                 ChallengesView()
+                    .presentationCornerRadius(32)
             }
             
             // MARK: Nightly Reflection Card

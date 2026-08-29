@@ -93,6 +93,7 @@ struct VacationBannerCard: View {
             .buttonStyle(.plain)
             .sheet(isPresented: $showVacationSheet) {
                 VacationSheet()
+                    .presentationCornerRadius(32)
             }
         }
     }
