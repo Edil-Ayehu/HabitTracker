@@ -34,6 +34,7 @@ struct NotificationSettingsView: View {
                         await updateNotificationState(enabled)
                     }
                 }
+                .font(AppFont.body())
 
             }
             
@@ -42,10 +43,12 @@ struct NotificationSettingsView: View {
                 HStack {
                     
                     Text("Permission")
+                        .font(AppFont.body())
                     
                     Spacer()
                     
                     Text(statusText)
+                        .font(AppFont.headline())
                         .foregroundStyle(.secondary)
                 }
             }

@@ -37,7 +37,6 @@ struct LevelProgressCard: View {
                         HStack(spacing: 6) {
                             Text("Level \(profile.level)")
                                 .font(AppFont.headline())
-                                .fontWeight(.black)
                             
                             Text(profile.levelTitle)
                                 .font(.system(size: 11, weight: .bold))
@@ -119,7 +118,6 @@ struct LevelProgressCard: View {
                             .foregroundStyle(Color.cyan)
                         Text("\(StreakFreezeManager.shared.tokens) Freeze Tokens")
                             .font(AppFont.caption())
-                            .fontWeight(.semibold)
                     }
                     
                     Spacer()

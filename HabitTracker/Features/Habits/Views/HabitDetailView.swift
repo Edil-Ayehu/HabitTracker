@@ -174,6 +174,7 @@ struct HabitDetailView: View {
                             } else {
                                 if !vm.note.isEmpty {
                                     Text(vm.note)
+                                        .font(AppFont.body())
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .padding()
                                         .background(Color.gray.opacity(0.08))

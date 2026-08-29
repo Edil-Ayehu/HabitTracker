@@ -28,6 +28,7 @@ struct TodayProgressCard: View {
                         .font(.system(size: 32, weight: .bold))
 
                     Text("Habits Completed")
+                        .font(AppFont.body())
                         .foregroundStyle(AppColors.textSecondary)
 
                 }

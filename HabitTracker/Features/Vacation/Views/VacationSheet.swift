@@ -24,8 +24,7 @@ struct VacationSheet: View {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Text("Pause & Protect Streaks 🛡️")
-                                .font(AppFont.title())
-                                .fontWeight(.bold)
+                                .font(AppFont.headline())
                             
                             Spacer()
                             
