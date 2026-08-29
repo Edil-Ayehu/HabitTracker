@@ -22,6 +22,21 @@ struct HabitDetailView: View {
         AppScaffold(title: vm.title) {
             VStack(spacing: 20) {
                 
+                if vm.habit.isArchived {
+                    HStack(spacing: 8) {
+                        Image(systemName: "archivebox.fill")
+                            .foregroundStyle(Color.orange)
+                        Text("This habit is archived. Unarchive it to resume active tracking.")
+                            .font(AppFont.caption())
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color.orange)
+                    }
+                    .padding(12)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.orange.opacity(0.12))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                
                 HabitProgressRing(
                     current: vm.progress,
                     goal: vm.goal
@@ -337,6 +352,20 @@ struct HabitDetailView: View {
                 Menu {
                     Button("Edit") {
                         router.push(.editHabit(vm.habit))
+                    }
+                    
+                    if vm.habit.isArchived {
+                        Button("Unarchive Habit") {
+                            if vm.unarchiveHabit() {
+                                router.pop()
+                            }
+                        }
+                    } else {
+                        Button("Archive Habit") {
+                            if vm.archiveHabit() {
+                                router.pop()
+                            }
+                        }
                     }
                     
                     Button("Delete", role: .destructive) {

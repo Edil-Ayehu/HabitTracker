@@ -528,6 +528,24 @@ final class HabitUseCaseImpl: HabitUseCase {
         syncWidgetData()
     }
     
+    func archiveHabit(_ habit: Habit) throws {
+        habit.isArchived = true
+        try repository.update()
+        NotificationManager.shared.removeReminder(habit: habit)
+        syncWidgetData()
+    }
+    
+    func unarchiveHabit(_ habit: Habit) throws {
+        habit.isArchived = false
+        try repository.update()
+        NotificationManager.shared.scheduleHabitReminder(habit: habit)
+        syncWidgetData()
+    }
+    
+    func fetchArchivedHabits() throws -> [Habit] {
+        try repository.fetchArchivedHabits()
+    }
+    
     private func syncWidgetData() {
         if let entries = try? repository.fetchTodayEntries(),
            let statistics = try? fetchStatistics() {

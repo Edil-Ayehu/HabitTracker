@@ -11,6 +11,8 @@ protocol HabitRepository {
     // MARK: Habits
     func fetchHabits() throws -> [Habit]
     
+    func fetchArchivedHabits() throws -> [Habit]
+    
     func saveHabit(_ habit: Habit) throws
     
     func deleteHabit(_ habit: Habit) throws

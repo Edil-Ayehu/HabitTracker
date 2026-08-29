@@ -40,6 +40,8 @@ final class Habit {
     var reminderMinute: Int?
     
     var subTasksJSON: String?
+    
+    var isArchived: Bool = false
 
     init(
         title: String,
@@ -72,6 +74,7 @@ final class Habit {
         self.reminderHour = reminderHour
         self.reminderMinute = reminderMinute
         self.subTasksJSON = nil
+        self.isArchived = false
     }
 }
 

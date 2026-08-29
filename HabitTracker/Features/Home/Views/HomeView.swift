@@ -42,6 +42,9 @@ struct HomeView: View {
                 onAIGenerator: {
                     router.push(.aiRoutineGenerator)
                 },
+                onArchivedHabits: {
+                    router.push(.archivedHabits)
+                },
                 navigateToSetting: {
                     router.push(.settings)
                 }
@@ -246,6 +249,12 @@ struct HomeView: View {
                                 router.push(.editHabit(entry.habit))
                             } label: {
                                 Label("Edit Habit", systemImage: "pencil")
+                            }
+                            
+                            Button {
+                                vm.archiveHabit(entry.habit)
+                            } label: {
+                                Label("Archive Habit", systemImage: "archivebox")
                             }
                             
                             Button(role: .destructive) {

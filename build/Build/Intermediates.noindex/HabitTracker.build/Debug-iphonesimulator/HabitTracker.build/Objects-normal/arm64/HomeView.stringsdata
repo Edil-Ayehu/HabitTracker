@@ -7,7 +7,7 @@
         "key": "Delete Habit?",
         "location": {
           "startingColumn": 13,
-          "startingLine": 267
+          "startingLine": 276
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Enroll in 30-day bootcamps & earn +500 XP trophies",
         "location": {
           "startingColumn": 34,
-          "startingLine": 84
+          "startingLine": 87
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "30-Day Challenges & Bootcamps",
         "location": {
           "startingColumn": 38,
-          "startingLine": 75
+          "startingLine": 78
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "All Habits 📋",
         "location": {
           "startingColumn": 34,
-          "startingLine": 132
+          "startingLine": 135
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "All (%lld)",
         "location": {
           "startingColumn": 34,
-          "startingLine": 185
+          "startingLine": 188
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "%@ (%lld)",
         "location": {
           "startingColumn": 42,
-          "startingLine": 204
+          "startingLine": 207
         }
       },
       {
@@ -55,7 +55,15 @@
         "key": "Edit Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 248
+          "startingLine": 251
+        }
+      },
+      {
+        "comment": "",
+        "key": "Archive Habit",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 257
         }
       },
       {
@@ -63,7 +71,7 @@
         "key": "Delete Habit",
         "location": {
           "startingColumn": 39,
-          "startingLine": 255
+          "startingLine": 264
         }
       },
       {
@@ -71,7 +79,7 @@
         "key": "Delete",
         "location": {
           "startingColumn": 20,
-          "startingLine": 271
+          "startingLine": 280
         }
       },
       {
@@ -79,7 +87,7 @@
         "key": "Cancel",
         "location": {
           "startingColumn": 20,
-          "startingLine": 277
+          "startingLine": 286
         }
       },
       {
@@ -87,7 +95,7 @@
         "key": "Are you sure you want to delete '%@'? This will remove all recorded entries for this habit.",
         "location": {
           "startingColumn": 22,
-          "startingLine": 282
+          "startingLine": 291
         }
       }
     ]

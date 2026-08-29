@@ -56,6 +56,9 @@ struct RootView: View {
                         
                     case .reflectionJournal:
                         ReflectionJournalView()
+                        
+                    case .archivedHabits:
+                        ArchivedHabitsView()
                     }
                 }
         }

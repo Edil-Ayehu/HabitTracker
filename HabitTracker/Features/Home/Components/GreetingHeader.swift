@@ -13,6 +13,7 @@ struct GreetingHeader: View {
     let date: String
     let onAdd: () -> Void
     var onAIGenerator: (() -> Void)? = nil
+    var onArchivedHabits: (() -> Void)? = nil
     let navigateToSetting: () -> Void
 
     var body: some View {
@@ -39,6 +40,13 @@ struct GreetingHeader: View {
                 )
             }
 
+            if let onArchivedHabits {
+                AppIconButton(
+                    systemImage: "archivebox",
+                    action: onArchivedHabits
+                )
+            }
+            
             AppIconButton(
                 systemImage: "gearshape",
                 action: navigateToSetting

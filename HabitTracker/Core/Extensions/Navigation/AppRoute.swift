@@ -18,4 +18,5 @@ enum AppRoute: Hashable {
     case aiRoutineGenerator
     case widgetPreview
     case reflectionJournal
+    case archivedHabits
 }

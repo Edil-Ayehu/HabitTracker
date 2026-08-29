@@ -20,9 +20,13 @@ final class HabitRepositoryImpl: HabitRepository {
     // MARK: Habit
     
     func fetchHabits() throws -> [Habit] {
-        
-        try context.fetch(FetchDescriptor<Habit>())
-        
+        let all = try context.fetch(FetchDescriptor<Habit>())
+        return all.filter { !$0.isArchived }
+    }
+    
+    func fetchArchivedHabits() throws -> [Habit] {
+        let all = try context.fetch(FetchDescriptor<Habit>())
+        return all.filter { $0.isArchived }
     }
     
     func saveHabit(_ habit: Habit) throws {
@@ -60,7 +64,8 @@ final class HabitRepositoryImpl: HabitRepository {
             }
         )
         
-        return try context.fetch(descriptor)
+        let entries = try context.fetch(descriptor)
+        return entries.filter { !$0.habit.isArchived }
     }
     
     func fetchEntries(for habit: Habit) throws -> [HabitEntry] {

@@ -44,4 +44,10 @@ protocol HabitUseCase {
     func categoryBalance() throws -> [CategoryBalance]
     
     func toggleSubTask(_ subTaskID: UUID, for entry: HabitEntry) throws
+    
+    func archiveHabit(_ habit: Habit) throws
+    
+    func unarchiveHabit(_ habit: Habit) throws
+    
+    func fetchArchivedHabits() throws -> [Habit]
 }

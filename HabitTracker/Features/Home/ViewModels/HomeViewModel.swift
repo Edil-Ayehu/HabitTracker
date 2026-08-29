@@ -169,6 +169,17 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func archiveHabit(_ habit: Habit) {
+        do {
+            try habitUseCase.archiveHabit(habit)
+            entries = try habitUseCase.fetchTodayEntries()
+            reloadStatistics()
+            AudioManager.shared.playClickSound()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+    
     func claimQuest(_ quest: DailyQuest) {
         let result = QuestManager.shared.claimQuest(quest)
         userProfile = result.profile

@@ -397,4 +397,24 @@ final class HabitDetailViewModel: ObservableObject {
             return false
         }
     }
+    
+    func archiveHabit() -> Bool {
+        do {
+            try habitUseCase.archiveHabit(habit)
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+    
+    func unarchiveHabit() -> Bool {
+        do {
+            try habitUseCase.unarchiveHabit(habit)
+            return true
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
 }
