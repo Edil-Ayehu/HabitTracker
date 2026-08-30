@@ -42,6 +42,10 @@ final class HabitUseCaseImpl: HabitUseCase {
         return entries
     }
     
+    func fetchHabits() throws -> [Habit] {
+        try repository.fetchHabits()
+    }
+    
     func fetchStatistics() throws -> HabitStatistics {
         
         let entries = try repository.fetchTodayEntries()

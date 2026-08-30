@@ -2,10 +2,14 @@
 //  SettingsView.swift
 //  HabitTracker
 //
-//  Created by Edil on 04/08/2026.
-//
 
 import SwiftUI
+import UniformTypeIdentifiers
+
+struct IdentifiableURL: Identifiable {
+    let id = UUID()
+    let url: URL
+}
 
 struct SettingsView: View {
 
@@ -17,6 +21,10 @@ struct SettingsView: View {
     @AppStorage("reflectionReminderEnabled") private var reflectionReminderEnabled: Bool = true
     
     @State private var showOnboardingSheet: Bool = false
+    @State private var shareItem: IdentifiableURL?
+    @State private var showFileImporter: Bool = false
+    @State private var alertMessage: String?
+    @State private var showAlert: Bool = false
 
     var body: some View {
 
@@ -106,6 +114,71 @@ struct SettingsView: View {
                 }
             }
             
+            // Data Backup & Export Card
+            CardView {
+                VStack(alignment: .leading, spacing: 14) {
+                    Label("Data Backup & Export", systemImage: "arrow.triangle.2.circlepath.circle.fill")
+                        .font(AppFont.headline())
+                    
+                    Text("Export your habit records or backup and restore your complete data.")
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColors.textSecondary)
+                    
+                    VStack(spacing: 10) {
+                        Button {
+                            exportCSV()
+                        } label: {
+                            HStack {
+                                Label("Export History (CSV)", systemImage: "tablecells.fill")
+                                    .font(AppFont.body())
+                                    .fontWeight(.semibold)
+                                Spacer()
+                                Image(systemName: "square.and.arrow.up")
+                            }
+                            .foregroundStyle(AppColors.primary)
+                            .padding(12)
+                            .background(AppColors.primary.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+                        .buttonStyle(.plain)
+                        
+                        Button {
+                            exportJSONBackup()
+                        } label: {
+                            HStack {
+                                Label("Create Full Backup (JSON)", systemImage: "doc.badge.plus")
+                                    .font(AppFont.body())
+                                    .fontWeight(.semibold)
+                                Spacer()
+                                Image(systemName: "square.and.arrow.up")
+                            }
+                            .foregroundStyle(Color.purple)
+                            .padding(12)
+                            .background(Color.purple.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+                        .buttonStyle(.plain)
+                        
+                        Button {
+                            showFileImporter = true
+                        } label: {
+                            HStack {
+                                Label("Restore Data from Backup", systemImage: "arrow.clockwise.icloud.fill")
+                                    .font(AppFont.body())
+                                    .fontWeight(.semibold)
+                                Spacer()
+                                Image(systemName: "folder")
+                            }
+                            .foregroundStyle(Color.orange)
+                            .padding(12)
+                            .background(Color.orange.opacity(0.1))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            
             // Gemini AI Configuration Card
             CardView {
                 VStack(alignment: .leading, spacing: 14) {
@@ -184,6 +257,28 @@ struct SettingsView: View {
 
             Spacer()
         }
+        .sheet(item: $shareItem) { item in
+            ShareSheet(items: [item.url])
+        }
+        .fileImporter(
+            isPresented: $showFileImporter,
+            allowedContentTypes: [.json],
+            allowsMultipleSelection: false
+        ) { result in
+            switch result {
+            case .success(let urls):
+                guard let url = urls.first else { return }
+                restoreFromBackup(fileURL: url)
+            case .failure(let error):
+                alertMessage = error.localizedDescription
+                showAlert = true
+            }
+        }
+        .alert("Data Backup", isPresented: $showAlert) {
+            Button("OK") {}
+        } message: {
+            Text(alertMessage ?? "")
+        }
     }
 
     @ViewBuilder
@@ -207,6 +302,47 @@ struct SettingsView: View {
         .contentShape(Rectangle())
         .onTapGesture {
             action()
+        }
+    }
+    
+    private func exportCSV() {
+        let habitUseCase = DIContainer.shared.makeHabitUseCase()
+        guard let activeHabits = try? habitUseCase.fetchHabits(),
+              let archivedHabits = try? habitUseCase.fetchArchivedHabits(),
+              let entries = try? habitUseCase.fetchAllEntries() else { return }
+        let allHabits = activeHabits + archivedHabits
+        if let url = BackupManager.shared.generateCSV(habits: allHabits, entries: entries) {
+            self.shareItem = IdentifiableURL(url: url)
+        }
+    }
+    
+    private func exportJSONBackup() {
+        let habitUseCase = DIContainer.shared.makeHabitUseCase()
+        guard let activeHabits = try? habitUseCase.fetchHabits(),
+              let archivedHabits = try? habitUseCase.fetchArchivedHabits(),
+              let entries = try? habitUseCase.fetchAllEntries() else { return }
+        let allHabits = activeHabits + archivedHabits
+        if let url = BackupManager.shared.generateJSONBackup(habits: allHabits, entries: entries) {
+            self.shareItem = IdentifiableURL(url: url)
+        }
+    }
+    
+    private func restoreFromBackup(fileURL: URL) {
+        guard fileURL.startAccessingSecurityScopedResource() else {
+            alertMessage = "Permission denied to read backup file."
+            showAlert = true
+            return
+        }
+        defer { fileURL.stopAccessingSecurityScopedResource() }
+        
+        do {
+            let result = try BackupManager.shared.restoreFromJSON(fileURL: fileURL, useCase: DIContainer.shared.makeHabitUseCase())
+            alertMessage = "Restore completed successfully! Restored \(result.habitsCount) habits and \(result.entriesCount) check-in entries."
+            showAlert = true
+            AudioManager.shared.playCompletionSound()
+        } catch {
+            alertMessage = "Failed to restore backup: \(error.localizedDescription)"
+            showAlert = true
         }
     }
 }

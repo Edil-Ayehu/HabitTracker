@@ -11,6 +11,8 @@ protocol HabitUseCase {
 
     func fetchTodayEntries() throws -> [HabitEntry]
     
+    func fetchHabits() throws -> [Habit]
+    
     func fetchStatistics() throws -> HabitStatistics
 
     func addHabit(_ habit: Habit) throws

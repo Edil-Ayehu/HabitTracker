@@ -21,6 +21,10 @@ final class DIContainer {
         self.container = container
     }
     
+    func makeHabitRepository() -> HabitRepository {
+        HabitRepositoryImpl(context: container.mainContext)
+    }
+    
     func makeHabitUseCase() -> HabitUseCase {
         
         let repository = HabitRepositoryImpl(
