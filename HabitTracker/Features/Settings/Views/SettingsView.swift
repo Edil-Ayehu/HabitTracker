@@ -337,7 +337,11 @@ struct SettingsView: View {
         
         do {
             let result = try BackupManager.shared.restoreFromJSON(fileURL: fileURL, useCase: DIContainer.shared.makeHabitUseCase())
-            alertMessage = "Restore completed successfully! Restored \(result.habitsCount) habits and \(result.entriesCount) check-in entries."
+            if result.habitsCount == 0 && result.entriesCount == 0 {
+                alertMessage = "Your data is already up to date! All \(result.totalInBackup) habits and check-in records in this backup are already present in your app."
+            } else {
+                alertMessage = "Restore completed successfully! Added \(result.habitsCount) new habits and \(result.entriesCount) check-in entries."
+            }
             showAlert = true
             AudioManager.shared.playCompletionSound()
         } catch {

@@ -144,7 +144,7 @@ final class BackupManager {
     }
     
     // MARK: - JSON Restore
-    func restoreFromJSON(fileURL: URL, useCase: HabitUseCase) throws -> (habitsCount: Int, entriesCount: Int) {
+    func restoreFromJSON(fileURL: URL, useCase: HabitUseCase) throws -> (habitsCount: Int, entriesCount: Int, totalInBackup: Int) {
         let data = try Data(contentsOf: fileURL)
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
@@ -153,14 +153,15 @@ final class BackupManager {
         
         let existingHabits = (try? useCase.fetchHabits()) ?? []
         let existingArchived = (try? useCase.fetchArchivedHabits()) ?? []
-        let allExisting = existingHabits + existingArchived
-        let existingHabitIDs = Set(allExisting.map(\.id))
+        let allExistingHabits = existingHabits + existingArchived
         
         var restoredHabitCount = 0
         var restoredHabitMap: [UUID: Habit] = [:]
         
         for dto in payload.habits {
-            if !existingHabitIDs.contains(dto.id) {
+            if let existing = allExistingHabits.first(where: { $0.id == dto.id || $0.title.lowercased() == dto.title.lowercased() }) {
+                restoredHabitMap[dto.id] = existing
+            } else {
                 let habit = Habit(
                     title: dto.title,
                     icon: HabitIcon(rawValue: dto.icon) ?? .water,
@@ -178,29 +179,32 @@ final class BackupManager {
                 try useCase.addHabit(habit)
                 restoredHabitMap[dto.id] = habit
                 restoredHabitCount += 1
-            } else if let existing = allExisting.first(where: { $0.id == dto.id }) {
-                restoredHabitMap[dto.id] = existing
             }
         }
         
         var restoredEntriesCount = 0
         let allExistingEntries = (try? useCase.fetchAllEntries()) ?? []
-        let existingEntryIDs = Set(allExistingEntries.map(\.id))
+        let existingEntryKeys = Set(allExistingEntries.map { "\($0.habitID)_\(Calendar.current.startOfDay(for: $0.date).timeIntervalSince1970)" })
+        
+        let repository = DIContainer.shared.makeHabitRepository()
         
         for entryDto in payload.entries {
-            if !existingEntryIDs.contains(entryDto.id), let habit = restoredHabitMap[entryDto.habitID] {
-                let entry = HabitEntry(habit: habit, date: entryDto.date)
+            guard let targetHabit = restoredHabitMap[entryDto.habitID] else { continue }
+            let key = "\(targetHabit.id)_\(Calendar.current.startOfDay(for: entryDto.date).timeIntervalSince1970)"
+            
+            if !existingEntryKeys.contains(key) {
+                let entry = HabitEntry(habit: targetHabit, date: entryDto.date)
                 entry.id = entryDto.id
                 entry.progress = entryDto.progress
                 entry.completed = entryDto.completed
                 entry.note = entryDto.note
                 entry.isFrozen = entryDto.isFrozen
                 entry.completedSubTaskIDs = Set(entryDto.completedSubTaskIDs)
-                try DIContainer.shared.makeHabitRepository().saveEntry(entry)
+                try repository.saveEntry(entry)
                 restoredEntriesCount += 1
             }
         }
         
-        return (restoredHabitCount, restoredEntriesCount)
+        return (restoredHabitCount, restoredEntriesCount, payload.habits.count)
     }
 }
