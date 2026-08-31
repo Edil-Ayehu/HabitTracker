@@ -17,7 +17,7 @@ final class HomeViewModel: ObservableObject {
     @Published var entries: [HabitEntry] = []
     
     @Published var selectedCategoryFilter: HabitCategory? = nil
-    @Published var selectedTimeFilter: TimeFilterOption = .timeOfDay(TimeOfDay.current())
+    @Published var selectedTimeFilter: TimeFilterOption = .all
     
     var filteredEntries: [HabitEntry] {
         var result = entries
