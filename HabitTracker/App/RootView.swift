@@ -59,6 +59,9 @@ struct RootView: View {
                         
                     case .archivedHabits:
                         ArchivedHabitsView()
+                        
+                    case .storyRecap(let period):
+                        StoryRecapView(period: period)
                     }
                 }
         }

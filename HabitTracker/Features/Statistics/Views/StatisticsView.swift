@@ -10,6 +10,8 @@ import Charts
 
 struct StatisticsView: View {
 
+    @EnvironmentObject private var router: AppRouter
+    
     @StateObject
     var vm: StatisticsViewModel
     
@@ -46,6 +48,43 @@ struct StatisticsView: View {
                     .shadow(color: AppColors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
                 }
                 .buttonStyle(.plain)
+                
+                // MARK: Story Recap Banners
+                HStack(spacing: 12) {
+                    Button {
+                        router.push(.storyRecap(.weekly))
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "play.rectangle.fill")
+                            Text("Weekly Recap 📊")
+                                .fontWeight(.bold)
+                        }
+                        .font(AppFont.caption())
+                        .foregroundStyle(Color.purple)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(Color.purple.opacity(0.15))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .buttonStyle(.plain)
+                    
+                    Button {
+                        router.push(.storyRecap(.monthly))
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: "calendar.badge.clock")
+                            Text("Monthly Recap 🗓️")
+                                .fontWeight(.bold)
+                        }
+                        .font(AppFont.caption())
+                        .foregroundStyle(Color.indigo)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(Color.indigo.opacity(0.15))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .buttonStyle(.plain)
+                }
 
                 // MARK: Overview
 

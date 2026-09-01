@@ -7,7 +7,23 @@
         "key": "Share Progress Card",
         "location": {
           "startingColumn": 30,
-          "startingLine": 31
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "Weekly Recap 📊",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "Monthly Recap 🗓️",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 76
         }
       },
       {
@@ -15,7 +31,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 39,
-          "startingLine": 120
+          "startingLine": 159
         }
       },
       {
@@ -23,7 +39,7 @@
         "key": "Completion",
         "location": {
           "startingColumn": 33,
-          "startingLine": 122
+          "startingLine": 161
         }
       },
       {
@@ -31,7 +47,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 39,
-          "startingLine": 128
+          "startingLine": 167
         }
       },
       {
@@ -39,7 +55,7 @@
         "key": "Completion",
         "location": {
           "startingColumn": 33,
-          "startingLine": 130
+          "startingLine": 169
         }
       },
       {
@@ -47,7 +63,7 @@
         "key": "Day",
         "location": {
           "startingColumn": 33,
-          "startingLine": 148
+          "startingLine": 187
         }
       },
       {
@@ -55,7 +71,7 @@
         "key": "Completed",
         "location": {
           "startingColumn": 33,
-          "startingLine": 153
+          "startingLine": 192
         }
       },
       {
@@ -63,7 +79,7 @@
         "key": "Habits",
         "location": {
           "startingColumn": 47,
-          "startingLine": 169
+          "startingLine": 208
         }
       },
       {
@@ -71,7 +87,7 @@
         "key": "%lld habit%@ (%lld%%)",
         "location": {
           "startingColumn": 42,
-          "startingLine": 200
+          "startingLine": 239
         }
       }
     ]

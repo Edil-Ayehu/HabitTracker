@@ -19,4 +19,5 @@ enum AppRoute: Hashable {
     case widgetPreview
     case reflectionJournal
     case archivedHabits
+    case storyRecap(RecapPeriod)
 }
