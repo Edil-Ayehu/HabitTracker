@@ -144,6 +144,7 @@ final class HomeViewModel: ObservableObject {
             
             if !wasCompletedBefore {
                 awardXP(25)
+                SquadService.shared.broadcastCheckIn(habitTitle: entry.habit.title, habitIcon: entry.habit.icon)
                 AudioManager.shared.playCompletionSound()
             } else {
                 AudioManager.shared.playClickSound()

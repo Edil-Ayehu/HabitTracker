@@ -58,6 +58,41 @@ struct HomeView: View {
                 }
             )
             
+            // MARK: Habit Squads Banner
+            Button {
+                router.push(.squads)
+            } label: {
+                CardView {
+                    HStack(spacing: 12) {
+                        ZStack {
+                            Circle()
+                                .fill(LinearGradient(colors: [.purple, .indigo], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .frame(width: 42, height: 42)
+                            Image(systemName: "person.3.sequence.fill")
+                                .font(.system(size: 18))
+                                .foregroundStyle(.white)
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack {
+                                Text("Habit Squads & Leaderboard")
+                                    .font(AppFont.headline())
+                                    .foregroundStyle(AppColors.textPrimary)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundStyle(AppColors.textSecondary)
+                            }
+                            
+                            Text("Compete with friends, group streaks & live feeds")
+                                .font(AppFont.caption())
+                                .foregroundStyle(AppColors.textSecondary)
+                        }
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            
             // MARK: 30-Day Challenges Banner
             Button {
                 showChallengesSheet = true

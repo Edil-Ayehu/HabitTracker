@@ -7,7 +7,7 @@
         "key": "Data Backup",
         "location": {
           "startingColumn": 16,
-          "startingLine": 277
+          "startingLine": 335
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Appearance",
         "location": {
           "startingColumn": 25,
-          "startingLine": 38
+          "startingLine": 39
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Theme",
         "location": {
           "startingColumn": 25,
-          "startingLine": 44
+          "startingLine": 45
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Play audio chimes when completing habits and celebrating daily goals.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 67
+          "startingLine": 68
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Sound Effects",
         "location": {
           "startingColumn": 31,
-          "startingLine": 62
+          "startingLine": 63
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Configured time to receive your daily evening mood & reflection notification.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 111
+          "startingLine": 112
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Reminder Time",
         "location": {
           "startingColumn": 29,
-          "startingLine": 91
+          "startingLine": 92
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Nightly Reflection Reminder",
         "location": {
           "startingColumn": 31,
-          "startingLine": 77
+          "startingLine": 78
         }
       },
       {
@@ -71,7 +71,7 @@
         "key": "Export your habit records or backup and restore your complete data.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 123
+          "startingLine": 124
         }
       },
       {
@@ -79,7 +79,7 @@
         "key": "Data Backup & Export",
         "location": {
           "startingColumn": 27,
-          "startingLine": 120
+          "startingLine": 121
         }
       },
       {
@@ -87,7 +87,7 @@
         "key": "Export History (CSV)",
         "location": {
           "startingColumn": 39,
-          "startingLine": 132
+          "startingLine": 133
         }
       },
       {
@@ -95,7 +95,7 @@
         "key": "Create Full Backup (JSON)",
         "location": {
           "startingColumn": 39,
-          "startingLine": 149
+          "startingLine": 150
         }
       },
       {
@@ -103,7 +103,55 @@
         "key": "Restore Data from Backup",
         "location": {
           "startingColumn": 39,
-          "startingLine": 166
+          "startingLine": 167
+        }
+      },
+      {
+        "comment": "",
+        "key": "Your app is linked directly in code via SupabaseConfig.swift. Edit project URL & Anon Key in code whenever deploying.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 201
+        }
+      },
+      {
+        "comment": "",
+        "key": "Supabase Backend Link",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 187
+        }
+      },
+      {
+        "comment": "",
+        "key": "Connected ⚡",
+        "location": {
+          "startingColumn": 61,
+          "startingLine": 192
+        }
+      },
+      {
+        "comment": "",
+        "key": "Code Linked 🛠️",
+        "location": {
+          "startingColumn": 79,
+          "startingLine": 192
+        }
+      },
+      {
+        "comment": "",
+        "key": "Config: SupabaseConfig.swift",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 208
+        }
+      },
+      {
+        "comment": "",
+        "key": "Test Supabase Connection ⚡",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 226
         }
       },
       {
@@ -111,7 +159,7 @@
         "key": "Enter your Google Gemini API Key to enable real-time AI routine generation.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 202
+          "startingLine": 260
         }
       },
       {
@@ -119,7 +167,7 @@
         "key": "AI API Key (e.g. AIzaSy...)",
         "location": {
           "startingColumn": 33,
-          "startingLine": 206
+          "startingLine": 264
         }
       },
       {
@@ -127,7 +175,7 @@
         "key": "Active",
         "location": {
           "startingColumn": 34,
-          "startingLine": 192
+          "startingLine": 250
         }
       },
       {
@@ -135,7 +183,7 @@
         "key": "Gemini AI Engine",
         "location": {
           "startingColumn": 31,
-          "startingLine": 186
+          "startingLine": 244
         }
       },
       {
@@ -143,7 +191,7 @@
         "key": "OK",
         "location": {
           "startingColumn": 20,
-          "startingLine": 278
+          "startingLine": 336
         }
       }
     ]

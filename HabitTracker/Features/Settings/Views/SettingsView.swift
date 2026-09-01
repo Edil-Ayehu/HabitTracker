@@ -15,6 +15,7 @@ struct SettingsView: View {
 
     @EnvironmentObject private var themeManager: ThemeManager
     @EnvironmentObject private var router: AppRouter
+    @StateObject private var supabaseManager = SupabaseManager.shared
     
     @AppStorage("geminiApiKey") private var geminiApiKey: String = ""
     @AppStorage("soundEffectsEnabled") private var soundEffectsEnabled: Bool = true
@@ -176,6 +177,63 @@ struct SettingsView: View {
                         }
                         .buttonStyle(.plain)
                     }
+                }
+            }
+            
+            // Supabase Backend Link Card
+            CardView {
+                VStack(alignment: .leading, spacing: 14) {
+                    HStack {
+                        Label("Supabase Backend Link", systemImage: "link.circle.fill")
+                            .font(AppFont.headline())
+                        
+                        Spacer()
+                        
+                        Text(supabaseManager.isConfigured ? "Connected ⚡" : "Code Linked 🛠️")
+                            .font(.system(size: 10, weight: .bold))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(supabaseManager.isConfigured ? AppColors.success.opacity(0.15) : Color.purple.opacity(0.15))
+                            .foregroundStyle(supabaseManager.isConfigured ? AppColors.success : Color.purple)
+                            .clipShape(Capsule())
+                    }
+                    
+                    Text("Your app is linked directly in code via SupabaseConfig.swift. Edit project URL & Anon Key in code whenever deploying.")
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColors.textSecondary)
+                    
+                    HStack {
+                        Image(systemName: "curlybraces")
+                            .foregroundStyle(Color.purple)
+                        Text("Config: SupabaseConfig.swift")
+                            .font(AppFont.caption())
+                            .fontWeight(.bold)
+                    }
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.purple.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    
+                    Button {
+                        Task {
+                            let result = await supabaseManager.testConnection()
+                            alertMessage = result.message
+                            showAlert = true
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: "bolt.horizontal.circle.fill")
+                            Text("Test Supabase Connection ⚡")
+                                .font(AppFont.body())
+                                .fontWeight(.bold)
+                        }
+                        .foregroundStyle(Color.purple)
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.purple.opacity(0.12))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             

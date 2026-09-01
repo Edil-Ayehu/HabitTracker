@@ -1,6 +1,7 @@
 # Secrets & Sensitive API Keys
 **/Secrets.swift
 **/Secrets.plist
+**/SupabaseConfig.swift
 *.xcconfig
 
 # Xcode build & derived data

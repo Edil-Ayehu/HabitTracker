@@ -62,6 +62,9 @@ struct RootView: View {
                         
                     case .storyRecap(let period):
                         StoryRecapView(period: period)
+                        
+                    case .squads:
+                        SquadsView()
                     }
                 }
         }
