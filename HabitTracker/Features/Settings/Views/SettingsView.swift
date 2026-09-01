@@ -234,6 +234,25 @@ struct SettingsView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                     .buttonStyle(.plain)
+                    
+                    Button {
+                        SquadService.shared.resetAllSquadsData()
+                        alertMessage = "Local squad cache cleared successfully!"
+                        showAlert = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "trash.circle.fill")
+                            Text("Reset Local Squad Cache 🧹")
+                                .font(AppFont.body())
+                                .fontWeight(.bold)
+                        }
+                        .foregroundStyle(Color.red)
+                        .padding(12)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.red.opacity(0.12))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             

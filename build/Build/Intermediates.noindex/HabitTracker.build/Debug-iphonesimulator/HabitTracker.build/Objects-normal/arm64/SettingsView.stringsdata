@@ -7,7 +7,7 @@
         "key": "Data Backup",
         "location": {
           "startingColumn": 16,
-          "startingLine": 335
+          "startingLine": 354
         }
       },
       {
@@ -156,10 +156,18 @@
       },
       {
         "comment": "",
+        "key": "Reset Local Squad Cache 🧹",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 245
+        }
+      },
+      {
+        "comment": "",
         "key": "Enter your Google Gemini API Key to enable real-time AI routine generation.",
         "location": {
           "startingColumn": 26,
-          "startingLine": 260
+          "startingLine": 279
         }
       },
       {
@@ -167,7 +175,7 @@
         "key": "AI API Key (e.g. AIzaSy...)",
         "location": {
           "startingColumn": 33,
-          "startingLine": 264
+          "startingLine": 283
         }
       },
       {
@@ -175,7 +183,7 @@
         "key": "Active",
         "location": {
           "startingColumn": 34,
-          "startingLine": 250
+          "startingLine": 269
         }
       },
       {
@@ -183,7 +191,7 @@
         "key": "Gemini AI Engine",
         "location": {
           "startingColumn": 31,
-          "startingLine": 244
+          "startingLine": 263
         }
       },
       {
@@ -191,7 +199,7 @@
         "key": "OK",
         "location": {
           "startingColumn": 20,
-          "startingLine": 336
+          "startingLine": 355
         }
       }
     ]

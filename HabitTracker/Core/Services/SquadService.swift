@@ -71,11 +71,31 @@ final class SquadService: ObservableObject {
         guard SupabaseManager.shared.isConfigured else { return }
         
         do {
+            // Check if squad still exists in Supabase
+            let squadData = try await SupabaseManager.shared.performRESTRequest(endpoint: "squads?id=eq.\(squadID.uuidString)", method: "GET")
+            let fetchedSquads = try JSONDecoder().decode([SupabaseSquadDTO].self, from: squadData)
+            
+            if fetchedSquads.isEmpty {
+                // Squad was deleted on Supabase! Remove locally.
+                joinedSquads.removeAll(where: { $0.id == squadID })
+                if activeSquad?.id == squadID {
+                    activeSquad = joinedSquads.first
+                    if let active = activeSquad {
+                        loadSquadData(for: active.id)
+                    } else {
+                        members = []
+                        activities = []
+                    }
+                }
+                saveState()
+                return
+            }
+            
             // 1. Fetch Members
             let membersData = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members?squad_id=eq.\(squadID.uuidString)", method: "GET")
             let fetchedMembersDTO = try JSONDecoder().decode([SupabaseMemberDTO].self, from: membersData)
             
-            let currentUsername = members.first(where: { $0.isCurrentAccount })?.username ?? "You"
+            let currentHandle = UserProfileService.shared.usernameHandle
             
             let updatedMembers = fetchedMembersDTO.map { dto in
                 SquadMember(
@@ -86,13 +106,11 @@ final class SquadService: ObservableObject {
                     streakCount: dto.streak_count,
                     weeklyCheckIns: dto.weekly_check_ins,
                     totalXP: dto.total_xp,
-                    isCurrentAccount: dto.username == currentUsername
+                    isCurrentAccount: !currentHandle.isEmpty && dto.username.contains(currentHandle)
                 )
             }.sorted(by: { $0.weeklyCheckIns > $1.weeklyCheckIns })
             
-            if !updatedMembers.isEmpty {
-                self.members = updatedMembers
-            }
+            self.members = updatedMembers
             
             // 2. Fetch Activities
             let actData = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_activities?squad_id=eq.\(squadID.uuidString)", method: "GET")
@@ -110,13 +128,11 @@ final class SquadService: ObservableObject {
                 )
             }
             
-            if !updatedActivities.isEmpty {
-                self.activities = updatedActivities
-            }
+            self.activities = updatedActivities
             
-            // 3. Update squad member count locally and in joinedSquads
+            // 3. Sync member count
             if let active = activeSquad, active.id == squadID {
-                let realCount = max(active.memberCount, members.count)
+                let realCount = max(fetchedMembersDTO.count, 1)
                 let updatedSquad = Squad(
                     id: active.id,
                     name: active.name,
@@ -326,7 +342,7 @@ final class SquadService: ObservableObject {
     func broadcastCheckIn(habitTitle: String, habitIcon: String) {
         guard let squad = activeSquad else { return }
         
-        let userName = members.first(where: { $0.isCurrentAccount })?.username ?? "You"
+        let userName = members.first(where: { $0.isCurrentAccount })?.username ?? UserProfileService.shared.displayName
         
         let newActivity = SquadActivity(
             id: UUID(),
@@ -414,6 +430,15 @@ final class SquadService: ObservableObject {
             }
         }
         saveState()
+    }
+    
+    func resetAllSquadsData() {
+        joinedSquads = []
+        activeSquad = nil
+        members = []
+        activities = []
+        UserDefaults.standard.removeObject(forKey: joinedSquadsKey)
+        UserDefaults.standard.removeObject(forKey: activeSquadIDKey)
     }
     
     // MARK: - Private Helpers
