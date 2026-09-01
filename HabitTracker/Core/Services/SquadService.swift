@@ -26,6 +26,12 @@ private struct SupabaseMemberDTO: Codable {
     let total_xp: Int
 }
 
+private struct SupabaseMemberPatchDTO: Codable {
+    let streak_count: Int
+    let weekly_check_ins: Int
+    let total_xp: Int
+}
+
 private struct SupabaseActivityDTO: Codable {
     let id: UUID
     let squad_id: UUID
@@ -156,7 +162,7 @@ final class SquadService: ObservableObject {
     }
     
     // MARK: - Squad Operations
-    func createSquad(name: String, icon: String, creatorName: String) async -> Squad {
+    func createSquad(name: String, icon: String, creatorName: String, streakCount: Int = 0, totalXP: Int = 0) async -> Squad {
         let code = generateSquadCode()
         let squadID = UUID()
         let memberID = UUID()
@@ -178,9 +184,9 @@ final class SquadService: ObservableObject {
             squadID: squadID,
             username: userName,
             avatarIcon: "person.circle.fill",
-            streakCount: 0,
+            streakCount: streakCount,
             weeklyCheckIns: 0,
-            totalXP: 0,
+            totalXP: totalXP,
             isCurrentAccount: true
         )
         
@@ -212,9 +218,9 @@ final class SquadService: ObservableObject {
                     squad_id: squadID,
                     username: userName,
                     avatar_icon: "person.circle.fill",
-                    streak_count: 0,
+                    streak_count: streakCount,
                     weekly_check_ins: 0,
-                    total_xp: 0
+                    total_xp: totalXP
                 )
                 let memberBody = try JSONEncoder().encode([memberDTO])
                 _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members", method: "POST", body: memberBody)
@@ -226,7 +232,7 @@ final class SquadService: ObservableObject {
         return squad
     }
     
-    func joinSquad(code: String, username: String) async throws -> Squad {
+    func joinSquad(code: String, username: String, streakCount: Int = 0, totalXP: Int = 0) async throws -> Squad {
         let cleanCode = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         guard !cleanCode.isEmpty else {
             throw NSError(domain: "SquadService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Please enter a valid squad code."])
@@ -293,9 +299,9 @@ final class SquadService: ObservableObject {
             squadID: squadID,
             username: userName,
             avatarIcon: "person.circle.fill",
-            streakCount: 0,
+            streakCount: streakCount,
             weeklyCheckIns: 0,
-            totalXP: 0,
+            totalXP: totalXP,
             isCurrentAccount: true
         )
         
@@ -317,9 +323,9 @@ final class SquadService: ObservableObject {
                     squad_id: squadID,
                     username: userName,
                     avatar_icon: "person.circle.fill",
-                    streak_count: 0,
+                    streak_count: streakCount,
                     weekly_check_ins: 0,
-                    total_xp: 0
+                    total_xp: totalXP
                 )
                 let memberBody = try JSONEncoder().encode([memberDTO])
                 _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members", method: "POST", body: memberBody)
@@ -339,7 +345,7 @@ final class SquadService: ObservableObject {
         return squad
     }
     
-    func broadcastCheckIn(habitTitle: String, habitIcon: String) {
+    func broadcastCheckIn(habitTitle: String, habitIcon: String, userStreak: Int = 0, totalXP: Int = 0) {
         guard let squad = activeSquad else { return }
         
         let userName = members.first(where: { $0.isCurrentAccount })?.username ?? UserProfileService.shared.displayName
@@ -356,19 +362,26 @@ final class SquadService: ObservableObject {
         
         activities.insert(newActivity, at: 0)
         
-        // Update user's member check-in count
+        var updatedSelfMember: SquadMember?
+        
+        // Update user's member check-in count, streak & XP
         if let idx = members.firstIndex(where: { $0.isCurrentAccount }) {
             let cur = members[idx]
-            members[idx] = SquadMember(
+            let newStreak = max(userStreak, cur.streakCount > 0 ? cur.streakCount : 1)
+            let newXP = totalXP > 0 ? totalXP : (cur.totalXP + 25)
+            
+            let updated = SquadMember(
                 id: cur.id,
                 squadID: cur.squadID,
                 username: cur.username,
                 avatarIcon: cur.avatarIcon,
-                streakCount: cur.streakCount + 1,
+                streakCount: newStreak,
                 weeklyCheckIns: cur.weeklyCheckIns + 1,
-                totalXP: cur.totalXP + 25,
+                totalXP: newXP,
                 isCurrentAccount: true
             )
+            members[idx] = updated
+            updatedSelfMember = updated
             members.sort(by: { $0.weeklyCheckIns > $1.weeklyCheckIns })
         }
         
@@ -403,6 +416,17 @@ final class SquadService: ObservableObject {
                     )
                     let body = try JSONEncoder().encode([activityDTO])
                     _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_activities", method: "POST", body: body)
+                    
+                    // PATCH member streak_count, weekly_check_ins, and total_xp on Supabase!
+                    if let selfMember = updatedSelfMember {
+                        let memberPatchDTO = SupabaseMemberPatchDTO(
+                            streak_count: selfMember.streakCount,
+                            weekly_check_ins: selfMember.weeklyCheckIns,
+                            total_xp: selfMember.totalXP
+                        )
+                        let patchBody = try JSONEncoder().encode(memberPatchDTO)
+                        _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members?id=eq.\(selfMember.id.uuidString)", method: "PATCH", body: patchBody)
+                    }
                 } catch {
                     print("Supabase broadcast check-in error: \(error.localizedDescription)")
                 }
