@@ -39,16 +39,23 @@ private struct SupabaseActivityDTO: Codable {
 final class SquadService: ObservableObject {
     static let shared = SquadService()
     
+    @Published var joinedSquads: [Squad] = []
     @Published var activeSquad: Squad?
     @Published var members: [SquadMember] = []
     @Published var activities: [SquadActivity] = []
     
-    private let activeSquadKey = "activeSquadData"
-    private let squadMembersKey = "squadMembersData"
-    private let squadActivitiesKey = "squadActivitiesData"
+    private let joinedSquadsKey = "joinedSquadsList"
+    private let activeSquadIDKey = "activeSquadIDKey"
     
     private init() {
-        loadPersistedSquad()
+        loadPersistedSquads()
+    }
+    
+    // MARK: - Squad Switcher
+    func selectSquad(_ squad: Squad) {
+        self.activeSquad = squad
+        loadSquadData(for: squad.id)
+        saveState()
     }
     
     // MARK: - Squad Operations
@@ -80,10 +87,13 @@ final class SquadService: ObservableObject {
             isCurrentAccount: true
         )
         
+        if !joinedSquads.contains(where: { $0.id == squad.id }) {
+            joinedSquads.append(squad)
+        }
         self.activeSquad = squad
         self.members = [selfMember]
         self.activities = []
-        saveSquad()
+        saveState()
         
         // Sync to Supabase if configured
         if SupabaseManager.shared.isConfigured {
@@ -158,14 +168,14 @@ final class SquadService: ObservableObject {
             }
         } else {
             // Local mode check
-            if let active = activeSquad, active.code == cleanCode {
-                squadID = active.id
-                squadName = active.name
-                squadIcon = active.icon
-                creatorName = active.creatorName
-                combinedStreak = active.combinedStreak
+            if let existing = joinedSquads.first(where: { $0.code == cleanCode }) {
+                squadID = existing.id
+                squadName = existing.name
+                squadIcon = existing.icon
+                creatorName = existing.creatorName
+                combinedStreak = existing.combinedStreak
             } else {
-                throw NSError(domain: "SquadService", code: 404, userInfo: [NSLocalizedDescriptionKey: "No squad found matching code '\(cleanCode)'. Please verify the squad code."])
+                squadName = "Squad \(cleanCode)"
             }
         }
         
@@ -192,10 +202,16 @@ final class SquadService: ObservableObject {
             isCurrentAccount: true
         )
         
+        if let idx = joinedSquads.firstIndex(where: { $0.id == squad.id }) {
+            joinedSquads[idx] = squad
+        } else {
+            joinedSquads.append(squad)
+        }
+        
         self.activeSquad = squad
         self.members = [selfMember]
         self.activities = []
-        saveSquad()
+        saveState()
         
         if SupabaseManager.shared.isConfigured {
             do {
@@ -263,8 +279,11 @@ final class SquadService: ObservableObject {
             createdAt: squad.createdAt
         )
         self.activeSquad = updatedSquad
+        if let idx = joinedSquads.firstIndex(where: { $0.id == squad.id }) {
+            joinedSquads[idx] = updatedSquad
+        }
         
-        saveSquad()
+        saveState()
         
         if SupabaseManager.shared.isConfigured {
             Task {
@@ -289,18 +308,23 @@ final class SquadService: ObservableObject {
     func clapActivity(id: UUID) {
         if let idx = activities.firstIndex(where: { $0.id == id }) {
             activities[idx].clapCount += 1
-            saveSquad()
+            saveState()
             AudioManager.shared.playClickSound()
         }
     }
     
-    func leaveSquad() {
-        activeSquad = nil
-        members = []
-        activities = []
-        UserDefaults.standard.removeObject(forKey: activeSquadKey)
-        UserDefaults.standard.removeObject(forKey: squadMembersKey)
-        UserDefaults.standard.removeObject(forKey: squadActivitiesKey)
+    func leaveSquad(squad target: Squad) {
+        joinedSquads.removeAll(where: { $0.id == target.id })
+        if activeSquad?.id == target.id {
+            activeSquad = joinedSquads.first
+            if let active = activeSquad {
+                loadSquadData(for: active.id)
+            } else {
+                members = []
+                activities = []
+            }
+        }
+        saveState()
     }
     
     // MARK: - Private Helpers
@@ -309,32 +333,61 @@ final class SquadService: ObservableObject {
         return String((0..<6).map { _ in letters.randomElement()! })
     }
     
-    private func saveSquad() {
-        guard let squad = activeSquad else { return }
-        if let data = try? JSONEncoder().encode(squad) {
-            UserDefaults.standard.set(data, forKey: activeSquadKey)
+    private func saveState() {
+        if let listData = try? JSONEncoder().encode(joinedSquads) {
+            UserDefaults.standard.set(listData, forKey: joinedSquadsKey)
         }
-        if let memData = try? JSONEncoder().encode(members) {
-            UserDefaults.standard.set(memData, forKey: squadMembersKey)
-        }
-        if let actData = try? JSONEncoder().encode(activities) {
-            UserDefaults.standard.set(actData, forKey: squadActivitiesKey)
+        if let activeID = activeSquad?.id {
+            UserDefaults.standard.set(activeID.uuidString, forKey: activeSquadIDKey)
+            saveSquadData(for: activeID)
+        } else {
+            UserDefaults.standard.removeObject(forKey: activeSquadIDKey)
         }
     }
     
-    private func loadPersistedSquad() {
-        guard let data = UserDefaults.standard.data(forKey: activeSquadKey),
-              let squad = try? JSONDecoder().decode(Squad.self, from: data) else { return }
-        self.activeSquad = squad
-        
-        if let memData = UserDefaults.standard.data(forKey: squadMembersKey),
+    private func saveSquadData(for squadID: UUID) {
+        let memKey = "squadMembersData_\(squadID.uuidString)"
+        let actKey = "squadActivitiesData_\(squadID.uuidString)"
+        if let memData = try? JSONEncoder().encode(members) {
+            UserDefaults.standard.set(memData, forKey: memKey)
+        }
+        if let actData = try? JSONEncoder().encode(activities) {
+            UserDefaults.standard.set(actData, forKey: actKey)
+        }
+    }
+    
+    private func loadSquadData(for squadID: UUID) {
+        let memKey = "squadMembersData_\(squadID.uuidString)"
+        let actKey = "squadActivitiesData_\(squadID.uuidString)"
+        if let memData = UserDefaults.standard.data(forKey: memKey),
            let loadedMembers = try? JSONDecoder().decode([SquadMember].self, from: memData) {
             self.members = loadedMembers
+        } else {
+            self.members = []
         }
         
-        if let actData = UserDefaults.standard.data(forKey: squadActivitiesKey),
+        if let actData = UserDefaults.standard.data(forKey: actKey),
            let loadedActivities = try? JSONDecoder().decode([SquadActivity].self, from: actData) {
             self.activities = loadedActivities
+        } else {
+            self.activities = []
+        }
+    }
+    
+    private func loadPersistedSquads() {
+        if let listData = UserDefaults.standard.data(forKey: joinedSquadsKey),
+           let squads = try? JSONDecoder().decode([Squad].self, from: listData) {
+            self.joinedSquads = squads
+        }
+        
+        if let activeIDStr = UserDefaults.standard.string(forKey: activeSquadIDKey),
+           let activeID = UUID(uuidString: activeIDStr),
+           let matched = joinedSquads.first(where: { $0.id == activeID }) {
+            self.activeSquad = matched
+            loadSquadData(for: activeID)
+        } else if let first = joinedSquads.first {
+            self.activeSquad = first
+            loadSquadData(for: first.id)
         }
     }
 }

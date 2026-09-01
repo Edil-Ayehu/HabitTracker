@@ -24,9 +24,59 @@ struct SquadsView: View {
 
     var body: some View {
         AppScaffold(title: "Habit Squads 👥") {
-            if let squad = squadService.activeSquad {
-                VStack(spacing: AppSpacing.lg) {
-                    
+            VStack(spacing: AppSpacing.lg) {
+                
+                // MARK: - Multi-Squad Horizontal Selector Bar
+                if !squadService.joinedSquads.isEmpty {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ForEach(squadService.joinedSquads) { squadItem in
+                                let isSelected = squadService.activeSquad?.id == squadItem.id
+                                Button {
+                                    squadService.selectSquad(squadItem)
+                                    AudioManager.shared.playClickSound()
+                                } label: {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: squadItem.icon)
+                                            .font(.system(size: 12))
+                                        Text(squadItem.name)
+                                            .font(AppFont.caption())
+                                            .fontWeight(isSelected ? .bold : .medium)
+                                    }
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 8)
+                                    .background(isSelected ? AppColors.primary.opacity(0.18) : AppColors.card)
+                                    .foregroundStyle(isSelected ? AppColors.primary : AppColors.textSecondary)
+                                    .clipShape(Capsule())
+                                    .overlay(
+                                        Capsule()
+                                            .stroke(isSelected ? AppColors.primary : Color.clear, lineWidth: 1)
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                            
+                            Menu {
+                                Button("Create Another Squad") { showCreateModal = true }
+                                Button("Join Another Squad") { showJoinModal = true }
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "plus")
+                                    Text("Add")
+                                }
+                                .font(AppFont.caption())
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(Color.gray.opacity(0.12))
+                                .foregroundStyle(AppColors.primary)
+                                .clipShape(Capsule())
+                            }
+                        }
+                    }
+                }
+                
+                if let squad = squadService.activeSquad {
                     // MARK: - Squad Header Card
                     CardView {
                         VStack(spacing: 12) {
@@ -89,9 +139,15 @@ struct SquadsView: View {
                                 Spacer()
                                 
                                 Menu {
+                                    Button("Copy Squad Code") {
+                                        UIPasteboard.general.string = squad.code
+                                        copiedCodeToast = true
+                                    }
                                     Button("Create New Squad") { showCreateModal = true }
                                     Button("Join Squad with Code") { showJoinModal = true }
-                                    Button("Leave Current Squad", role: .destructive) { squadService.leaveSquad() }
+                                    Button("Leave This Squad", role: .destructive) {
+                                        squadService.leaveSquad(squad: squad)
+                                    }
                                 } label: {
                                     Image(systemName: "ellipsis.circle")
                                         .font(.title3)
@@ -215,61 +271,61 @@ struct SquadsView: View {
                             }
                         }
                     }
-                }
-            } else {
-                // MARK: - Empty Squad View
-                VStack(spacing: 20) {
-                    Image(systemName: "person.3.sequence.fill")
-                        .font(.system(size: 60))
-                        .foregroundStyle(AppColors.primary)
-                        .padding(.top, 40)
-                    
-                    VStack(spacing: 8) {
-                        Text("Join or Create a Habit Squad")
-                            .font(AppFont.title())
-                            .fontWeight(.bold)
-                        
-                        Text("Habit squads let you compete on weekly leaderboards, build group streaks, and cheer for friends in real-time.")
-                            .font(AppFont.body())
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(AppColors.textSecondary)
-                            .padding(.horizontal, 24)
-                    }
-                    
-                    VStack(spacing: 12) {
-                        Button {
-                            showCreateModal = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "plus.circle.fill")
-                                Text("Create New Squad")
-                                    .fontWeight(.bold)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(AppColors.primary)
-                            .foregroundStyle(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 14))
-                        }
-                        .buttonStyle(.plain)
-                        
-                        Button {
-                            showJoinModal = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "person.badge.plus")
-                                Text("Join Squad with Code")
-                                    .fontWeight(.bold)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 14)
-                            .background(Color.gray.opacity(0.12))
+                } else {
+                    // MARK: - Empty Squad View
+                    VStack(spacing: 20) {
+                        Image(systemName: "person.3.sequence.fill")
+                            .font(.system(size: 60))
                             .foregroundStyle(AppColors.primary)
-                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                            .padding(.top, 40)
+                        
+                        VStack(spacing: 8) {
+                            Text("Join or Create a Habit Squad")
+                                .font(AppFont.title())
+                                .fontWeight(.bold)
+                            
+                            Text("Habit squads let you compete on weekly leaderboards, build group streaks, and cheer for friends in real-time.")
+                                .font(AppFont.body())
+                                .multilineTextAlignment(.center)
+                                .foregroundStyle(AppColors.textSecondary)
+                                .padding(.horizontal, 24)
                         }
-                        .buttonStyle(.plain)
+                        
+                        VStack(spacing: 12) {
+                            Button {
+                                showCreateModal = true
+                            } label: {
+                                HStack {
+                                    Image(systemName: "plus.circle.fill")
+                                    Text("Create New Squad")
+                                        .fontWeight(.bold)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .background(AppColors.primary)
+                                .foregroundStyle(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                            }
+                            .buttonStyle(.plain)
+                            
+                            Button {
+                                showJoinModal = true
+                            } label: {
+                                HStack {
+                                    Image(systemName: "person.badge.plus")
+                                    Text("Join Squad with Code")
+                                        .fontWeight(.bold)
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                                .background(Color.gray.opacity(0.12))
+                                .foregroundStyle(AppColors.primary)
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(.horizontal, 24)
                     }
-                    .padding(.horizontal, 24)
                 }
             }
         }
