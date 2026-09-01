@@ -8,16 +8,16 @@ import SwiftUI
 struct SquadsView: View {
     @StateObject private var squadService = SquadService.shared
     @StateObject private var supabaseManager = SupabaseManager.shared
+    @StateObject private var profileService = UserProfileService.shared
     @EnvironmentObject private var router: AppRouter
     
     @State private var selectedTab: Int = 0 // 0: Leaderboard, 1: Feed
     @State private var showCreateModal: Bool = false
     @State private var showJoinModal: Bool = false
+    @State private var showProfileModal: Bool = false
     
     @State private var newSquadName: String = ""
-    @State private var newCreatorName: String = ""
     @State private var joinCodeInput: String = ""
-    @State private var joinUsernameInput: String = ""
     @State private var copiedCodeToast: Bool = false
     @State private var joinErrorText: String? = nil
     @State private var isJoining: Bool = false
@@ -25,6 +25,45 @@ struct SquadsView: View {
     var body: some View {
         AppScaffold(title: "Habit Squads 👥") {
             VStack(spacing: AppSpacing.lg) {
+                
+                // MARK: - User Profile Banner
+                HStack {
+                    HStack(spacing: 8) {
+                        Image(systemName: "person.crop.circle.fill")
+                            .font(.title3)
+                            .foregroundStyle(AppColors.primary)
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(profileService.isProfileCreated ? profileService.displayName : "Guest User")
+                                .font(AppFont.caption())
+                                .fontWeight(.bold)
+                            Text(profileService.isProfileCreated ? profileService.usernameHandle : "Set unique @handle")
+                                .font(.system(size: 11))
+                                .foregroundStyle(profileService.isProfileCreated ? AppColors.primary : Color.orange)
+                        }
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        showProfileModal = true
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: profileService.isProfileCreated ? "pencil.circle.fill" : "plus.circle.fill")
+                            Text(profileService.isProfileCreated ? "Edit Profile" : "Set Handle")
+                        }
+                        .font(.system(size: 11, weight: .bold))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(AppColors.primary.opacity(0.12))
+                        .foregroundStyle(AppColors.primary)
+                        .clipShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(10)
+                .background(AppColors.card)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
                 
                 // MARK: - Multi-Squad Horizontal Selector Bar
                 if !squadService.joinedSquads.isEmpty {
@@ -57,8 +96,8 @@ struct SquadsView: View {
                             }
                             
                             Menu {
-                                Button("Create Another Squad") { showCreateModal = true }
-                                Button("Join Another Squad") { showJoinModal = true }
+                                Button("Create Another Squad") { checkProfileThen { showCreateModal = true } }
+                                Button("Join Another Squad") { checkProfileThen { showJoinModal = true } }
                             } label: {
                                 HStack(spacing: 4) {
                                     Image(systemName: "plus")
@@ -143,8 +182,8 @@ struct SquadsView: View {
                                         UIPasteboard.general.string = squad.code
                                         copiedCodeToast = true
                                     }
-                                    Button("Create New Squad") { showCreateModal = true }
-                                    Button("Join Squad with Code") { showJoinModal = true }
+                                    Button("Create New Squad") { checkProfileThen { showCreateModal = true } }
+                                    Button("Join Squad with Code") { checkProfileThen { showJoinModal = true } }
                                     Button("Leave This Squad", role: .destructive) {
                                         squadService.leaveSquad(squad: squad)
                                     }
@@ -293,7 +332,7 @@ struct SquadsView: View {
                         
                         VStack(spacing: 12) {
                             Button {
-                                showCreateModal = true
+                                checkProfileThen { showCreateModal = true }
                             } label: {
                                 HStack {
                                     Image(systemName: "plus.circle.fill")
@@ -309,7 +348,7 @@ struct SquadsView: View {
                             .buttonStyle(.plain)
                             
                             Button {
-                                showJoinModal = true
+                                checkProfileThen { showJoinModal = true }
                             } label: {
                                 HStack {
                                     Image(systemName: "person.badge.plus")
@@ -329,6 +368,9 @@ struct SquadsView: View {
                 }
             }
         }
+        .sheet(isPresented: $showProfileModal) {
+            ProfileSetupView()
+        }
         .sheet(isPresented: $showCreateModal) {
             NavigationStack {
                 VStack(spacing: 20) {
@@ -347,21 +389,23 @@ struct SquadsView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Your Name")
+                    HStack(spacing: 6) {
+                        Image(systemName: "checkmark.seal.fill")
+                            .foregroundStyle(AppColors.primary)
+                        Text("Creating as **\(profileService.displayName)** (\(profileService.usernameHandle))")
                             .font(AppFont.caption())
                             .foregroundStyle(AppColors.textSecondary)
-                        TextField("e.g. Ram", text: $newCreatorName)
-                            .textFieldStyle(.plain)
-                            .padding(12)
-                            .background(Color.gray.opacity(0.1))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(AppColors.primary.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     
                     Button {
                         if !newSquadName.isEmpty {
                             Task {
-                                _ = await squadService.createSquad(name: newSquadName, icon: "flame.fill", creatorName: newCreatorName)
+                                let creatorIdentity = "\(profileService.displayName) (\(profileService.usernameHandle))"
+                                _ = await squadService.createSquad(name: newSquadName, icon: "flame.fill", creatorName: creatorIdentity)
                                 showCreateModal = false
                             }
                         }
@@ -404,16 +448,17 @@ struct SquadsView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                     
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Your Name")
+                    HStack(spacing: 6) {
+                        Image(systemName: "checkmark.seal.fill")
+                            .foregroundStyle(AppColors.primary)
+                        Text("Joining as **\(profileService.displayName)** (\(profileService.usernameHandle))")
                             .font(AppFont.caption())
                             .foregroundStyle(AppColors.textSecondary)
-                        TextField("e.g. Ram", text: $joinUsernameInput)
-                            .textFieldStyle(.plain)
-                            .padding(12)
-                            .background(Color.gray.opacity(0.1))
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(AppColors.primary.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                     
                     if let errorMsg = joinErrorText {
                         HStack(spacing: 6) {
@@ -435,7 +480,8 @@ struct SquadsView: View {
                             joinErrorText = nil
                             Task {
                                 do {
-                                    _ = try await squadService.joinSquad(code: joinCodeInput, username: joinUsernameInput)
+                                    let memberIdentity = "\(profileService.displayName) (\(profileService.usernameHandle))"
+                                    _ = try await squadService.joinSquad(code: joinCodeInput, username: memberIdentity)
                                     isJoining = false
                                     showJoinModal = false
                                 } catch {
@@ -479,6 +525,14 @@ struct SquadsView: View {
             if let active = squadService.activeSquad {
                 await squadService.fetchLatestSquadData(for: active.id)
             }
+        }
+    }
+    
+    private func checkProfileThen(_ action: @escaping () -> Void) {
+        if !profileService.isProfileCreated {
+            showProfileModal = true
+        } else {
+            action()
         }
     }
     
