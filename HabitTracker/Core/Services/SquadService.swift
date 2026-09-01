@@ -35,6 +35,10 @@ private struct SupabaseActivityDTO: Codable {
     let clap_count: Int
 }
 
+private struct SupabaseSquadUpdateMemberCountDTO: Codable {
+    let member_count: Int
+}
+
 @MainActor
 final class SquadService: ObservableObject {
     static let shared = SquadService()
@@ -56,6 +60,83 @@ final class SquadService: ObservableObject {
         self.activeSquad = squad
         loadSquadData(for: squad.id)
         saveState()
+        
+        Task {
+            await fetchLatestSquadData(for: squad.id)
+        }
+    }
+    
+    // MARK: - Live Supabase Sync
+    func fetchLatestSquadData(for squadID: UUID) async {
+        guard SupabaseManager.shared.isConfigured else { return }
+        
+        do {
+            // 1. Fetch Members
+            let membersData = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members?squad_id=eq.\(squadID.uuidString)", method: "GET")
+            let fetchedMembersDTO = try JSONDecoder().decode([SupabaseMemberDTO].self, from: membersData)
+            
+            let currentUsername = members.first(where: { $0.isCurrentAccount })?.username ?? "You"
+            
+            let updatedMembers = fetchedMembersDTO.map { dto in
+                SquadMember(
+                    id: dto.id,
+                    squadID: dto.squad_id,
+                    username: dto.username,
+                    avatarIcon: dto.avatar_icon,
+                    streakCount: dto.streak_count,
+                    weeklyCheckIns: dto.weekly_check_ins,
+                    totalXP: dto.total_xp,
+                    isCurrentAccount: dto.username == currentUsername
+                )
+            }.sorted(by: { $0.weeklyCheckIns > $1.weeklyCheckIns })
+            
+            if !updatedMembers.isEmpty {
+                self.members = updatedMembers
+            }
+            
+            // 2. Fetch Activities
+            let actData = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_activities?squad_id=eq.\(squadID.uuidString)", method: "GET")
+            let fetchedActDTO = try JSONDecoder().decode([SupabaseActivityDTO].self, from: actData)
+            
+            let updatedActivities = fetchedActDTO.map { dto in
+                SquadActivity(
+                    id: dto.id,
+                    squadID: dto.squad_id,
+                    username: dto.username,
+                    habitTitle: dto.habit_title,
+                    habitIcon: dto.habit_icon,
+                    timestamp: Date(),
+                    clapCount: dto.clap_count
+                )
+            }
+            
+            if !updatedActivities.isEmpty {
+                self.activities = updatedActivities
+            }
+            
+            // 3. Update squad member count locally and in joinedSquads
+            if let active = activeSquad, active.id == squadID {
+                let realCount = max(active.memberCount, members.count)
+                let updatedSquad = Squad(
+                    id: active.id,
+                    name: active.name,
+                    code: active.code,
+                    icon: active.icon,
+                    creatorName: active.creatorName,
+                    combinedStreak: active.combinedStreak,
+                    memberCount: realCount,
+                    createdAt: active.createdAt
+                )
+                self.activeSquad = updatedSquad
+                if let idx = joinedSquads.firstIndex(where: { $0.id == squadID }) {
+                    joinedSquads[idx] = updatedSquad
+                }
+            }
+            
+            saveState()
+        } catch {
+            print("Fetch latest squad data error: \(error.localizedDescription)")
+        }
     }
     
     // MARK: - Squad Operations
@@ -226,10 +307,18 @@ final class SquadService: ObservableObject {
                 )
                 let memberBody = try JSONEncoder().encode([memberDTO])
                 _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members", method: "POST", body: memberBody)
+                
+                // Update member_count on Supabase squads table
+                let updateDTO = SupabaseSquadUpdateMemberCountDTO(member_count: existingMembersCount)
+                let updateBody = try JSONEncoder().encode(updateDTO)
+                _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squads?id=eq.\(squadID.uuidString)", method: "PATCH", body: updateBody)
             } catch {
                 print("Supabase join member insert warning: \(error.localizedDescription)")
             }
         }
+        
+        // Fetch all members from Supabase
+        await fetchLatestSquadData(for: squadID)
         
         return squad
     }
@@ -275,7 +364,7 @@ final class SquadService: ObservableObject {
             icon: squad.icon,
             creatorName: squad.creatorName,
             combinedStreak: squad.combinedStreak + 1,
-            memberCount: members.count,
+            memberCount: max(squad.memberCount, members.count),
             createdAt: squad.createdAt
         )
         self.activeSquad = updatedSquad

@@ -96,7 +96,7 @@ struct SquadsView: View {
                                         Text(squad.name)
                                             .font(AppFont.headline())
                                         
-                                        Text("Created by \(squad.creatorName) • \(squad.memberCount) Members")
+                                        Text("Created by \(squad.creatorName) • \(max(squad.memberCount, squadService.members.count)) Members")
                                             .font(AppFont.caption())
                                             .foregroundStyle(AppColors.textSecondary)
                                     }
@@ -473,6 +473,11 @@ struct SquadsView: View {
                         Button("Cancel") { showJoinModal = false }
                     }
                 }
+            }
+        }
+        .task {
+            if let active = squadService.activeSquad {
+                await squadService.fetchLatestSquadData(for: active.id)
             }
         }
     }
