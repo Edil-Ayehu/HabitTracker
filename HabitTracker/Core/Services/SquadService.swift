@@ -114,7 +114,13 @@ final class SquadService: ObservableObject {
                     totalXP: dto.total_xp,
                     isCurrentAccount: !currentHandle.isEmpty && dto.username.contains(currentHandle)
                 )
-            }.sorted(by: { $0.weeklyCheckIns > $1.weeklyCheckIns })
+            }.sorted(by: {
+                if $0.streakCount != $1.streakCount {
+                    return $0.streakCount > $1.streakCount
+                } else {
+                    return $0.totalXP > $1.totalXP
+                }
+            })
             
             self.members = updatedMembers
             
@@ -382,7 +388,13 @@ final class SquadService: ObservableObject {
             )
             members[idx] = updated
             updatedSelfMember = updated
-            members.sort(by: { $0.weeklyCheckIns > $1.weeklyCheckIns })
+            members.sort(by: {
+                if $0.streakCount != $1.streakCount {
+                    return $0.streakCount > $1.streakCount
+                } else {
+                    return $0.totalXP > $1.totalXP
+                }
+            })
         }
         
         // Update combined squad streak

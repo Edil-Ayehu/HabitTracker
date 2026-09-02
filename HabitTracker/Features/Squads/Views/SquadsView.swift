@@ -165,16 +165,7 @@ struct SquadsView: View {
                                 .buttonStyle(.plain)
                             }
                             
-                            Divider()
-                            
-                            HStack(spacing: 20) {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "flame.fill")
-                                        .foregroundStyle(Color.orange)
-                                    Text("\(squad.combinedStreak)-Day Group Streak")
-                                        .font(AppFont.body())
-                                        .fontWeight(.bold)
-                                }
+                            HStack {
                                 Spacer()
                                 
                                 Menu {
@@ -188,9 +179,12 @@ struct SquadsView: View {
                                         squadService.leaveSquad(squad: squad)
                                     }
                                 } label: {
-                                    Image(systemName: "ellipsis.circle")
-                                        .font(.title3)
-                                        .foregroundStyle(AppColors.textSecondary)
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "ellipsis.circle")
+                                        Text("Options")
+                                    }
+                                    .font(AppFont.caption())
+                                    .foregroundStyle(AppColors.textSecondary)
                                 }
                             }
                         }
@@ -230,7 +224,7 @@ struct SquadsView: View {
                                             }
                                         }
                                         
-                                        Text("\(member.streakCount)-day streak • \(member.totalXP) XP")
+                                        Text("\(member.totalXP) XP • \(member.weeklyCheckIns) Check-ins")
                                             .font(AppFont.caption())
                                             .foregroundStyle(AppColors.textSecondary)
                                     }
@@ -238,10 +232,15 @@ struct SquadsView: View {
                                     Spacer()
                                     
                                     VStack(alignment: .trailing, spacing: 2) {
-                                        Text("\(member.weeklyCheckIns)")
-                                            .font(.system(size: 20, weight: .black, design: .rounded))
-                                            .foregroundStyle(AppColors.primary)
-                                        Text("Check-ins")
+                                        HStack(spacing: 4) {
+                                            Image(systemName: "flame.fill")
+                                                .font(.system(size: 14))
+                                                .foregroundStyle(Color.orange)
+                                            Text("\(member.streakCount)")
+                                                .font(.system(size: 20, weight: .black, design: .rounded))
+                                                .foregroundStyle(AppColors.primary)
+                                        }
+                                        Text("Day Streak")
                                             .font(.system(size: 10, weight: .medium))
                                             .foregroundStyle(AppColors.textSecondary)
                                     }
