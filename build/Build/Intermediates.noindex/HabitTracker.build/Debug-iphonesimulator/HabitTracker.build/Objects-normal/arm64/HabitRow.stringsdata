@@ -7,7 +7,7 @@
         "key": "%lld/%lld %@",
         "location": {
           "startingColumn": 34,
-          "startingLine": 69
+          "startingLine": 70
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Done Today",
         "location": {
           "startingColumn": 56,
-          "startingLine": 75
+          "startingLine": 76
         }
       },
       {
@@ -23,7 +23,7 @@
         "key": "Daily Goal",
         "location": {
           "startingColumn": 71,
-          "startingLine": 75
+          "startingLine": 76
         }
       },
       {
@@ -31,7 +31,7 @@
         "key": "Completed for this week 📅",
         "location": {
           "startingColumn": 56,
-          "startingLine": 79
+          "startingLine": 80
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Due this week 📅",
         "location": {
           "startingColumn": 89,
-          "startingLine": 79
+          "startingLine": 80
         }
       },
       {
@@ -47,7 +47,7 @@
         "key": "Completed for this month 🗓️",
         "location": {
           "startingColumn": 56,
-          "startingLine": 83
+          "startingLine": 84
         }
       },
       {
@@ -55,7 +55,7 @@
         "key": "Due this month 🗓️",
         "location": {
           "startingColumn": 93,
-          "startingLine": 83
+          "startingLine": 84
         }
       },
       {
@@ -63,7 +63,7 @@
         "key": "Frozen 🛡️",
         "location": {
           "startingColumn": 38,
-          "startingLine": 48
+          "startingLine": 49
         }
       },
       {
@@ -71,7 +71,15 @@
         "key": "Rest Day 🛡️",
         "location": {
           "startingColumn": 38,
-          "startingLine": 60
+          "startingLine": 61
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lldd streak",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 112
         }
       },
       {
@@ -79,7 +87,7 @@
         "key": "%lld/%lld",
         "location": {
           "startingColumn": 38,
-          "startingLine": 126
+          "startingLine": 143
         }
       }
     ]

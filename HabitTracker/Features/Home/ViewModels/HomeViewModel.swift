@@ -210,10 +210,15 @@ final class HomeViewModel: ObservableObject {
         do {
             try habitUseCase.deleteHabit(habit)
             entries = try habitUseCase.fetchTodayEntries()
-            reloadStatistics()
+            refreshGamification()
+            
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+    
+    func habitStreak(for habit: Habit) -> Int {
+        habitUseCase.calculateHabitStreak(for: habit)
     }
     
     private func checkDailyCompletion() {

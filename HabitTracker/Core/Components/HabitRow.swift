@@ -7,6 +7,7 @@ import SwiftUI
 
 struct HabitRow: View {
     let entry: HabitEntry
+    var streakCount: Int = 0
     let onIncrement: () -> Void
     let onComplete: () -> Void
     let onTap: () -> Void
@@ -87,7 +88,7 @@ struct HabitRow: View {
                         }
                     }
                     
-                    // Line 3: Clean Capsule Badges (Category • Time of Day • Frequency • Subtasks)
+                    // Line 3: Clean Capsule Badges (Category • Streak • Time of Day • Frequency • Subtasks)
                     HStack(spacing: 6) {
                         // Category Capsule Badge
                         HStack(spacing: 3) {
@@ -101,6 +102,22 @@ struct HabitRow: View {
                         .background(entry.habit.habitCategory.color.opacity(0.12))
                         .foregroundStyle(entry.habit.habitCategory.color)
                         .clipShape(Capsule())
+                        
+                        // Individual Habit Streak Badge
+                        if streakCount > 0 {
+                            HStack(spacing: 3) {
+                                Image(systemName: "flame.fill")
+                                    .font(.system(size: 9))
+                                    .foregroundStyle(Color.orange)
+                                Text("\(streakCount)d streak")
+                                    .font(.system(size: 9, weight: .bold))
+                            }
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.orange.opacity(0.14))
+                            .foregroundStyle(Color.orange)
+                            .clipShape(Capsule())
+                        }
                         
                         // Time of Day Capsule Badge
                         if entry.habit.habitTimeOfDay != .anyTime {

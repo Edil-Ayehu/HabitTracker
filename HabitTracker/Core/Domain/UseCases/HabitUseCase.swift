@@ -52,4 +52,6 @@ protocol HabitUseCase {
     func unarchiveHabit(_ habit: Habit) throws
     
     func fetchArchivedHabits() throws -> [Habit]
+    
+    func calculateHabitStreak(for habit: Habit) -> Int
 }

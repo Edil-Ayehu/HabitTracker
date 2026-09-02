@@ -206,41 +206,28 @@ final class HabitUseCaseImpl: HabitUseCase {
     
     
     private func calculateStreak(from entries: [HabitEntry]) -> Int {
-        
         let calendar = Calendar.current
+        let groupedByDate = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.date) }
         
-        let completedDates = Set(
-            entries
-                .filter(\.completed)
-                .map {
-                    calendar.startOfDay(for: $0.date)
-                }
-        )
+        var completedDates = Set<Date>()
+        var frozenDates = Set<Date>()
         
-        let frozenDates = Set(
-            entries
-                .filter(\.isFrozen)
-                .map {
-                    calendar.startOfDay(for: $0.date)
+        for (date, dateEntries) in groupedByDate {
+            if !dateEntries.isEmpty && dateEntries.allSatisfy({ $0.completed || $0.isFrozen }) {
+                if dateEntries.contains(where: { $0.completed }) {
+                    completedDates.insert(date)
+                } else {
+                    frozenDates.insert(date)
                 }
-        )
+            }
+        }
         
         var streak = 0
-        
         let today = calendar.startOfDay(for: Date())
-        
         var currentDate = today
         
-        // If today's habit isn't completed or frozen, start counting from yesterday.
         if !completedDates.contains(today) && !frozenDates.contains(today) {
-            guard let yesterday = calendar.date(
-                byAdding: .day,
-                value: -1,
-                to: today
-            ) else {
-                return 0
-            }
-            
+            guard let yesterday = calendar.date(byAdding: .day, value: -1, to: today) else { return 0 }
             currentDate = yesterday
         }
         
@@ -249,14 +236,7 @@ final class HabitUseCaseImpl: HabitUseCase {
                 streak += 1
             }
             
-            guard let previousDay = calendar.date(
-                byAdding: .day,
-                value: -1,
-                to: currentDate
-            ) else {
-                break
-            }
-            
+            guard let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
             currentDate = previousDay
         }
         
@@ -265,11 +245,14 @@ final class HabitUseCaseImpl: HabitUseCase {
     
     private func calculateBestStreak(from entries: [HabitEntry]) -> Int {
         let calendar = Calendar.current
-        let completedDates = Array(Set(
-            entries
-                .filter(\.completed)
-                .map { calendar.startOfDay(for: $0.date) }
-        )).sorted()
+        let groupedByDate = Dictionary(grouping: entries) { calendar.startOfDay(for: $0.date) }
+        
+        let completedDates = groupedByDate.compactMap { (date, dateEntries) -> Date? in
+            if !dateEntries.isEmpty && dateEntries.allSatisfy({ $0.completed || $0.isFrozen }) && dateEntries.contains(where: { $0.completed }) {
+                return date
+            }
+            return nil
+        }.sorted()
         
         guard !completedDates.isEmpty else { return 0 }
         
@@ -289,8 +272,37 @@ final class HabitUseCaseImpl: HabitUseCase {
             }
         }
         
-        let activeStreak = calculateStreak(from: entries)
-        return max(maxStreak, activeStreak)
+        return maxStreak
+    }
+    
+    func calculateHabitStreak(for habit: Habit) -> Int {
+        do {
+            let allEntries = try repository.fetchAllEntries()
+            let habitEntries = allEntries.filter { $0.habitID == habit.id }
+            let calendar = Calendar.current
+            let completedDates = Set(habitEntries.filter(\.completed).map { calendar.startOfDay(for: $0.date) })
+            let frozenDates = Set(habitEntries.filter(\.isFrozen).map { calendar.startOfDay(for: $0.date) })
+            
+            var streak = 0
+            let today = calendar.startOfDay(for: Date())
+            var currentDate = today
+            
+            if !completedDates.contains(today) && !frozenDates.contains(today) {
+                guard let yesterday = calendar.date(byAdding: .day, value: -1, to: today) else { return 0 }
+                currentDate = yesterday
+            }
+            
+            while completedDates.contains(currentDate) || frozenDates.contains(currentDate) {
+                if completedDates.contains(currentDate) {
+                    streak += 1
+                }
+                guard let previousDay = calendar.date(byAdding: .day, value: -1, to: currentDate) else { break }
+                currentDate = previousDay
+            }
+            return streak
+        } catch {
+            return 0
+        }
     }
     
     private func calculateAchievements(

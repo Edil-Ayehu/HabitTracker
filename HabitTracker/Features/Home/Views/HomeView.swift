@@ -267,6 +267,7 @@ struct HomeView: View {
                     ForEach(vm.filteredEntries) { entry in
                         HabitRow(
                             entry: entry,
+                            streakCount: vm.habitStreak(for: entry.habit),
                             onIncrement: {
                                 vm.increment(entry)
                             },
