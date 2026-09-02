@@ -42,6 +42,11 @@ final class QuestManager {
         return (newProfile, leveledUp)
     }
     
+    func deductXP(_ amount: Int) -> UserProfile {
+        storedXP = max(0, storedXP - amount)
+        return UserProfile(xp: storedXP)
+    }
+    
     func getDailyQuests(totalHabits: Int, completedHabits: Int, streak: Int) -> [DailyQuest] {
         let todayStr = Date.now.formatted(date: .numeric, time: .omitted)
         let targetForQ2 = totalHabits >= 3 ? 3 : max(1, totalHabits)

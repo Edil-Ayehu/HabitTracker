@@ -124,11 +124,16 @@ final class HomeViewModel: ObservableObject {
             entries = try habitUseCase.fetchTodayEntries()
             reloadStatistics()
             
-            if let updated = entries.first(where: { $0.id == entry.id }), !wasCompletedBefore && updated.completed {
-                awardXP(25)
-                AudioManager.shared.playCompletionSound()
-            } else {
-                AudioManager.shared.playClickSound()
+            if let updated = entries.first(where: { $0.id == entry.id }) {
+                if !wasCompletedBefore && updated.completed {
+                    awardXP(25)
+                    AudioManager.shared.playCompletionSound()
+                } else if wasCompletedBefore && !updated.completed {
+                    deductXP(25)
+                    AudioManager.shared.playClickSound()
+                } else {
+                    AudioManager.shared.playClickSound()
+                }
             }
         } catch {
             errorMessage = error.localizedDescription
@@ -142,17 +147,28 @@ final class HomeViewModel: ObservableObject {
             entries = try habitUseCase.fetchTodayEntries()
             reloadStatistics()
             
-            if !wasCompletedBefore {
-                awardXP(25)
-                SquadService.shared.broadcastCheckIn(
-                    habitTitle: entry.habit.title,
-                    habitIcon: entry.habit.icon,
-                    userStreak: statistics.currentStreak,
-                    totalXP: userProfile.xp
-                )
-                AudioManager.shared.playCompletionSound()
-            } else {
-                AudioManager.shared.playClickSound()
+            if let updated = entries.first(where: { $0.id == entry.id }) {
+                if !wasCompletedBefore && updated.completed {
+                    awardXP(25)
+                    SquadService.shared.broadcastCheckIn(
+                        habitTitle: entry.habit.title,
+                        habitIcon: entry.habit.icon,
+                        userStreak: statistics.currentStreak,
+                        totalXP: userProfile.xp
+                    )
+                    AudioManager.shared.playCompletionSound()
+                } else if wasCompletedBefore && !updated.completed {
+                    deductXP(25)
+                    SquadService.shared.broadcastCheckIn(
+                        habitTitle: entry.habit.title,
+                        habitIcon: entry.habit.icon,
+                        userStreak: statistics.currentStreak,
+                        totalXP: userProfile.xp
+                    )
+                    AudioManager.shared.playClickSound()
+                } else {
+                    AudioManager.shared.playClickSound()
+                }
             }
         } catch {
             errorMessage = error.localizedDescription
@@ -166,9 +182,14 @@ final class HomeViewModel: ObservableObject {
             entries = try habitUseCase.fetchTodayEntries()
             reloadStatistics()
             
-            if let updated = entries.first(where: { $0.id == entry.id }), !wasCompletedBefore && updated.completed {
-                awardXP(25)
-                AudioManager.shared.playCompletionSound()
+            if let updated = entries.first(where: { $0.id == entry.id }) {
+                if !wasCompletedBefore && updated.completed {
+                    awardXP(25)
+                    AudioManager.shared.playCompletionSound()
+                } else if wasCompletedBefore && !updated.completed {
+                    deductXP(25)
+                    AudioManager.shared.playClickSound()
+                }
             }
         } catch {
             errorMessage = error.localizedDescription
@@ -180,7 +201,6 @@ final class HomeViewModel: ObservableObject {
             try habitUseCase.archiveHabit(habit)
             entries = try habitUseCase.fetchTodayEntries()
             reloadStatistics()
-            AudioManager.shared.playClickSound()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -203,6 +223,10 @@ final class HomeViewModel: ObservableObject {
             showLevelUpBanner = true
             AudioManager.shared.playCelebrationSound()
         }
+    }
+    
+    private func deductXP(_ amount: Int) {
+        userProfile = QuestManager.shared.deductXP(amount)
     }
     
     func deleteHabit(_ habit: Habit) {
