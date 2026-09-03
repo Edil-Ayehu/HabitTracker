@@ -181,112 +181,112 @@ struct SettingsView: View {
             }
             
             // Supabase Backend Link Card
-            CardView {
-                VStack(alignment: .leading, spacing: 14) {
-                    HStack {
-                        Label("Supabase Backend Link", systemImage: "link.circle.fill")
-                            .font(AppFont.headline())
-                        
-                        Spacer()
-                        
-                        Text(supabaseManager.isConfigured ? "Connected ⚡" : "Code Linked 🛠️")
-                            .font(.system(size: 10, weight: .bold))
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(supabaseManager.isConfigured ? AppColors.success.opacity(0.15) : Color.purple.opacity(0.15))
-                            .foregroundStyle(supabaseManager.isConfigured ? AppColors.success : Color.purple)
-                            .clipShape(Capsule())
-                    }
-                    
-                    Text("Your app is linked directly in code via SupabaseConfig.swift. Edit project URL & Anon Key in code whenever deploying.")
-                        .font(AppFont.caption())
-                        .foregroundStyle(AppColors.textSecondary)
-                    
-                    HStack {
-                        Image(systemName: "curlybraces")
-                            .foregroundStyle(Color.purple)
-                        Text("Config: SupabaseConfig.swift")
-                            .font(AppFont.caption())
-                            .fontWeight(.bold)
-                    }
-                    .padding(10)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.purple.opacity(0.08))
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    
-                    Button {
-                        Task {
-                            let result = await supabaseManager.testConnection()
-                            alertMessage = result.message
-                            showAlert = true
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "bolt.horizontal.circle.fill")
-                            Text("Test Supabase Connection ⚡")
-                                .font(AppFont.body())
-                                .fontWeight(.bold)
-                        }
-                        .foregroundStyle(Color.purple)
-                        .padding(12)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.purple.opacity(0.12))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
-                    .buttonStyle(.plain)
-                    
-                    Button {
-                        SquadService.shared.resetAllSquadsData()
-                        alertMessage = "Local squad cache cleared successfully!"
-                        showAlert = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "trash.circle.fill")
-                            Text("Reset Local Squad Cache 🧹")
-                                .font(AppFont.body())
-                                .fontWeight(.bold)
-                        }
-                        .foregroundStyle(Color.red)
-                        .padding(12)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.red.opacity(0.12))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
+//            CardView {
+//                VStack(alignment: .leading, spacing: 14) {
+//                    HStack {
+//                        Label("Supabase Backend Link", systemImage: "link.circle.fill")
+//                            .font(AppFont.headline())
+//                        
+//                        Spacer()
+//                        
+//                        Text(supabaseManager.isConfigured ? "Connected ⚡" : "Code Linked 🛠️")
+//                            .font(.system(size: 10, weight: .bold))
+//                            .padding(.horizontal, 8)
+//                            .padding(.vertical, 4)
+//                            .background(supabaseManager.isConfigured ? AppColors.success.opacity(0.15) : Color.purple.opacity(0.15))
+//                            .foregroundStyle(supabaseManager.isConfigured ? AppColors.success : Color.purple)
+//                            .clipShape(Capsule())
+//                    }
+//                    
+//                    Text("Your app is linked directly in code via SupabaseConfig.swift. Edit project URL & Anon Key in code whenever deploying.")
+//                        .font(AppFont.caption())
+//                        .foregroundStyle(AppColors.textSecondary)
+//                    
+//                    HStack {
+//                        Image(systemName: "curlybraces")
+//                            .foregroundStyle(Color.purple)
+//                        Text("Config: SupabaseConfig.swift")
+//                            .font(AppFont.caption())
+//                            .fontWeight(.bold)
+//                    }
+//                    .padding(10)
+//                    .frame(maxWidth: .infinity, alignment: .leading)
+//                    .background(Color.purple.opacity(0.08))
+//                    .clipShape(RoundedRectangle(cornerRadius: 10))
+//                    
+//                    Button {
+//                        Task {
+//                            let result = await supabaseManager.testConnection()
+//                            alertMessage = result.message
+//                            showAlert = true
+//                        }
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "bolt.horizontal.circle.fill")
+//                            Text("Test Supabase Connection ⚡")
+//                                .font(AppFont.body())
+//                                .fontWeight(.bold)
+//                        }
+//                        .foregroundStyle(Color.purple)
+//                        .padding(12)
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.purple.opacity(0.12))
+//                        .clipShape(RoundedRectangle(cornerRadius: 12))
+//                    }
+//                    .buttonStyle(.plain)
+//                    
+//                    Button {
+//                        SquadService.shared.resetAllSquadsData()
+//                        alertMessage = "Local squad cache cleared successfully!"
+//                        showAlert = true
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "trash.circle.fill")
+//                            Text("Reset Local Squad Cache 🧹")
+//                                .font(AppFont.body())
+//                                .fontWeight(.bold)
+//                        }
+//                        .foregroundStyle(Color.red)
+//                        .padding(12)
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.red.opacity(0.12))
+//                        .clipShape(RoundedRectangle(cornerRadius: 12))
+//                    }
+//                    .buttonStyle(.plain)
+//                }
+//            }
             
             // Gemini AI Configuration Card
-            CardView {
-                VStack(alignment: .leading, spacing: 14) {
-                    HStack {
-                        Label("Gemini AI Engine", systemImage: "sparkles")
-                            .font(AppFont.headline())
-                        
-                        Spacer()
-                        
-                        if !geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                            Text("Active")
-                                .font(.system(size: 10, weight: .bold))
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(AppColors.success.opacity(0.15))
-                                .foregroundStyle(AppColors.success)
-                                .clipShape(Capsule())
-                        }
-                    }
-                    
-                    Text("Enter your Google Gemini API Key to enable real-time AI routine generation.")
-                        .font(AppFont.caption())
-                        .foregroundStyle(AppColors.textSecondary)
-                    
-                    SecureField("AI API Key (e.g. AIzaSy...)", text: $geminiApiKey)
-                        .textFieldStyle(.plain)
-                        .padding(12)
-                        .background(Color.gray.opacity(0.08))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
-            }
+//            CardView {
+//                VStack(alignment: .leading, spacing: 14) {
+//                    HStack {
+//                        Label("Gemini AI Engine", systemImage: "sparkles")
+//                            .font(AppFont.headline())
+//                        
+//                        Spacer()
+//                        
+//                        if !geminiApiKey.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+//                            Text("Active")
+//                                .font(.system(size: 10, weight: .bold))
+//                                .padding(.horizontal, 8)
+//                                .padding(.vertical, 4)
+//                                .background(AppColors.success.opacity(0.15))
+//                                .foregroundStyle(AppColors.success)
+//                                .clipShape(Capsule())
+//                        }
+//                    }
+//                    
+//                    Text("Enter your Google Gemini API Key to enable real-time AI routine generation.")
+//                        .font(AppFont.caption())
+//                        .foregroundStyle(AppColors.textSecondary)
+//                    
+//                    SecureField("AI API Key (e.g. AIzaSy...)", text: $geminiApiKey)
+//                        .textFieldStyle(.plain)
+//                        .padding(12)
+//                        .background(Color.gray.opacity(0.08))
+//                        .clipShape(RoundedRectangle(cornerRadius: 12))
+//                }
+//            }
 
             CardView {
 
