@@ -244,6 +244,11 @@ final class SquadService: ObservableObject {
             throw NSError(domain: "SquadService", code: 400, userInfo: [NSLocalizedDescriptionKey: "Please enter a valid squad code."])
         }
         
+        // 1. Check local joined squad list
+        if let existing = joinedSquads.first(where: { $0.code == cleanCode }) {
+            throw NSError(domain: "SquadService", code: 409, userInfo: [NSLocalizedDescriptionKey: "You are already a member of '\(existing.name)'!"])
+        }
+        
         let userName = username.isEmpty ? "You" : username
         var squadID = UUID()
         var squadName = ""
@@ -268,8 +273,19 @@ final class SquadService: ObservableObject {
                 creatorName = matched.creator_name
                 combinedStreak = matched.combined_streak
                 existingMembersCount = matched.member_count + 1
+                
+                // 2. Check remote Supabase membership table
+                let currentHandle = UserProfileService.shared.usernameHandle
+                if !currentHandle.isEmpty {
+                    let encodedHandle = currentHandle.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? currentHandle
+                    let existingMemberData = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members?squad_id=eq.\(squadID.uuidString)&username=ilike.*\(encodedHandle)*", method: "GET")
+                    let existingMembers = try JSONDecoder().decode([SupabaseMemberDTO].self, from: existingMemberData)
+                    if !existingMembers.isEmpty {
+                        throw NSError(domain: "SquadService", code: 409, userInfo: [NSLocalizedDescriptionKey: "You are already a member of '\(squadName)'!"])
+                    }
+                }
             } catch {
-                if (error as NSError).code == 404 {
+                if (error as NSError).code == 404 || (error as NSError).code == 409 {
                     throw error
                 } else {
                     throw NSError(domain: "SquadService", code: 404, userInfo: [NSLocalizedDescriptionKey: "No squad found matching code '\(cleanCode)'. Please check the code and try again."])
