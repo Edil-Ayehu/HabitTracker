@@ -6,6 +6,7 @@
 import SwiftUI
 
 struct SquadsView: View {
+    @Environment(\.modelContext) private var modelContext
     @StateObject private var squadService = SquadService.shared
     @StateObject private var supabaseManager = SupabaseManager.shared
     @StateObject private var profileService = UserProfileService.shared
@@ -21,6 +22,8 @@ struct SquadsView: View {
     @State private var copiedCodeToast: Bool = false
     @State private var joinErrorText: String? = nil
     @State private var isJoining: Bool = false
+    @State private var showLeaveAlert: Bool = false
+    @State private var squadToLeave: Squad? = nil
 
     var body: some View {
         AppScaffold(title: "Habit Squads 👥") {
@@ -176,7 +179,8 @@ struct SquadsView: View {
                                     Button("Create New Squad") { checkProfileThen { showCreateModal = true } }
                                     Button("Join Squad with Code") { checkProfileThen { showJoinModal = true } }
                                     Button("Leave This Squad", role: .destructive) {
-                                        squadService.leaveSquad(squad: squad)
+                                        squadToLeave = squad
+                                        showLeaveAlert = true
                                     }
                                 } label: {
                                     HStack(spacing: 4) {
@@ -402,9 +406,19 @@ struct SquadsView: View {
                     
                     Button {
                         if !newSquadName.isEmpty {
+                            let creatorIdentity = "\(profileService.displayName) (\(profileService.usernameHandle))"
+                            let userXP = QuestManager.shared.getUserProfile().xp
+                            let habitUseCase = HabitUseCaseImpl(repository: HabitRepositoryImpl(context: modelContext))
+                            let currentStreak = (try? habitUseCase.fetchStatistics().currentStreak) ?? 0
+                            
                             Task {
-                                let creatorIdentity = "\(profileService.displayName) (\(profileService.usernameHandle))"
-                                _ = await squadService.createSquad(name: newSquadName, icon: "flame.fill", creatorName: creatorIdentity)
+                                _ = await squadService.createSquad(
+                                    name: newSquadName,
+                                    icon: "flame.fill",
+                                    creatorName: creatorIdentity,
+                                    streakCount: currentStreak,
+                                    totalXP: userXP
+                                )
                                 showCreateModal = false
                             }
                         }
@@ -477,10 +491,19 @@ struct SquadsView: View {
                         if !joinCodeInput.isEmpty {
                             isJoining = true
                             joinErrorText = nil
+                            let memberIdentity = "\(profileService.displayName) (\(profileService.usernameHandle))"
+                            let userXP = QuestManager.shared.getUserProfile().xp
+                            let habitUseCase = HabitUseCaseImpl(repository: HabitRepositoryImpl(context: modelContext))
+                            let currentStreak = (try? habitUseCase.fetchStatistics().currentStreak) ?? 0
+                            
                             Task {
                                 do {
-                                    let memberIdentity = "\(profileService.displayName) (\(profileService.usernameHandle))"
-                                    _ = try await squadService.joinSquad(code: joinCodeInput, username: memberIdentity)
+                                    _ = try await squadService.joinSquad(
+                                        code: joinCodeInput,
+                                        username: memberIdentity,
+                                        streakCount: currentStreak,
+                                        totalXP: userXP
+                                    )
                                     isJoining = false
                                     showJoinModal = false
                                 } catch {
@@ -524,6 +547,16 @@ struct SquadsView: View {
             if let active = squadService.activeSquad {
                 await squadService.fetchLatestSquadData(for: active.id)
             }
+        }
+        .alert("Leave Squad?", isPresented: $showLeaveAlert) {
+            Button("Leave", role: .destructive) {
+                if let target = squadToLeave {
+                    squadService.leaveSquad(squad: target)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Are you sure you want to leave \(squadToLeave?.name ?? "this squad")? You can rejoin anytime using the 6-digit squad code.")
         }
     }
     

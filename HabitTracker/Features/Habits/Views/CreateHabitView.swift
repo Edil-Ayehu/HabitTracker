@@ -41,7 +41,7 @@ struct CreateHabitView: View {
             VStack(spacing: AppSpacing.lg) {
                 
                 
-                ScrollView {
+                ScrollView(showsIndicators: false) {
                     
                     VStack(spacing: 20) {
                         
