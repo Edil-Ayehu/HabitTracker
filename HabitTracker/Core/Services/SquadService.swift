@@ -455,6 +455,9 @@ final class SquadService: ObservableObject {
     }
     
     func leaveSquad(squad target: Squad) {
+        let currentHandle = UserProfileService.shared.usernameHandle
+        let targetMember = members.first(where: { $0.squadID == target.id && ($0.isCurrentAccount || (!currentHandle.isEmpty && $0.username.contains(currentHandle))) })
+        
         joinedSquads.removeAll(where: { $0.id == target.id })
         if activeSquad?.id == target.id {
             activeSquad = joinedSquads.first
@@ -466,6 +469,28 @@ final class SquadService: ObservableObject {
             }
         }
         saveState()
+        
+        if SupabaseManager.shared.isConfigured {
+            Task {
+                do {
+                    // 1. Delete member from squad_members table in Supabase
+                    if let memberID = targetMember?.id {
+                        _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members?id=eq.\(memberID.uuidString)", method: "DELETE")
+                    } else if !currentHandle.isEmpty {
+                        let encodedHandle = currentHandle.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? currentHandle
+                        _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_members?squad_id=eq.\(target.id.uuidString)&username=ilike.*\(encodedHandle)*", method: "DELETE")
+                    }
+                    
+                    // 2. Update member_count on squads table in Supabase
+                    let remainingCount = max(0, target.memberCount - 1)
+                    let updateDTO = SupabaseSquadUpdateMemberCountDTO(member_count: remainingCount)
+                    let updateBody = try JSONEncoder().encode(updateDTO)
+                    _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squads?id=eq.\(target.id.uuidString)", method: "PATCH", body: updateBody)
+                } catch {
+                    print("Supabase leave squad delete warning: \(error.localizedDescription)")
+                }
+            }
+        }
     }
     
     func resetAllSquadsData() {
