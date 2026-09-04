@@ -8,16 +8,22 @@ import Foundation
 struct UserProfile: Codable {
     var xp: Int = 0
     
+    static let xpPerLevel: Int = 500
+    
     var level: Int {
-        return (xp / 100) + 1
+        return (xp / UserProfile.xpPerLevel) + 1
     }
     
     var currentLevelXP: Int {
-        return xp % 100
+        return xp % UserProfile.xpPerLevel
+    }
+    
+    var xpNeededForNextLevel: Int {
+        return UserProfile.xpPerLevel
     }
     
     var progressToNextLevel: Double {
-        return Double(currentLevelXP) / 100.0
+        return Double(currentLevelXP) / Double(UserProfile.xpPerLevel)
     }
     
     var levelTitle: String {

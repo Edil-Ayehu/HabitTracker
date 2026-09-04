@@ -84,7 +84,7 @@ struct LevelProgressCard: View {
                             .font(AppFont.caption())
                             .foregroundStyle(AppColors.textSecondary)
                         Spacer()
-                        Text("\(profile.currentLevelXP)/100 XP to Level \(profile.level + 1)")
+                        Text("\(profile.currentLevelXP)/\(profile.xpNeededForNextLevel) XP to Level \(profile.level + 1)")
                             .font(AppFont.caption())
                             .fontWeight(.semibold)
                             .foregroundStyle(AppColors.primary)

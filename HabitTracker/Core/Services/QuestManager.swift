@@ -35,7 +35,7 @@ final class QuestManager {
     }
     
     func addXP(_ amount: Int) -> (profile: UserProfile, leveledUp: Bool) {
-        let oldLevel = (storedXP / 100) + 1
+        let oldLevel = getUserProfile().level
         storedXP += amount
         let newProfile = UserProfile(xp: storedXP)
         let leveledUp = newProfile.level > oldLevel

@@ -97,20 +97,20 @@ struct WidgetPreviewView: View {
                 }
                 
                 // Xcode Extension Developer Note Card
-                CardView {
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Image(systemName: "hammer.fill")
-                                .foregroundStyle(AppColors.primary)
-                            Text("Xcode Widget Extension Target")
-                                .font(AppFont.headline())
-                        }
-                        
-                        Text("WidgetKit code & shared App Group sync (`WidgetSharedData.swift`) are fully compiled. To enable iOS system-wide widget gallery rendering in Xcode:\n\n1. Open `HabitTracker.xcodeproj` in Xcode.\n2. Go to **File > New > Target**.\n3. Select **Widget Extension** and name it `HabitTrackerWidget`.\n4. Enable **App Groups** (`group.com.myorganization.HabitTracker`) on both targets.")
-                            .font(AppFont.caption())
-                            .foregroundStyle(AppColors.textSecondary)
-                    }
-                }
+//                CardView {
+//                    VStack(alignment: .leading, spacing: 8) {
+//                        HStack {
+//                            Image(systemName: "hammer.fill")
+//                                .foregroundStyle(AppColors.primary)
+//                            Text("Xcode Widget Extension Target")
+//                                .font(AppFont.headline())
+//                        }
+//                        
+//                        Text("WidgetKit code & shared App Group sync (`WidgetSharedData.swift`) are fully compiled. To enable iOS system-wide widget gallery rendering in Xcode:\n\n1. Open `HabitTracker.xcodeproj` in Xcode.\n2. Go to **File > New > Target**.\n3. Select **Widget Extension** and name it `HabitTrackerWidget`.\n4. Enable **App Groups** (`group.com.myorganization.HabitTracker`) on both targets.")
+//                            .font(AppFont.caption())
+//                            .foregroundStyle(AppColors.textSecondary)
+//                    }
+//                }
             }
         }
         .onAppear {
