@@ -41,6 +41,15 @@ private struct SupabaseActivityDTO: Codable {
     let clap_count: Int
 }
 
+private struct SupabaseNudgeDTO: Codable {
+    let id: UUID
+    let squad_id: UUID
+    let sender_username: String
+    let receiver_username: String
+    let nudge_message: String
+    let nudge_type: String
+}
+
 private struct SupabaseSquadUpdateMemberCountDTO: Codable {
     let member_count: Int
 }
@@ -53,6 +62,7 @@ final class SquadService: ObservableObject {
     @Published var activeSquad: Squad?
     @Published var members: [SquadMember] = []
     @Published var activities: [SquadActivity] = []
+    @Published var incomingNudges: [SquadNudge] = []
     
     private let joinedSquadsKey = "joinedSquadsList"
     private let activeSquadIDKey = "activeSquadIDKey"
@@ -142,7 +152,31 @@ final class SquadService: ObservableObject {
             
             self.activities = updatedActivities
             
-            // 3. Sync member count
+            // 3. Fetch Incoming Nudges
+            do {
+                let nudgeData = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_nudges?squad_id=eq.\(squadID.uuidString)", method: "GET")
+                let fetchedNudgesDTO = try JSONDecoder().decode([SupabaseNudgeDTO].self, from: nudgeData)
+                let currentHandle = UserProfileService.shared.usernameHandle
+                
+                let myNudges = fetchedNudgesDTO.filter { dto in
+                    !currentHandle.isEmpty && dto.receiver_username.contains(currentHandle)
+                }.map { dto in
+                    SquadNudge(
+                        id: dto.id,
+                        squadID: dto.squad_id,
+                        senderUsername: dto.sender_username,
+                        receiverUsername: dto.receiver_username,
+                        nudgeMessage: dto.nudge_message,
+                        nudgeType: dto.nudge_type,
+                        timestamp: Date()
+                    )
+                }
+                self.incomingNudges = myNudges
+            } catch {
+                print("Fetch nudges notice: \(error.localizedDescription)")
+            }
+            
+            // 4. Sync member count
             if let active = activeSquad, active.id == squadID {
                 let realCount = max(fetchedMembersDTO.count, 1)
                 let updatedSquad = Squad(
@@ -164,6 +198,19 @@ final class SquadService: ObservableObject {
             saveState()
         } catch {
             print("Fetch latest squad data error: \(error.localizedDescription)")
+        }
+    }
+    
+    func dismissNudge(_ nudge: SquadNudge) {
+        incomingNudges.removeAll(where: { $0.id == nudge.id })
+        if SupabaseManager.shared.isConfigured {
+            Task {
+                do {
+                    _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_nudges?id=eq.\(nudge.id.uuidString)", method: "DELETE")
+                } catch {
+                    print("Dismiss nudge error: \(error.localizedDescription)")
+                }
+            }
         }
     }
     
@@ -467,6 +514,70 @@ final class SquadService: ObservableObject {
             activities[idx].clapCount += 1
             saveState()
             AudioManager.shared.playClickSound()
+        }
+    }
+    
+    func sendNudge(to targetMember: SquadMember, message: String, type: String) {
+        guard let squad = activeSquad else { return }
+        let senderName = UserProfileService.shared.displayName
+        let senderHandle = UserProfileService.shared.usernameHandle
+        let fullSender = senderHandle.isEmpty ? senderName : "\(senderName) (\(senderHandle))"
+        
+        let iconName: String
+        switch type {
+        case "high_five": iconName = "hand.raised.fill"
+        case "flex": iconName = "figure.arms.open"
+        case "streak_saver": iconName = "flame.fill"
+        case "lightning": iconName = "bolt.fill"
+        default: iconName = "sparkles"
+        }
+        
+        let activityTitle = "Nudged \(targetMember.username): \"\(message)\""
+        
+        let newActivity = SquadActivity(
+            id: UUID(),
+            squadID: squad.id,
+            username: fullSender,
+            habitTitle: activityTitle,
+            habitIcon: iconName,
+            timestamp: Date(),
+            clapCount: 0
+        )
+        
+        activities.insert(newActivity, at: 0)
+        saveState()
+        AudioManager.shared.playCelebrationSound()
+        
+        if SupabaseManager.shared.isConfigured {
+            Task {
+                do {
+                    // 1. Post to squad_activities
+                    let activityDTO = SupabaseActivityDTO(
+                        id: newActivity.id,
+                        squad_id: squad.id,
+                        username: fullSender,
+                        habit_title: activityTitle,
+                        habit_icon: iconName,
+                        clap_count: 0
+                    )
+                    let body = try JSONEncoder().encode([activityDTO])
+                    _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_activities", method: "POST", body: body)
+                    
+                    // 2. Post to squad_nudges
+                    let nudgeDTO = SupabaseNudgeDTO(
+                        id: UUID(),
+                        squad_id: squad.id,
+                        sender_username: fullSender,
+                        receiver_username: targetMember.username,
+                        nudge_message: message,
+                        nudge_type: type
+                    )
+                    let nudgeBody = try JSONEncoder().encode([nudgeDTO])
+                    _ = try await SupabaseManager.shared.performRESTRequest(endpoint: "squad_nudges", method: "POST", body: nudgeBody)
+                } catch {
+                    print("Supabase send nudge warning: \(error.localizedDescription)")
+                }
+            }
         }
     }
     

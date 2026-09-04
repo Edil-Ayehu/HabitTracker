@@ -36,3 +36,23 @@ struct SquadActivity: Identifiable, Codable, Hashable {
     let timestamp: Date
     var clapCount: Int
 }
+
+struct SquadNudge: Identifiable, Codable, Hashable {
+    let id: UUID
+    let squadID: UUID
+    let senderUsername: String
+    let receiverUsername: String
+    let nudgeMessage: String
+    let nudgeType: String
+    let timestamp: Date
+    
+    var typeIcon: String {
+        switch nudgeType {
+        case "high_five": return "hand.raised.fill"
+        case "flex": return "figure.arms.open"
+        case "streak_saver": return "flame.fill"
+        case "lightning": return "bolt.fill"
+        default: return "sparkles"
+        }
+    }
+}

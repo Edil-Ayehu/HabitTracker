@@ -24,6 +24,7 @@ struct SquadsView: View {
     @State private var isJoining: Bool = false
     @State private var showLeaveAlert: Bool = false
     @State private var squadToLeave: Squad? = nil
+    @State private var selectedNudgeMember: SquadMember? = nil
 
     var body: some View {
         AppScaffold(title: "Habit Squads 👥") {
@@ -194,6 +195,97 @@ struct SquadsView: View {
                         }
                     }
                     
+                    // MARK: - Incoming Nudges Banner Card
+                    if !squadService.incomingNudges.isEmpty {
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Image(systemName: "bolt.horizontal.fill")
+                                    .foregroundStyle(Color.orange)
+                                Text("Incoming Buddy Nudges ⚡")
+                                    .font(AppFont.headline())
+                                    .fontWeight(.bold)
+                                Spacer()
+                                Text("\(squadService.incomingNudges.count) new")
+                                    .font(AppFont.caption())
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .background(Color.orange.opacity(0.2))
+                                    .foregroundStyle(Color.orange)
+                                    .clipShape(Capsule())
+                            }
+                            
+                            ForEach(squadService.incomingNudges, id: \.id) { nudge in
+                                HStack(spacing: 12) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color.orange.opacity(0.18))
+                                            .frame(width: 40, height: 40)
+                                        
+                                        Image(systemName: nudge.typeIcon)
+                                            .font(.system(size: 16))
+                                            .foregroundStyle(Color.orange)
+                                    }
+                                    
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(nudge.senderUsername)
+                                            .font(AppFont.body())
+                                            .fontWeight(.bold)
+                                        
+                                        Text("\"\(nudge.nudgeMessage)\"")
+                                            .font(AppFont.caption())
+                                            .foregroundStyle(AppColors.textSecondary)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    // Nudge Back Button
+                                    Button {
+                                        if let senderMember = squadService.members.first(where: { $0.username == nudge.senderUsername || nudge.senderUsername.contains($0.username) }) {
+                                            selectedNudgeMember = senderMember
+                                        } else {
+                                            let fallbackMember = SquadMember(id: UUID(), squadID: nudge.squadID, username: nudge.senderUsername, avatarIcon: "person.circle.fill", streakCount: 0, weeklyCheckIns: 0, totalXP: 0, isCurrentAccount: false)
+                                            selectedNudgeMember = fallbackMember
+                                        }
+                                    } label: {
+                                        HStack(spacing: 4) {
+                                            Image(systemName: "paperplane.fill")
+                                            Text("Nudge Back")
+                                        }
+                                        .font(.system(size: 11, weight: .bold))
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 6)
+                                        .background(AppColors.primary)
+                                        .foregroundStyle(.white)
+                                        .clipShape(Capsule())
+                                    }
+                                    .buttonStyle(.plain)
+                                    
+                                    // Dismiss Button
+                                    Button {
+                                        withAnimation {
+                                            squadService.dismissNudge(nudge)
+                                        }
+                                    } label: {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .font(.system(size: 18))
+                                            .foregroundStyle(Color.gray.opacity(0.5))
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                                .padding(12)
+                                .background(AppColors.card)
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 14)
+                                        .stroke(Color.orange.opacity(0.4), lineWidth: 1.5)
+                                )
+                            }
+                        }
+                        .padding(14)
+                        .background(Color.orange.opacity(0.08))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                    }
+                    
                     // MARK: - Segment Picker
                     Picker("Squad View", selection: $selectedTab) {
                         Text("Leaderboard 🏆").tag(0)
@@ -234,6 +326,26 @@ struct SquadsView: View {
                                     }
                                     
                                     Spacer()
+                                    
+                                    if !member.isCurrentAccount {
+                                        Button {
+                                            selectedNudgeMember = member
+                                            AudioManager.shared.playClickSound()
+                                        } label: {
+                                            HStack(spacing: 4) {
+                                                Image(systemName: "bolt.fill")
+                                                    .font(.system(size: 11))
+                                                Text("Nudge")
+                                                    .font(.system(size: 11, weight: .bold))
+                                            }
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 6)
+                                            .background(Color.yellow.opacity(0.18))
+                                            .foregroundStyle(Color.orange)
+                                            .clipShape(Capsule())
+                                        }
+                                        .buttonStyle(.plain)
+                                    }
                                     
                                     VStack(alignment: .trailing, spacing: 2) {
                                         HStack(spacing: 4) {
@@ -557,6 +669,11 @@ struct SquadsView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text("Are you sure you want to leave \(squadToLeave?.name ?? "this squad")? You can rejoin anytime using the 6-digit squad code.")
+        }
+        .sheet(item: $selectedNudgeMember) { targetMember in
+            SendNudgeView(targetMember: targetMember) { msg, type in
+                squadService.sendNudge(to: targetMember, message: msg, type: type)
+            }
         }
     }
     
